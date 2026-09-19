@@ -13,6 +13,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { formatWeight } from '../../utils/formatters';
+import { DigitalWeighbridgeSimulator } from '../../components/centre/DigitalWeighbridgeSimulator';
 
 export const DigitalWeighingPage: React.FC = () => {
   const location = useLocation();
@@ -106,6 +107,15 @@ export const DigitalWeighingPage: React.FC = () => {
           ))}
         </select>
       </div>
+
+      {/* IoT Digital Weighbridge Simulator */}
+      <DigitalWeighbridgeSimulator
+        initialDeclaredWeight={declaredQty}
+        onApplyWeights={(gross, tare) => {
+          setGrossWeight(gross);
+          setTareWeight(tare);
+        }}
+      />
 
       {targetProcurement ? (
         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-6">

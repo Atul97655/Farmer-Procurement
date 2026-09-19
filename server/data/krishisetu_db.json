@@ -1,0 +1,305 @@
+{
+  "centres": [
+    {
+      "id": "c-1",
+      "code": "DPC-01",
+      "name": "Digha Central Procurement Centre",
+      "district": "Khordha",
+      "block": "Bhubaneswar Sadar",
+      "address": "NH-16 Mandi Complex, Digha Agro Yard, Khordha, 752054",
+      "latitude": 20.252,
+      "longitude": 85.789,
+      "dailyCapacity": 600,
+      "currentLoad": 385,
+      "queueLength": 8,
+      "avgProcessingTimeMinutes": 7,
+      "operatingHours": "08:00 AM - 06:00 PM",
+      "status": "BUSY",
+      "officerInCharge": "Rajesh Sharma (Senior Agri Officer)",
+      "contactNumber": "+91 94370 12345"
+    },
+    {
+      "id": "c-2",
+      "code": "SMC-02",
+      "name": "Sambalpur Regulated Market Yard",
+      "district": "Sambalpur",
+      "block": "Dhankauda",
+      "address": "RMC Yard, Farm Road, Khetrajpur, Sambalpur, 768003",
+      "latitude": 21.4669,
+      "longitude": 83.9812,
+      "dailyCapacity": 800,
+      "currentLoad": 420,
+      "queueLength": 5,
+      "avgProcessingTimeMinutes": 8,
+      "operatingHours": "08:30 AM - 06:30 PM",
+      "status": "NORMAL",
+      "officerInCharge": "Manoj Das (Mandi Inspector)",
+      "contactNumber": "+91 94371 67890"
+    },
+    {
+      "id": "c-3",
+      "code": "BMC-03",
+      "name": "Bargarh Paddy Depot & Mandi",
+      "district": "Bargarh",
+      "block": "Attabira",
+      "address": "State Warehouse Road, Godown Sector, Bargarh, 768028",
+      "latitude": 21.332,
+      "longitude": 83.621,
+      "dailyCapacity": 950,
+      "currentLoad": 890,
+      "queueLength": 14,
+      "avgProcessingTimeMinutes": 6,
+      "operatingHours": "07:30 AM - 07:00 PM",
+      "status": "NEAR CAPACITY",
+      "officerInCharge": "Soumya Ranjan Pradhan",
+      "contactNumber": "+91 94372 11223"
+    },
+    {
+      "id": "c-4",
+      "code": "CKH-04",
+      "name": "Cuttack Krishi Vikash Hub",
+      "district": "Cuttack",
+      "block": "Choudwar",
+      "address": "Agro Industrial Corridor, OMP Square Extension, Cuttack, 753003",
+      "latitude": 20.4625,
+      "longitude": 85.8828,
+      "dailyCapacity": 500,
+      "currentLoad": 210,
+      "queueLength": 3,
+      "avgProcessingTimeMinutes": 9,
+      "operatingHours": "08:00 AM - 05:30 PM",
+      "status": "NORMAL",
+      "officerInCharge": "Priyabrata Mohapatra",
+      "contactNumber": "+91 94373 44556"
+    },
+    {
+      "id": "c-5",
+      "code": "BGD-05",
+      "name": "Balasore Coastal Grain Depot",
+      "district": "Balasore",
+      "block": "Remuna",
+      "address": "Remuna Mandi bypass, Near Cold Storage Complex, Balasore, 756019",
+      "latitude": 21.5034,
+      "longitude": 86.925,
+      "dailyCapacity": 450,
+      "currentLoad": 430,
+      "queueLength": 11,
+      "avgProcessingTimeMinutes": 7,
+      "operatingHours": "08:00 AM - 06:00 PM",
+      "status": "NEAR CAPACITY",
+      "officerInCharge": "Deepak Kumar Swain",
+      "contactNumber": "+91 94374 99887"
+    }
+  ],
+  "farmers": [
+    {
+      "id": "FRM-OD-2026-8812",
+      "name": "Ramesh Kumar",
+      "phone": "+91 98765 43210",
+      "aadhaarNumber": "XXXX-XXXX-9281",
+      "pmKisanId": "OD-PMK-77291034",
+      "district": "Khordha",
+      "block": "Bhubaneswar Sadar",
+      "village": "Nuagaon",
+      "pincode": "752054",
+      "landAreaAcres": 4.8,
+      "khatianNumber": "KH-142/90",
+      "plotNumber": "PL-3829, PL-3830",
+      "bankName": "State Bank of India",
+      "bankAccountNumber": "XXXXXX4921",
+      "ifscCode": "SBIN0001234",
+      "preferredLanguage": "en"
+    },
+    {
+      "id": "FRM-OD-2026-8813",
+      "name": "Sunita Devi",
+      "phone": "+91 98765 43211",
+      "aadhaarNumber": "XXXX-XXXX-4421",
+      "pmKisanId": "OD-PMK-77291035",
+      "district": "Sambalpur",
+      "block": "Dhankauda",
+      "village": "Kudapali",
+      "pincode": "768003",
+      "landAreaAcres": 3.5,
+      "khatianNumber": "KH-88/12",
+      "plotNumber": "PL-1102",
+      "bankName": "Punjab National Bank",
+      "bankAccountNumber": "XXXXXX8812",
+      "ifscCode": "PUNB0123400",
+      "preferredLanguage": "hi"
+    },
+    {
+      "id": "FRM-OD-2026-8814",
+      "name": "Bijay Mohanty",
+      "phone": "+91 98765 43212",
+      "aadhaarNumber": "XXXX-XXXX-1982",
+      "pmKisanId": "OD-PMK-77291036",
+      "district": "Khordha",
+      "block": "Jatni",
+      "village": "Khurda Road",
+      "pincode": "752050",
+      "landAreaAcres": 6.2,
+      "khatianNumber": "KH-201/44",
+      "plotNumber": "PL-5519",
+      "bankName": "UCO Bank",
+      "bankAccountNumber": "XXXXXX3319",
+      "ifscCode": "UCBA0000981",
+      "preferredLanguage": "or"
+    }
+  ],
+  "procurements": [
+    {
+      "id": "proc-1042",
+      "tokenNumber": "PDC-1042",
+      "farmerId": "FRM-OD-2026-8812",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "centreId": "c-1",
+      "centreName": "Digha Central Procurement Centre",
+      "cropType": "Paddy (Common)",
+      "variety": "Swarna (MTU 7029)",
+      "declaredQuantity": 45,
+      "harvestDate": "2026-09-12",
+      "slotDate": "2026-09-19",
+      "slotTime": "10:00 - 11:00 AM",
+      "bookingTimestamp": "2026-09-14T09:30:00.000Z",
+      "stage": "FARMER_ARRIVED",
+      "queueStatus": "Called",
+      "queuePosition": 1,
+      "estimatedWaitMinutes": 5,
+      "transportMode": "Tractor Trolley (OD-02-BQ-4412)",
+      "qrData": "KRISHISETU:PDC-1042:FRM-OD-2026-8812:DPC-01:45QTL:PADDY",
+      "remarks": "Vehicle at Mandi Inward Gate. Token ready for inspection.",
+      "timeline": [
+        {
+          "stage": "REGISTRATION_COMPLETED",
+          "timestamp": "2026-09-14 09:30 AM",
+          "title": "Crop Registered",
+          "description": "45 Quintals Paddy registered."
+        },
+        {
+          "stage": "APPLICATION_APPROVED",
+          "timestamp": "2026-09-14 11:00 AM",
+          "title": "Land & Aadhaar Verified",
+          "description": "Auto-verified with Krishi Odisha."
+        },
+        {
+          "stage": "SLOT_ASSIGNED",
+          "timestamp": "2026-09-14 11:05 AM",
+          "title": "Slot Confirmed",
+          "description": "Token PDC-1042 generated."
+        },
+        {
+          "stage": "FARMER_ARRIVED",
+          "timestamp": "2026-09-19 09:50 AM",
+          "title": "Gate Inward Checkin",
+          "description": "Arrival validated by Mandi Gate Scanner."
+        }
+      ]
+    },
+    {
+      "id": "proc-1043",
+      "tokenNumber": "PDC-1043",
+      "farmerId": "FRM-OD-2026-8814",
+      "farmerName": "Bijay Mohanty",
+      "farmerPhone": "+91 98765 43212",
+      "centreId": "c-1",
+      "centreName": "Digha Central Procurement Centre",
+      "cropType": "Paddy (Grade A)",
+      "variety": "Pooja (CR 1009)",
+      "declaredQuantity": 60,
+      "harvestDate": "2026-09-14",
+      "slotDate": "2026-09-19",
+      "slotTime": "11:00 - 12:00 PM",
+      "bookingTimestamp": "2026-09-15T08:00:00.000Z",
+      "stage": "FARMER_ARRIVED",
+      "queueStatus": "Called",
+      "queuePosition": 2,
+      "estimatedWaitMinutes": 20,
+      "transportMode": "Mini Truck (OD-02-X-9901)",
+      "qrData": "KRISHISETU:PDC-1043:FRM-OD-2026-8814:DPC-01:60QTL:PADDY",
+      "timeline": [
+        {
+          "stage": "REGISTRATION_COMPLETED",
+          "timestamp": "2026-09-15 08:00 AM",
+          "title": "Crop Registered",
+          "description": "60 Quintals Grade A registered."
+        },
+        {
+          "stage": "SLOT_ASSIGNED",
+          "timestamp": "2026-09-15 09:00 AM",
+          "title": "Slot Confirmed",
+          "description": "Slot scheduled for 11:00 AM."
+        },
+        {
+          "stage": "FARMER_ARRIVED",
+          "timestamp": "19/9/2026, 9:49:22 am",
+          "title": "Token Called to Quality Bay 1 / Gate Inward",
+          "description": "Mandi Operator initiated loudspeaker/SMS call for Token PDC-1043."
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1789791562879",
+      "userId": "FRM-OD-2026-8814",
+      "role": "FARMER",
+      "title": "NOW CALLING: Token PDC-1043",
+      "message": "Your token PDC-1043 is called to Quality Bay 1 / Gate Inward! Please move your tractor forward now.",
+      "timestamp": "2026-09-19T04:19:22.879Z",
+      "type": "queue",
+      "isRead": false,
+      "actionUrl": "/farmer/queue"
+    },
+    {
+      "id": "notif-1",
+      "userId": "FRM-OD-2026-8812",
+      "role": "FARMER",
+      "title": "Token Called - Proceed to Quality Bay 1",
+      "message": "Your token PDC-1042 is now called! Please move your tractor to Quality Inspection Bay #1.",
+      "timestamp": "2026-09-19T04:18:38.398Z",
+      "type": "queue",
+      "isRead": false,
+      "actionUrl": "/farmer/queue"
+    },
+    {
+      "id": "notif-2",
+      "userId": "ALL",
+      "role": "ALL",
+      "title": "Mandi Procurement Portal Live",
+      "message": "Welcome to KrishiSetu Real-Time Smart Mandi Procurement System (SIH26032).",
+      "timestamp": "2026-09-19T04:18:38.399Z",
+      "type": "system",
+      "isRead": false
+    }
+  ],
+  "smsLogs": [
+    {
+      "id": "SMS-1789791562878-850",
+      "recipientPhone": "+91 98765 43212",
+      "senderId": "VM-KRISHI",
+      "templateId": "DLT_TOKEN_CALLED",
+      "message": "URGENT: Token PDC-1043 (Bijay Mohanty) has been CALLED to Quality Bay 1 / Gate Inward. Please proceed immediately with your tractor/vehicle. - KrishiSetu Mandi Ops",
+      "status": "DELIVERED",
+      "sentAt": "2026-09-19T04:19:22.878Z",
+      "meta": {
+        "tokenNumber": "PDC-1043",
+        "procurementId": "proc-1043"
+      }
+    },
+    {
+      "id": "SMS-INIT-01",
+      "recipientPhone": "+91 98765 43210",
+      "senderId": "VM-KRISHI",
+      "templateId": "DLT_SLOT_BOOKED",
+      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-19 at 10:00 - 11:00 AM. Token: PDC-1042 at Digha Central Procurement Centre. - Food & Public Distribution Dept",
+      "status": "DELIVERED",
+      "sentAt": "2026-09-14T09:35:00.000Z"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2026-09-19T04:19:22.879Z",
+    "version": "1.0.0"
+  }
+}

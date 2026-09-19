@@ -12,9 +12,11 @@ import {
   Building2,
   Wheat,
   Scale,
-  ShieldCheck
+  ShieldCheck,
+  Sparkles
 } from 'lucide-react';
 import { QualityGrade, QualityResult } from '../../types';
+import { AIQualityAssistanceModal } from '../../components/centre/AIQualityAssistanceModal';
 
 export const QualityCheckPage: React.FC = () => {
   const location = useLocation();
@@ -40,6 +42,7 @@ export const QualityCheckPage: React.FC = () => {
   const [remarks, setRemarks] = useState<string>('Standard quality grain conforming to FAQ specifications.');
   const [inspectorName, setInspectorName] = useState<string>(currentCentre.officerInCharge.split(' ')[0] + ' ' + currentCentre.officerInCharge.split(' ')[1] || 'Quality Inspector');
   const [submittedMessage, setSubmittedMessage] = useState('');
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
   // Auto calculate grade based on parameters
   const getCalculatedGrade = (): { grade: QualityGrade; result: QualityResult } => {
@@ -113,18 +116,43 @@ export const QualityCheckPage: React.FC = () => {
           <span>Select Token for Laboratory Testing:</span>
         </div>
 
-        <select
-          value={targetProcurement?.tokenNumber || ''}
-          onChange={(e) => setSelectedToken(e.target.value)}
-          className="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-xs font-mono font-bold text-slate-900 focus:ring-2 focus:ring-purple-500 cursor-pointer"
-        >
-          {pendingQualityProcurements.map((p) => (
-            <option key={p.id} value={p.tokenNumber}>
-              {p.tokenNumber} — {p.farmerName} ({p.cropType}, {p.declaredQuantity} Qtl)
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsAiModalOpen(true)}
+            className="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5"
+          >
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            AI Grain Inspection Assist
+          </button>
+
+          <select
+            value={targetProcurement?.tokenNumber || ''}
+            onChange={(e) => setSelectedToken(e.target.value)}
+            className="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-xs font-mono font-bold text-slate-900 focus:ring-2 focus:ring-purple-500 cursor-pointer"
+          >
+            {pendingQualityProcurements.map((p) => (
+              <option key={p.id} value={p.tokenNumber}>
+                {p.tokenNumber} — {p.farmerName} ({p.cropType}, {p.declaredQuantity} Qtl)
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
+
+      {/* AI Computer Vision Assistant Modal */}
+      <AIQualityAssistanceModal
+        cropType={targetProcurement?.cropType || 'Paddy (Common)'}
+        isOpen={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
+        onApply={(aiData) => {
+          setMoisture(aiData.moisturePercentage);
+          setForeignMatter(aiData.foreignMatterPercentage);
+          setDamagedGrain(aiData.damagedGrainPercentage);
+          setImmatureGrain(aiData.immatureGrainPercentage);
+          setRemarks(aiData.remarks);
+        }}
+      />
 
       {targetProcurement ? (
         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-6">

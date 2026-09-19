@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { QueueStatus } from '../../types';
+import { GateCheckinScanner } from '../../components/centre/GateCheckinScanner';
 
 export const CentreQueueManager: React.FC = () => {
   const { activeCentreId, centres, procurements, callFarmer, updateQueueStatus } = useAppState();
@@ -59,7 +60,20 @@ export const CentreQueueManager: React.FC = () => {
             {currentCentre.name} · Direct action console for calling, laboratory routing and scale entries.
           </p>
         </div>
+
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => window.open('/display', '_blank')}
+            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shadow-sm transition-colors flex items-center gap-2"
+          >
+            <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
+            Launch Mandi TV Kiosk
+          </button>
+        </div>
       </div>
+
+      {/* Gate Arrival Scanner */}
+      <GateCheckinScanner />
 
       {/* Filter Tabs & Search */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">

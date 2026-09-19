@@ -8,6 +8,7 @@ import { GovHeader } from './components/layout/GovHeader';
 import { RoleSwitcherBar } from './components/layout/RoleSwitcherBar';
 import { FarmerMobileNav } from './components/layout/FarmerMobileNav';
 import { Sidebar } from './components/layout/Sidebar';
+import { SmsSimulatorDrawer } from './components/common/SmsSimulatorDrawer';
 
 // Landing & Auth
 import { RoleSelectionPage } from './pages/auth/RoleSelectionPage';
@@ -30,6 +31,7 @@ import { CentreQueueManager } from './pages/centre/CentreQueueManager';
 import { QualityCheckPage } from './pages/centre/QualityCheckPage';
 import { DigitalWeighingPage } from './pages/centre/DigitalWeighingPage';
 import { ProcurementCompletePage } from './pages/centre/ProcurementCompletePage';
+import { MandiKioskDisplay } from './pages/centre/MandiKioskDisplay';
 
 // Admin
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -40,11 +42,16 @@ import { AnalyticsDashboard } from './pages/admin/AnalyticsDashboard';
 
 const AppLayout: React.FC = () => {
   const location = useLocation();
-  const { role } = useAppState();
+  const { role: _role } = useAppState();
 
+  const isDisplayRoute = location.pathname === '/display' || location.pathname === '/centre/kiosk';
   const isFarmerRoute = location.pathname.startsWith('/farmer');
-  const isOperatorRoute = location.pathname.startsWith('/centre');
+  const isOperatorRoute = location.pathname.startsWith('/centre') && !isDisplayRoute;
   const isAdminRoute = location.pathname.startsWith('/admin');
+
+  if (isDisplayRoute) {
+    return <MandiKioskDisplay />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -88,11 +95,18 @@ const AppLayout: React.FC = () => {
             <Route path="/admin/procurement" element={<ProcurementMaster />} />
             <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
 
+            {/* Mandi Display Route */}
+            <Route path="/display" element={<MandiKioskDisplay />} />
+            <Route path="/centre/kiosk" element={<MandiKioskDisplay />} />
+
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>
+
+      {/* Floating Government SMS Simulator Drawer */}
+      <SmsSimulatorDrawer />
     </div>
   );
 };

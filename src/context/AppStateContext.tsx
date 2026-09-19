@@ -21,6 +21,7 @@ import {
   CROPS_CATALOGUE
 } from '../data/mockData';
 import { generateToken, generateId } from '../utils/formatters';
+import { api } from '../services/api';
 
 interface AppStateContextType {
   role: Role;
@@ -62,7 +63,9 @@ interface AppStateContextType {
 
   cancelSlot: (procurementId: string) => void;
   callFarmer: (procurementId: string) => void;
+  gateCheckin: (tokenOrQr: string) => Promise<boolean>;
   updateQueueStatus: (procurementId: string, status: QueueStatus) => void;
+  releaseDbtPayment: (procurementId: string, utrNumber?: string) => Promise<boolean>;
   submitQualityCheck: (
     procurementId: string,
     data: {
@@ -206,6 +209,71 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  // Sync with real backend server and subscribe to Real-Time SSE Stream
+  useEffect(() => {
+    api.checkHealth().then(isOnline => {
+      if (isOnline) {
+        setConnectionStatus('online');
+        Promise.all([
+          api.getCentres(),
+          api.getFarmers(),
+          api.getProcurements(),
+          api.getNotifications()
+        ]).then(([cList, fList, pList, nList]) => {
+          if (cList && cList.length) setCentres(cList);
+          if (fList && fList.length) setFarmers(fList);
+          if (pList && pList.length) setProcurements(pList);
+          if (nList && nList.length) setNotifications(nList);
+        }).catch(err => console.warn('Initial backend sync error:', err));
+      }
+    });
+
+    const unsubscribe = api.subscribeEvents((event) => {
+      const { type, payload } = event;
+      if (type === 'TOKEN_CALLED') {
+        const pData = (payload as any)?.procurement;
+        if (pData) {
+          setProcurements(prev => prev.map(p => p.id === pData.id ? pData : p));
+        }
+        if ('speechSynthesis' in window && (payload as any)?.tokenNumber) {
+          try {
+            const announcement = `Attention. Token ${(payload as any).tokenNumber} has been called to ${(payload as any).bayNumber || 'Inspection Bay 1'}.`;
+            const utterance = new SpeechSynthesisUtterance(announcement);
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+          } catch (e) {
+            console.warn('Speech synthesis error:', e);
+          }
+        }
+      } else if (
+        type === 'QUEUE_UPDATED' ||
+        type === 'GATE_CHECKIN' ||
+        type === 'QUALITY_SUBMITTED' ||
+        type === 'WEIGHING_SUBMITTED' ||
+        type === 'PROCUREMENT_COMPLETED'
+      ) {
+        const pData = (payload as any)?.procurement;
+        if (pData) {
+          setProcurements(prev => {
+            const exists = prev.some(p => p.id === pData.id);
+            return exists ? prev.map(p => p.id === pData.id ? pData : p) : [pData, ...prev];
+          });
+        }
+      } else if (type === 'CENTRE_CAPACITY_UPDATED') {
+        const centreData = payload as ProcurementCentre;
+        if (centreData) {
+          setCentres(prev => prev.map(c => c.id === centreData.id ? { ...c, ...centreData } : c));
+        }
+      } else if (type === 'NOTIFICATION_SENT') {
+        api.getNotifications().then(nList => {
+          if (nList) setNotifications(nList);
+        });
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const setRole = (newRole: Role) => {
@@ -832,6 +900,87 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLastSyncTime(new Date());
   };
 
+  const gateCheckin = async (tokenOrQr: string): Promise<boolean> => {
+    try {
+      const updated = await api.gateCheckin(tokenOrQr);
+      if (updated) {
+        setProcurements(prev => prev.map(p => p.id === updated.id ? updated : p));
+        setLastSyncTime(new Date());
+        return true;
+      }
+    } catch {
+      // Local fallback
+    }
+
+    let clean = tokenOrQr.trim();
+    if (clean.startsWith('KRISHISETU:')) {
+      clean = clean.split(':')[1] || clean;
+    }
+    let found = false;
+    setProcurements(prev => prev.map(p => {
+      if (p.tokenNumber.toUpperCase() === clean.toUpperCase() || p.id === clean) {
+        found = true;
+        return {
+          ...p,
+          stage: 'FARMER_ARRIVED',
+          timeline: [
+            ...p.timeline,
+            {
+              stage: 'FARMER_ARRIVED',
+              timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }),
+              title: 'Mandi Gate Inward Verified',
+              description: 'Arrival validated by Mandi Gate Scanner.'
+            }
+          ]
+        };
+      }
+      return p;
+    }));
+    setLastSyncTime(new Date());
+    return found;
+  };
+
+  const releaseDbtPayment = async (procurementId: string, utrNumber?: string): Promise<boolean> => {
+    try {
+      const res = await api.releaseDbt(procurementId, utrNumber);
+      if (res?.procurement) {
+        setProcurements(prev => prev.map(p => p.id === res.procurement.id ? res.procurement : p));
+        setLastSyncTime(new Date());
+        return true;
+      }
+    } catch {
+      // Local fallback
+    }
+
+    setProcurements(prev => prev.map(p => {
+      if (p.id === procurementId && p.payment) {
+        const utr = utrNumber || `SBIN${Date.now()}`;
+        return {
+          ...p,
+          stage: 'PAYMENT_COMPLETED',
+          payment: {
+            ...p.payment,
+            paymentStatus: 'CREDITED',
+            utrNumber: utr,
+            creditedAt: new Date().toISOString()
+          },
+          timeline: [
+            ...p.timeline,
+            {
+              stage: 'PAYMENT_COMPLETED',
+              timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }),
+              title: 'DBT Payment Credited',
+              description: `Directly credited via PFMS. UTR: ${utr}`
+            }
+          ]
+        };
+      }
+      return p;
+    }));
+    setLastSyncTime(new Date());
+    return true;
+  };
+
   const resetDemoData = () => {
     localStorage.removeItem(STORAGE_KEYS.FARMERS);
     localStorage.removeItem(STORAGE_KEYS.CENTRES);
@@ -885,7 +1034,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         registerAndBookSlot,
         cancelSlot,
         callFarmer,
+        gateCheckin,
         updateQueueStatus,
+        releaseDbtPayment,
         submitQualityCheck,
         submitWeighing,
         completeProcurement,
