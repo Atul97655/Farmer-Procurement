@@ -24,7 +24,7 @@ notificationsRouter.get('/', (req: Request, res: Response) => {
  * Mark notification as read
  */
 notificationsRouter.patch('/:id/read', (req: Request, res: Response) => {
-  const updated = db.notifications.update(req.params.id, { isRead: true });
+  const updated = db.notifications.update(req.params.id as string, { isRead: true });
   if (!updated) {
     return res.status(404).json({ error: 'Notification not found' });
   }

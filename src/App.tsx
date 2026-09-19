@@ -9,6 +9,7 @@ import { RoleSwitcherBar } from './components/layout/RoleSwitcherBar';
 import { FarmerMobileNav } from './components/layout/FarmerMobileNav';
 import { Sidebar } from './components/layout/Sidebar';
 import { SmsSimulatorDrawer } from './components/common/SmsSimulatorDrawer';
+import { FarmerAiAssistant } from './components/farmer/FarmerAiAssistant';
 
 // Landing & Auth
 import { RoleSelectionPage } from './pages/auth/RoleSelectionPage';
@@ -109,7 +110,8 @@ const AppLayout: React.FC = () => {
         </main>
       </div>
 
-      {/* Floating Government SMS Simulator Drawer */}
+      {/* 24x7 Multilingual AI Sahayak Assistant & Government SMS Drawer */}
+      <FarmerAiAssistant />
       <SmsSimulatorDrawer />
     </div>
   );

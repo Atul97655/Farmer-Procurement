@@ -34,7 +34,7 @@ centresRouter.get('/', (req: Request, res: Response) => {
  * Get single centre details
  */
 centresRouter.get('/:id', (req: Request, res: Response) => {
-  const centre = db.centres.findById(req.params.id);
+  const centre = db.centres.findById(req.params.id as string);
   if (!centre) {
     return res.status(404).json({ error: 'Centre not found' });
   }
@@ -55,7 +55,7 @@ centresRouter.patch('/:id/capacity', (req: Request, res: Response) => {
     updates.status = newStatus as CentreStatus;
   }
 
-  const updated = db.centres.update(req.params.id, updates);
+  const updated = db.centres.update(req.params.id as string, updates);
   if (!updated) {
     return res.status(404).json({ error: 'Centre not found' });
   }

@@ -18,16 +18,31 @@ import {
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { QRModal } from '../../components/common/QRModal';
 import { formatDate } from '../../utils/formatters';
+import { GracePeriodCountdown } from '../../components/farmer/GracePeriodCountdown';
+import { EditBookingModal } from '../../components/farmer/EditBookingModal';
 
 export const FarmerDashboard: React.FC = () => {
-  const { activeFarmer, procurements } = useAppState();
+  const { activeFarmer, procurements, updateSlotBooking, cancelSlot } = useAppState();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [selectedQRRecord, setSelectedQRRecord] = useState<any | null>(null);
+  const [editingRecord, setEditingRecord] = useState<any | null>(null);
 
   // Get current active procurement for this farmer
   const farmerProcurements = procurements.filter(p => p.farmerId === activeFarmer.id);
   const activeProcurement = farmerProcurements.find(p => p.queueStatus !== 'Cancelled') || farmerProcurements[0];
+
+  const handleCancelBooking = async (id: string, token: string) => {
+    if (window.confirm(`Are you sure you want to cancel slot for Token #${token}?`)) {
+      await cancelSlot(id, 'Cancelled by farmer from dashboard.');
+    }
+  };
+
+  const handleSaveEdit = async (updatedData: any) => {
+    if (!editingRecord) return;
+    await updateSlotBooking(editingRecord.id, updatedData);
+    setEditingRecord(null);
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-20 md:pb-8">
@@ -82,6 +97,19 @@ export const FarmerDashboard: React.FC = () => {
               <StatusBadge status={activeProcurement.queueStatus} size="md" />
             </div>
           </div>
+
+          {/* 1-Minute Grace Window Banner */}
+          {activeProcurement.stage === 'SLOT_ASSIGNED' && activeProcurement.queueStatus !== 'Cancelled' && (
+            <div className="mb-4">
+              <GracePeriodCountdown
+                bookingTimestamp={activeProcurement.bookingTimestamp}
+                onEditClick={() => setEditingRecord(activeProcurement)}
+                onCancelClick={() => handleCancelBooking(activeProcurement.id, activeProcurement.tokenNumber)}
+                isCancelled={false}
+                compact={true}
+              />
+            </div>
+          )}
 
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -262,6 +290,17 @@ export const FarmerDashboard: React.FC = () => {
           procurement={selectedQRRecord}
           isOpen={true}
           onClose={() => setSelectedQRRecord(null)}
+        />
+      )}
+
+      {/* Edit Booking Modal */}
+      {editingRecord && (
+        <EditBookingModal
+          procurement={editingRecord}
+          isOpen={!!editingRecord}
+          onClose={() => setEditingRecord(null)}
+          onSave={handleSaveEdit}
+          secondsLeft={Math.max(0, Math.ceil((60 * 1000 - (Date.now() - new Date(editingRecord.bookingTimestamp).getTime())) / 1000))}
         />
       )}
     </div>

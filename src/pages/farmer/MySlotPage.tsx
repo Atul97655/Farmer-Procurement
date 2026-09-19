@@ -13,24 +13,34 @@ import {
   AlertCircle,
   CheckCircle2,
   PlusCircle,
-  Truck
+  Truck,
+  Edit3
 } from 'lucide-react';
 import { QRModal } from '../../components/common/QRModal';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { formatDate } from '../../utils/formatters';
+import { GracePeriodCountdown } from '../../components/farmer/GracePeriodCountdown';
+import { EditBookingModal } from '../../components/farmer/EditBookingModal';
 
 export const MySlotPage: React.FC = () => {
-  const { activeFarmer, procurements, cancelSlot } = useAppState();
+  const { activeFarmer, procurements, cancelSlot, updateSlotBooking } = useAppState();
   const { t } = useLanguage();
   const [selectedQR, setSelectedQR] = useState<any | null>(null);
+  const [editingRecord, setEditingRecord] = useState<any | null>(null);
 
   const farmerRecords = procurements.filter(p => p.farmerId === activeFarmer.id);
   const activeRecord = farmerRecords.find(p => p.queueStatus !== 'Cancelled' && p.queueStatus !== 'Completed') || farmerRecords[0];
 
-  const handleCancel = (id: string, token: string) => {
+  const handleCancel = async (id: string, token: string) => {
     if (window.confirm(`Are you sure you want to cancel slot for Token #${token}?`)) {
-      cancelSlot(id);
+      await cancelSlot(id, 'Cancelled by farmer from My Bookings.');
     }
+  };
+
+  const handleSaveEdit = async (updatedData: any) => {
+    if (!editingRecord) return;
+    await updateSlotBooking(editingRecord.id, updatedData);
+    setEditingRecord(null);
   };
 
   return (
@@ -92,6 +102,19 @@ export const MySlotPage: React.FC = () => {
                     <StatusBadge status={record.queueStatus} size="md" />
                   </div>
                 </div>
+
+                {/* 1-Minute Grace Window Banner */}
+                {!isCancelled && record.stage === 'SLOT_ASSIGNED' && (
+                  <div className="mb-4">
+                    <GracePeriodCountdown
+                      bookingTimestamp={record.bookingTimestamp}
+                      onEditClick={() => setEditingRecord(record)}
+                      onCancelClick={() => handleCancel(record.id, record.tokenNumber)}
+                      isCancelled={isCancelled}
+                      compact={true}
+                    />
+                  </div>
+                )}
 
                 {/* Details Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
@@ -178,6 +201,17 @@ export const MySlotPage: React.FC = () => {
           procurement={selectedQR}
           isOpen={true}
           onClose={() => setSelectedQR(null)}
+        />
+      )}
+
+      {/* Edit Booking Modal */}
+      {editingRecord && (
+        <EditBookingModal
+          procurement={editingRecord}
+          isOpen={!!editingRecord}
+          onClose={() => setEditingRecord(null)}
+          onSave={handleSaveEdit}
+          secondsLeft={Math.max(0, Math.ceil((60 * 1000 - (Date.now() - new Date(editingRecord.bookingTimestamp).getTime())) / 1000))}
         />
       )}
     </div>

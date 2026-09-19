@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppState } from '../../context/AppStateContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -12,10 +12,16 @@ import {
   ArrowRight,
   ShieldCheck,
   Wheat,
-  QrCode
+  QrCode,
+  Edit3,
+  XCircle,
+  RotateCcw
 } from 'lucide-react';
 import { formatDate } from '../../utils/formatters';
 import { QRModal } from '../../components/common/QRModal';
+import { GracePeriodCountdown } from '../../components/farmer/GracePeriodCountdown';
+import { EditBookingModal } from '../../components/farmer/EditBookingModal';
+import { CropType } from '../../types';
 
 interface TimeSlotOption {
   time: string;
@@ -26,7 +32,7 @@ interface TimeSlotOption {
 export const SlotBooking: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { activeFarmer, centres, registerAndBookSlot } = useAppState();
+  const { activeFarmer, centres, registerAndBookSlot, updateSlotBooking, cancelSlot } = useAppState();
   const { t } = useLanguage();
 
   // Registration data passed from step 4 or default
@@ -70,6 +76,22 @@ export const SlotBooking: React.FC = () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('08:30 - 09:30 AM');
   const [createdRecord, setCreatedRecord] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(60);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Maintain countdown for edit modal sync
+  useEffect(() => {
+    if (!createdRecord?.bookingTimestamp || isCancelled) return;
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - new Date(createdRecord.bookingTimestamp).getTime();
+      const remaining = Math.max(0, Math.ceil((60 * 1000 - elapsed) / 1000));
+      setSecondsRemaining(remaining);
+      if (remaining <= 0) clearInterval(interval);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [createdRecord, isCancelled]);
 
   const handleConfirmBooking = () => {
     setIsSubmitting(true);
@@ -87,6 +109,8 @@ export const SlotBooking: React.FC = () => {
       });
 
       setCreatedRecord(record);
+      setIsCancelled(false);
+      setSecondsRemaining(60);
       setIsSubmitting(false);
 
       // Trigger Confetti Celebration
@@ -96,6 +120,46 @@ export const SlotBooking: React.FC = () => {
         origin: { y: 0.6 }
       });
     }, 400);
+  };
+
+  const handleCancelBooking = async () => {
+    if (!createdRecord) return;
+    if (window.confirm('Are you sure you want to cancel this booking? This will release your reserved slot immediately.')) {
+      await cancelSlot(createdRecord.id, 'Cancelled by farmer during 1-min grace period.');
+      setIsCancelled(true);
+      setToastMessage('Booking has been cancelled. Mandi capacity was released.');
+      setTimeout(() => setToastMessage(null), 5000);
+    }
+  };
+
+  const handleSaveEdit = async (updatedData: {
+    cropType: CropType;
+    variety: string;
+    declaredQuantity: number;
+    centreId: string;
+    slotDate: string;
+    slotTime: string;
+    transportMode: string;
+  }) => {
+    if (!createdRecord) return;
+    const updated = await updateSlotBooking(createdRecord.id, updatedData);
+    if (updated) {
+      setCreatedRecord(updated);
+    } else {
+      const updatedCentre = centres.find(c => c.id === updatedData.centreId);
+      setCreatedRecord((prev: any) => ({
+        ...prev,
+        ...updatedData,
+        centreName: updatedCentre ? updatedCentre.name : prev.centreName
+      }));
+    }
+    setToastMessage('Booking details updated successfully during grace window!');
+    confetti({
+      particleCount: 60,
+      spread: 60,
+      origin: { y: 0.6 }
+    });
+    setTimeout(() => setToastMessage(null), 5000);
   };
 
   return (
@@ -252,54 +316,143 @@ export const SlotBooking: React.FC = () => {
           </div>
 
         </div>
-      ) : (
-        /* Booking Success Card */
-        <div className="bg-white rounded-3xl p-8 border-2 border-emerald-500 shadow-xl text-center space-y-6 animate-in zoom-in-95 duration-200">
-          <div className="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto shadow-inner">
-            <CheckCircle className="w-10 h-10" />
+      ) : isCancelled ? (
+        /* Cancelled View */
+        <div className="bg-white rounded-3xl p-8 border-2 border-rose-300 shadow-lg text-center space-y-6 animate-in zoom-in-95 duration-200">
+          <div className="w-20 h-20 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center mx-auto shadow-inner">
+            <XCircle className="w-10 h-10" />
           </div>
 
           <div>
-            <span className="text-xs uppercase font-bold text-emerald-700 tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Booking Confirmed
+            <span className="text-xs uppercase font-bold text-rose-700 tracking-wider bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
+              Booking Cancelled
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
-              Slot Allocated Successfully!
+              Slot Cancelled Successfully
             </h2>
             <p className="text-sm text-slate-500 max-w-md mx-auto mt-1">
-              Your appointment has been registered at {createdRecord.centreName}.
+              Your booking for Token <strong>#{createdRecord.tokenNumber}</strong> has been cancelled within the 1-minute grace window, and reserved capacity has been freed at {createdRecord.centreName}.
             </p>
           </div>
 
-          {/* Token Display Banner */}
-          <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 max-w-sm mx-auto">
-            <span className="text-xs uppercase font-bold text-amber-800 tracking-wider">
-              Your Digital Token Number
-            </span>
-            <div className="text-4xl font-black text-amber-950 font-mono tracking-wider my-1">
-              {createdRecord.tokenNumber}
-            </div>
-            <span className="text-xs text-emerald-800 font-semibold">
-              Slot: {formatDate(createdRecord.slotDate)} ({createdRecord.slotTime})
-            </span>
-          </div>
-
-          {/* Buttons */}
           <div className="flex flex-wrap justify-center gap-3 pt-2">
             <button
-              onClick={() => navigate('/farmer/my-slot')}
+              onClick={() => {
+                setCreatedRecord(null);
+                setIsCancelled(false);
+              }}
               className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-colors flex items-center gap-2 text-sm cursor-pointer"
             >
-              <QrCode className="w-4 h-4" />
-              <span>View & Print Gate Pass</span>
+              <RotateCcw className="w-4 h-4" />
+              <span>Book a New Slot</span>
             </button>
+
             <button
-              onClick={() => navigate('/farmer/queue')}
-              className="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm cursor-pointer"
+              onClick={() => navigate('/farmer/my-slot')}
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-6 py-3 rounded-xl transition-colors text-sm cursor-pointer"
             >
-              <span>Track Live Queue Position</span>
+              <span>View My Bookings</span>
             </button>
           </div>
+        </div>
+      ) : (
+        /* Booking Success Card with Grace Period */
+        <div className="space-y-6">
+          
+          {/* Toast Notification */}
+          {toastMessage && (
+            <div className="p-4 bg-emerald-50 border border-emerald-300 text-emerald-900 text-sm font-semibold rounded-2xl flex items-center gap-2 shadow-sm animate-in fade-in slide-in-from-top-2">
+              <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+              <span>{toastMessage}</span>
+            </div>
+          )}
+
+          {/* 1-Minute Grace Countdown Banner */}
+          <GracePeriodCountdown
+            bookingTimestamp={createdRecord.bookingTimestamp}
+            onEditClick={() => setIsEditModalOpen(true)}
+            onCancelClick={handleCancelBooking}
+            isCancelled={isCancelled}
+          />
+
+          <div className="bg-white rounded-3xl p-8 border-2 border-emerald-500 shadow-xl text-center space-y-6 animate-in zoom-in-95 duration-200">
+            <div className="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto shadow-inner">
+              <CheckCircle className="w-10 h-10" />
+            </div>
+
+            <div>
+              <span className="text-xs uppercase font-bold text-emerald-700 tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                Booking Confirmed
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
+                Slot Allocated Successfully!
+              </h2>
+              <p className="text-sm text-slate-500 max-w-md mx-auto mt-1">
+                Your appointment has been registered at {createdRecord.centreName}.
+              </p>
+            </div>
+
+            {/* Token Display Banner */}
+            <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 max-w-sm mx-auto">
+              <span className="text-xs uppercase font-bold text-amber-800 tracking-wider">
+                Your Digital Token Number
+              </span>
+              <div className="text-4xl font-black text-amber-950 font-mono tracking-wider my-1">
+                {createdRecord.tokenNumber}
+              </div>
+              <span className="text-xs text-emerald-800 font-semibold block">
+                Slot: {formatDate(createdRecord.slotDate)} ({createdRecord.slotTime})
+              </span>
+              <span className="text-xs text-slate-600 font-medium block mt-1">
+                {createdRecord.cropType} ({createdRecord.variety}) — <strong>{createdRecord.declaredQuantity} Qtl</strong>
+              </span>
+            </div>
+
+            {/* Summary Details Pill */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto text-left text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200">
+              <div>
+                <span className="text-slate-400 font-semibold block uppercase text-[10px]">Procurement Mandi</span>
+                <strong className="text-slate-800 block text-xs mt-0.5">{createdRecord.centreName}</strong>
+              </div>
+              <div>
+                <span className="text-slate-400 font-semibold block uppercase text-[10px]">Harvest Date</span>
+                <strong className="text-slate-800 block text-xs mt-0.5">{formatDate(createdRecord.harvestDate)}</strong>
+              </div>
+              <div>
+                <span className="text-slate-400 font-semibold block uppercase text-[10px]">Transport</span>
+                <strong className="text-slate-800 block text-xs mt-0.5">{createdRecord.transportMode}</strong>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
+              <button
+                onClick={() => navigate('/farmer/my-slot')}
+                className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-colors flex items-center gap-2 text-sm cursor-pointer"
+              >
+                <QrCode className="w-4 h-4" />
+                <span>View & Print Gate Pass</span>
+              </button>
+              <button
+                onClick={() => navigate('/farmer/queue')}
+                className="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm cursor-pointer"
+              >
+                <span>Track Live Queue Position</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Edit Booking Modal */}
+          {isEditModalOpen && (
+            <EditBookingModal
+              procurement={createdRecord}
+              isOpen={isEditModalOpen}
+              onClose={() => setIsEditModalOpen(false)}
+              onSave={handleSaveEdit}
+              secondsLeft={secondsRemaining}
+            />
+          )}
+
         </div>
       )}
 

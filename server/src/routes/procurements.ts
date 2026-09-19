@@ -55,7 +55,7 @@ procurementsRouter.get('/', (req: Request, res: Response) => {
  * Get procurement record by ID or Token Number
  */
 procurementsRouter.get('/:id', (req: Request, res: Response) => {
-  const record = db.procurements.findById(req.params.id);
+  const record = db.procurements.findById(req.params.id as string);
   if (!record) {
     return res.status(404).json({ error: 'Procurement record not found' });
   }
@@ -194,7 +194,7 @@ procurementsRouter.post('/:id/quality-check', async (req: Request, res: Response
     inspectorName
   } = req.body;
 
-  const record = db.procurements.findById(req.params.id);
+  const record = db.procurements.findById(req.params.id as string);
   if (!record) {
     return res.status(404).json({ error: 'Procurement not found' });
   }
@@ -260,7 +260,7 @@ procurementsRouter.post('/:id/weighing', async (req: Request, res: Response) => 
     operatorName
   } = req.body;
 
-  const record = db.procurements.findById(req.params.id);
+  const record = db.procurements.findById(req.params.id as string);
   if (!record) {
     return res.status(404).json({ error: 'Procurement not found' });
   }
@@ -354,12 +354,145 @@ procurementsRouter.post('/:id/weighing', async (req: Request, res: Response) => 
 });
 
 /**
+ * Update / Edit Booking Details (allowed within 1-minute grace window)
+ */
+procurementsRouter.put('/:id', async (req: Request, res: Response) => {
+  const {
+    cropType,
+    variety,
+    declaredQuantity,
+    centreId,
+    slotDate,
+    slotTime,
+    transportMode,
+    harvestDate
+  } = req.body;
+
+  const record = db.procurements.findById(req.params.id as string);
+  if (!record) {
+    return res.status(404).json({ error: 'Procurement record not found' });
+  }
+
+  // Grace window check: 60 seconds (with 10-second network latency margin = 70s)
+  const elapsedMs = Date.now() - new Date(record.bookingTimestamp).getTime();
+  const GRACE_PERIOD_MS = 70 * 1000;
+  if (elapsedMs > GRACE_PERIOD_MS) {
+    return res.status(403).json({
+      error: 'The 1-minute grace window for modifying this booking has expired. Booking details are finalized.'
+    });
+  }
+
+  if (record.queueStatus === 'Cancelled') {
+    return res.status(400).json({ error: 'Cannot modify a cancelled booking' });
+  }
+
+  const targetCentreId = centreId || record.centreId;
+  const newCentre = db.centres.findById(targetCentreId);
+  const oldCentre = db.centres.findById(record.centreId);
+
+  if (!newCentre) {
+    return res.status(404).json({ error: 'Selected procurement centre not found' });
+  }
+
+  const newCropType = (cropType || record.cropType) as CropType;
+  const newVariety = variety || record.variety;
+  const newQuantity = declaredQuantity !== undefined ? Number(declaredQuantity) : record.declaredQuantity;
+  const newSlotDate = slotDate || record.slotDate;
+  const newSlotTime = slotTime || record.slotTime;
+  const newTransportMode = transportMode || record.transportMode;
+  const newHarvestDate = harvestDate || record.harvestDate;
+
+  // Handle capacity and queue adjustments if centre or quantity changed
+  if (oldCentre && newCentre) {
+    if (oldCentre.id === newCentre.id) {
+      const quantityDiff = newQuantity - record.declaredQuantity;
+      if (quantityDiff !== 0) {
+        const updatedLoad = Math.max(0, oldCentre.currentLoad + quantityDiff);
+        db.centres.update(oldCentre.id, { currentLoad: updatedLoad });
+      }
+    } else {
+      // Centre changed: decrement old, increment new
+      const oldLoad = Math.max(0, oldCentre.currentLoad - record.declaredQuantity);
+      const oldQueue = Math.max(0, oldCentre.queueLength - 1);
+      db.centres.update(oldCentre.id, { currentLoad: oldLoad, queueLength: oldQueue });
+
+      const newLoad = newCentre.currentLoad + newQuantity;
+      const newQueue = newCentre.queueLength + 1;
+      db.centres.update(newCentre.id, { currentLoad: newLoad, queueLength: newQueue });
+    }
+  }
+
+  const qrData = `KRISHISETU:${record.tokenNumber}:${record.farmerId}:${newCentre.code}:${newQuantity}QTL:${newCropType.toUpperCase()}`;
+  const modificationNote = `Edited within 1-min grace window: ${newCropType} (${newVariety}), ${newQuantity} Qtl at ${newCentre.name}, Date: ${newSlotDate} (${newSlotTime}).`;
+
+  const updatedTimeline: TimelineEvent[] = [
+    ...record.timeline,
+    {
+      stage: record.stage,
+      timestamp: new Date().toLocaleString('en-IN'),
+      title: 'Booking Details Modified (1-Min Window)',
+      description: modificationNote
+    }
+  ];
+
+  const updatedRecord = db.procurements.update(record.id, {
+    cropType: newCropType,
+    variety: newVariety,
+    declaredQuantity: newQuantity,
+    centreId: newCentre.id,
+    centreName: newCentre.name,
+    slotDate: newSlotDate,
+    slotTime: newSlotTime,
+    transportMode: newTransportMode,
+    harvestDate: newHarvestDate,
+    qrData,
+    timeline: updatedTimeline
+  });
+
+  // Create notification
+  db.notifications.insert({
+    id: `notif-${Date.now()}`,
+    userId: record.farmerId,
+    role: 'FARMER',
+    title: `Booking Updated - Token ${record.tokenNumber}`,
+    message: `Your booking at ${newCentre.name} was updated to ${newCropType} (${newQuantity} Qtl) on ${newSlotDate}.`,
+    timestamp: new Date().toISOString(),
+    type: 'slot',
+    isRead: false,
+    actionUrl: '/farmer/my-slot'
+  });
+
+  eventService.broadcast('QUEUE_UPDATED', { centreId: newCentre.id, procurement: updatedRecord }, {
+    centreId: newCentre.id,
+    procurementId: record.id,
+    farmerId: record.farmerId
+  });
+
+  return res.json({ success: true, procurement: updatedRecord });
+});
+
+/**
  * Cancel Slot
  */
 procurementsRouter.post('/:id/cancel', (req: Request, res: Response) => {
-  const record = db.procurements.findById(req.params.id);
+  const record = db.procurements.findById(req.params.id as string);
   if (!record) {
     return res.status(404).json({ error: 'Procurement not found' });
+  }
+
+  const elapsedMs = Date.now() - new Date(record.bookingTimestamp).getTime();
+  const isWithinGraceWindow = elapsedMs <= 70 * 1000;
+  const reason = req.body.reason || (isWithinGraceWindow ? 'Cancelled by farmer during 1-min grace window.' : 'Cancelled by user or mandi operator.');
+
+  // Release centre load and queue length if still in waiting state
+  if (record.queueStatus === 'Waiting' || isWithinGraceWindow) {
+    const centre = db.centres.findById(record.centreId);
+    if (centre) {
+      const newQueue = Math.max(0, centre.queueLength - 1);
+      const newLoad = Math.max(0, centre.currentLoad - record.declaredQuantity);
+      db.centres.update(centre.id, { queueLength: newQueue, currentLoad: newLoad });
+      eventService.broadcast('CENTRE_CAPACITY_UPDATED', { ...centre, queueLength: newQueue, currentLoad: newLoad }, { centreId: centre.id });
+    }
   }
 
   const updated = db.procurements.update(record.id, {
@@ -369,10 +502,23 @@ procurementsRouter.post('/:id/cancel', (req: Request, res: Response) => {
       {
         stage: record.stage,
         timestamp: new Date().toLocaleString('en-IN'),
-        title: 'Slot Cancelled',
-        description: req.body.reason || 'Cancelled by user or mandi operator.'
+        title: isWithinGraceWindow ? 'Slot Cancelled (1-Min Window)' : 'Slot Cancelled',
+        description: reason
       }
     ]
+  });
+
+  // Notification for cancellation
+  db.notifications.insert({
+    id: `notif-${Date.now()}`,
+    userId: record.farmerId,
+    role: 'FARMER',
+    title: `Slot Cancelled - Token ${record.tokenNumber}`,
+    message: `Your booking for Token ${record.tokenNumber} has been cancelled successfully.`,
+    timestamp: new Date().toISOString(),
+    type: 'slot',
+    isRead: false,
+    actionUrl: '/farmer/my-slot'
   });
 
   eventService.broadcast('QUEUE_UPDATED', { centreId: record.centreId, procurement: updated }, {
