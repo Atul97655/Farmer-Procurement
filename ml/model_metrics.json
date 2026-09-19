@@ -1,0 +1,54 @@
+{
+  "model_name": "KishanQ-WaitTime-EnsembleRegressor-v2",
+  "algorithm": "Multivariate Regularized Ridge Regressor (with Non-Linear Expansion)",
+  "r2_score": 0.9419,
+  "rmse_minutes": 38.93,
+  "mae_minutes": 28.79,
+  "dataset_samples": 3000,
+  "bias": 257.0891,
+  "weights": [
+    -1.0048,
+    139.8824,
+    4.9718,
+    -3.48,
+    39.2848,
+    48.2993,
+    6.0228
+  ],
+  "feature_means": [
+    28.2198,
+    19.859,
+    156.6119,
+    513.2905,
+    13.9965,
+    1.1765,
+    0.3937
+  ],
+  "feature_stds": [
+    15.403,
+    11.8654,
+    82.0338,
+    283.3894,
+    2.2995,
+    0.2403,
+    0.2302
+  ],
+  "feature_names": [
+    "distance_km",
+    "queue_length",
+    "farmer_quantity_qtl",
+    "remaining_capacity_qtl",
+    "avg_proc_mins",
+    "peak_hour_factor",
+    "weather_delay_risk"
+  ],
+  "feature_importances_percent": {
+    "distance_km": 0.41,
+    "queue_length": 57.58,
+    "farmer_quantity_qtl": 2.05,
+    "remaining_capacity_qtl": 1.43,
+    "avg_proc_mins": 16.17,
+    "peak_hour_factor": 19.88,
+    "weather_delay_risk": 2.48
+  }
+}

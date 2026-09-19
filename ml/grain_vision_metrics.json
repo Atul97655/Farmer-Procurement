@@ -1,0 +1,58 @@
+{
+  "model_name": "KishanQ-GrainVision-Classifier-v1",
+  "vision_framework": "Morphological Contour & Spectral Defect Classifier",
+  "overall_accuracy": 0.9375,
+  "sample_size": 2000,
+  "confusion_matrix": {
+    "Grade A": {
+      "Grade A": 696,
+      "FAQ (Fair Average Quality)": 1,
+      "Grade B": 0,
+      "Rejected": 0
+    },
+    "FAQ (Fair Average Quality)": {
+      "Grade A": 34,
+      "FAQ (Fair Average Quality)": 635,
+      "Grade B": 4,
+      "Rejected": 0
+    },
+    "Grade B": {
+      "Grade A": 0,
+      "FAQ (Fair Average Quality)": 19,
+      "Grade B": 310,
+      "Rejected": 67
+    },
+    "Rejected": {
+      "Grade A": 0,
+      "FAQ (Fair Average Quality)": 0,
+      "Grade B": 0,
+      "Rejected": 234
+    }
+  },
+  "class_metrics": {
+    "Grade A": {
+      "precision": 0.9534,
+      "recall": 0.9986,
+      "f1_score": 0.9755,
+      "support": 697
+    },
+    "FAQ (Fair Average Quality)": {
+      "precision": 0.9695,
+      "recall": 0.9435,
+      "f1_score": 0.9563,
+      "support": 673
+    },
+    "Grade B": {
+      "precision": 0.9873,
+      "recall": 0.7828,
+      "f1_score": 0.8732,
+      "support": 396
+    },
+    "Rejected": {
+      "precision": 0.7774,
+      "recall": 1.0,
+      "f1_score": 0.8748,
+      "support": 234
+    }
+  }
+}
