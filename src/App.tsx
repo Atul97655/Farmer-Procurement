@@ -47,6 +47,7 @@ const AppLayout: React.FC = () => {
   const { role: _role } = useAppState();
 
   const isDisplayRoute = location.pathname === '/display' || location.pathname === '/centre/kiosk';
+  const isAuthRoute = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/auth';
   const isFarmerRoute = location.pathname.startsWith('/farmer');
   const isOperatorRoute = location.pathname.startsWith('/centre') && !isDisplayRoute;
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -58,7 +59,7 @@ const AppLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <GovHeader />
-      <RoleSwitcherBar />
+      {!isAuthRoute && <RoleSwitcherBar />}
 
       {isFarmerRoute && <FarmerMobileNav />}
 

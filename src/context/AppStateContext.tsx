@@ -159,24 +159,21 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const [currentUser, setCurrentUser] = useState<UserSession | null>(() => {
+    const isExplicitlyLoggedOut = localStorage.getItem('krishisetu_logged_out') === 'true';
+    if (isExplicitlyLoggedOut) {
+      return null;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.USER_SESSION);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.isLoggedIn) return parsed;
+        return null;
       } catch (e) {
         return null;
       }
     }
-    return {
-      id: 'usr-farmer-1042',
-      name: 'Ramesh Kumar',
-      phone: '9876543210',
-      email: 'ramesh.farmer@agri.in',
-      role: 'FARMER',
-      farmerId: 'FRM-OD-2026-8812',
-      district: 'Bargarh',
-      isLoggedIn: true
-    };
+    return null;
   });
 
   const isAuthenticated = !!currentUser && currentUser.isLoggedIn;
@@ -1137,6 +1134,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isLoggedIn: true
     };
 
+    localStorage.removeItem('krishisetu_logged_out');
     setCurrentUser(session);
     setActiveFarmerIdState(farmer.id);
     setRoleState('FARMER');
@@ -1179,6 +1177,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isLoggedIn: true
     };
 
+    localStorage.removeItem('krishisetu_logged_out');
     setCurrentUser(session);
     setActiveFarmerIdState(newFarmer.id);
     setRoleState('FARMER');
@@ -1199,6 +1198,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isLoggedIn: true
     };
 
+    localStorage.removeItem('krishisetu_logged_out');
     setCurrentUser(session);
     setActiveCentreIdState(centre.id);
     setRoleState('OPERATOR');
@@ -1216,13 +1216,23 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isLoggedIn: true
     };
 
+    localStorage.removeItem('krishisetu_logged_out');
     setCurrentUser(session);
     setRoleState('ADMIN');
     setLastSyncTime(new Date());
   };
 
   const logout = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        console.warn('Speech cancellation error:', e);
+      }
+    }
+
     setCurrentUser(null);
+    localStorage.setItem('krishisetu_logged_out', 'true');
     localStorage.removeItem(STORAGE_KEYS.USER_SESSION);
     setLastSyncTime(new Date());
   };

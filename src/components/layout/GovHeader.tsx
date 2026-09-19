@@ -39,7 +39,8 @@ export const GovHeader: React.FC = () => {
   }, [showNotificationsDropdown]);
 
   const roleNotifications = notifications.filter(n => {
-    if (role === 'FARMER') return n.userId === activeFarmer.id || n.role === 'ALL';
+    if (!isAuthenticated || !currentUser) return false;
+    if (role === 'FARMER') return n.userId === currentUser.id || n.role === 'ALL';
     if (role === 'OPERATOR') return n.role === 'OPERATOR' || n.role === 'ALL';
     return n.role === 'ADMIN' || n.role === 'ALL' || n.type === 'system';
   });
@@ -53,8 +54,8 @@ export const GovHeader: React.FC = () => {
     navigate('/login');
   };
 
-  const displayName = currentUser?.name || (role === 'FARMER' ? activeFarmer.name : role === 'OPERATOR' ? 'Mandi Operator' : 'State Agri Admin');
-  const displayPhone = currentUser?.phone || (role === 'FARMER' ? activeFarmer.phone : undefined);
+  const displayName = currentUser?.name || '';
+  const displayPhone = currentUser?.phone || undefined;
 
   return (
     <header className="no-print bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
@@ -264,30 +265,40 @@ export const GovHeader: React.FC = () => {
             )}
           </div>
 
-          {/* User Account Info Chip */}
-          <div className="flex items-center gap-2 border-l border-slate-200 pl-3">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs border border-emerald-300 shadow-2xs">
-              <User className="w-4 h-4" />
-            </div>
+          {/* User Account Info Chip or Sign In button */}
+          {isAuthenticated && currentUser ? (
+            <div className="flex items-center gap-2 border-l border-slate-200 pl-3">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs border border-emerald-300 shadow-2xs">
+                <User className="w-4 h-4" />
+              </div>
 
-            <div className="hidden sm:flex flex-col text-left">
-              <span className="text-xs font-bold text-slate-900 line-clamp-1">
-                {displayName}
-              </span>
-              <span className="text-[10px] text-slate-500">
-                {displayPhone ? `+91 ${displayPhone}` : role === 'OPERATOR' ? 'Mandi Operator' : 'State Agri Admin'}
-              </span>
-            </div>
+              <div className="hidden sm:flex flex-col text-left">
+                <span className="text-xs font-bold text-slate-900 line-clamp-1">
+                  {displayName}
+                </span>
+                <span className="text-[10px] text-slate-500">
+                  {displayPhone ? `+91 ${displayPhone}` : role === 'OPERATOR' ? 'Mandi Operator' : 'State Agri Admin'}
+                </span>
+              </div>
 
-            {/* Logout / Switch Button */}
+              {/* Logout / Switch Button */}
+              <button
+                onClick={handleLogout}
+                title="Logout / Change User"
+                className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer ml-1"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
             <button
-              onClick={handleLogout}
-              title="Logout / Change User"
-              className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer ml-1"
+              onClick={() => navigate('/login')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer ml-1"
             >
-              <LogOut className="w-4 h-4" />
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Sign In</span>
             </button>
-          </div>
+          )}
         </div>
       </div>
     </header>

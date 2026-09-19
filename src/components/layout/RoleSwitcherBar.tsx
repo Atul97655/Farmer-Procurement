@@ -5,24 +5,43 @@ import { useNavigate } from 'react-router-dom';
 import { UserCheck, Building2, ShieldCheck, RotateCcw, Sliders, ChevronDown, ChevronUp } from 'lucide-react';
 
 export const RoleSwitcherBar: React.FC = () => {
-  const { role, setRole, activeFarmer, setActiveFarmerId, activeCentreId, setActiveCentreId, resetDemoData } = useAppState();
+  const {
+    role,
+    setRole,
+    activeFarmer,
+    setActiveFarmerId,
+    activeCentreId,
+    setActiveCentreId,
+    resetDemoData,
+    isAuthenticated,
+    farmers,
+    loginFarmer,
+    loginOperator,
+    loginAdmin
+  } = useAppState();
   const { t } = useLanguage();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
 
   const handleSelectFarmer = (farmerId: string) => {
     setActiveFarmerId(farmerId);
+    const targetFarmer = farmers.find(f => f.id === farmerId);
+    if (targetFarmer) {
+      loginFarmer({ phone: targetFarmer.phone, name: targetFarmer.name });
+    }
     setRole('FARMER');
     navigate('/farmer/dashboard');
   };
 
   const handleSelectOperator = (centreId: string) => {
     setActiveCentreId(centreId);
+    loginOperator({ emailOrId: 'op.digha@kisanq.gov.in', centreId });
     setRole('OPERATOR');
     navigate('/centre/dashboard');
   };
 
   const handleSelectAdmin = () => {
+    loginAdmin({ emailOrId: 'admin@kisanq.gov.in' });
     setRole('ADMIN');
     navigate('/admin/dashboard');
   };
@@ -60,7 +79,7 @@ export const RoleSwitcherBar: React.FC = () => {
           <button
             onClick={() => handleSelectFarmer('FRM-OD-2026-8812')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium cursor-pointer ${
-              role === 'FARMER' && activeFarmer.id === 'FRM-OD-2026-8812'
+              isAuthenticated && role === 'FARMER' && activeFarmer.id === 'FRM-OD-2026-8812'
                 ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 ring-offset-1 ring-offset-slate-800'
                 : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
             }`}
@@ -73,7 +92,7 @@ export const RoleSwitcherBar: React.FC = () => {
           <button
             onClick={() => handleSelectFarmer('FRM-OD-2026-8813')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium cursor-pointer ${
-              role === 'FARMER' && activeFarmer.id === 'FRM-OD-2026-8813'
+              isAuthenticated && role === 'FARMER' && activeFarmer.id === 'FRM-OD-2026-8813'
                 ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 ring-offset-1 ring-offset-slate-800'
                 : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
             }`}
@@ -86,7 +105,7 @@ export const RoleSwitcherBar: React.FC = () => {
           <button
             onClick={() => handleSelectOperator('c-1')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium cursor-pointer ${
-              role === 'OPERATOR' && activeCentreId === 'c-1'
+              isAuthenticated && role === 'OPERATOR' && activeCentreId === 'c-1'
                 ? 'bg-blue-600 text-white ring-2 ring-blue-400 ring-offset-1 ring-offset-slate-800'
                 : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
             }`}
@@ -99,7 +118,7 @@ export const RoleSwitcherBar: React.FC = () => {
           <button
             onClick={handleSelectAdmin}
             className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium cursor-pointer ${
-              role === 'ADMIN'
+              isAuthenticated && role === 'ADMIN'
                 ? 'bg-purple-600 text-white ring-2 ring-purple-400 ring-offset-1 ring-offset-slate-800'
                 : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
             }`}
