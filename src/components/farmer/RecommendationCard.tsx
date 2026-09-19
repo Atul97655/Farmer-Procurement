@@ -26,12 +26,9 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
           <span className="flex items-center gap-1.5">
             <Award className="w-4 h-4 text-amber-300" />
             <span>{t('TOP AI RECOMMENDATION')}</span>
-            <span className="bg-emerald-950/60 text-emerald-200 text-[10px] px-1.5 py-0.2 rounded border border-emerald-500/30 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-amber-300" /> ML Verified
-            </span>
           </span>
-          <span className="bg-emerald-950/70 px-2 py-0.5 rounded text-[11px] font-mono">
-            {t('AI Score:')} {score}/100
+          <span className="bg-emerald-950/60 text-emerald-200 text-[10px] px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-amber-300" /> ML Verified
           </span>
         </div>
       )}
@@ -47,14 +44,6 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
             <span>{centre.address}</span>
           </p>
         </div>
-
-        {!isBestMatch && (
-          <div className="text-right">
-            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-md">
-              {t('Score:')} {score}/100
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Metrics Row */}
@@ -62,7 +51,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
         <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
           <span className="text-[10px] text-slate-500 font-semibold uppercase block">{t('Distance')}</span>
           <strong className="text-slate-900 text-sm">{distanceKm} km</strong>
-          <span className="text-[10px] text-slate-400 block">{scoreBreakdown.distanceScore} pts</span>
+          <span className="text-[10px] text-slate-400 block">{t('Direct Route')}</span>
         </div>
 
         <div className="bg-emerald-50/60 p-2 rounded-xl border border-emerald-100">
