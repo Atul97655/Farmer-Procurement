@@ -14,7 +14,8 @@ import {
   CheckCircle2,
   PlusCircle,
   Truck,
-  Edit3
+  Edit3,
+  Smartphone
 } from 'lucide-react';
 import { QRModal } from '../../components/common/QRModal';
 import { StatusBadge } from '../../components/common/StatusBadge';
@@ -167,6 +168,16 @@ export const MySlotPage: React.FC = () => {
                         >
                           <Printer className="w-3.5 h-3.5" />
                           <span>Print Slip</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => window.dispatchEvent(new CustomEvent('OPEN_SMS_DRAWER'))}
+                          className="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-semibold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                          title="View official SMS delivered to registered phone"
+                        >
+                          <Smartphone className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>SMS Alert</span>
                         </button>
                       </>
                     )}

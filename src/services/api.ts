@@ -135,6 +135,8 @@ class ApiService {
     slotDate: string;
     slotTime: string;
     transportMode: string;
+    farmerName?: string;
+    farmerPhone?: string;
   }): Promise<ProcurementRecord> {
     const res = await this.request<{ success: boolean; procurement: ProcurementRecord }>('/procurements/book', {
       method: 'POST',

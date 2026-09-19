@@ -9,12 +9,12 @@
       "address": "NH-16 Mandi Complex, Digha Agro Yard, Khordha, 752054",
       "latitude": 20.252,
       "longitude": 85.789,
-      "dailyCapacity": 650,
-      "currentLoad": 370,
-      "queueLength": 7,
+      "dailyCapacity": 600,
+      "currentLoad": 385,
+      "queueLength": 8,
       "avgProcessingTimeMinutes": 7,
       "operatingHours": "08:00 AM - 06:00 PM",
-      "status": "NORMAL",
+      "status": "BUSY",
       "officerInCharge": "Rajesh Sharma (Senior Agri Officer)",
       "contactNumber": "+91 94370 12345"
     },
@@ -89,24 +89,6 @@
       "status": "NEAR CAPACITY",
       "officerInCharge": "Deepak Kumar Swain",
       "contactNumber": "+91 94374 99887"
-    },
-    {
-      "avgProcessingTimeMinutes": 8,
-      "district": "Khordha",
-      "latitude": 20.15,
-      "contactNumber": "+91 99999 88888",
-      "code": "TEST-01",
-      "officerInCharge": "Test Officer",
-      "name": "Test Mandi Yard",
-      "status": "NORMAL",
-      "dailyCapacity": 400,
-      "block": "Jatni",
-      "longitude": 85.7,
-      "operatingHours": "08:00 AM - 05:00 PM",
-      "address": "Jatni Market",
-      "id": "c-0975",
-      "queueLength": 0,
-      "currentLoad": 0
     }
   ],
   "farmers": [
@@ -163,247 +145,110 @@
       "bankAccountNumber": "XXXXXX3319",
       "ifscCode": "UCBA0000981",
       "preferredLanguage": "or"
+    },
+    {
+      "id": "FRM-OD-2026-9999",
+      "name": "Bichitra Biswal",
+      "phone": "+91 94371 22334",
+      "village": "Bargarh",
+      "block": "Bargarh",
+      "district": "Bargarh",
+      "state": "Odisha",
+      "pincode": "768028",
+      "aadhaarLastFour": "8812",
+      "khatianNumber": "KH-8821",
+      "totalLandAcres": 5.5,
+      "irrigationType": "Canal Irrigated",
+      "soilHealthCardNo": "SHC-OD-2025-4421",
+      "bankAccount": "•••• •••• 4421",
+      "ifscCode": "SBIN0001234",
+      "cropsGrown": [
+        "Wheat (Sharbati)"
+      ]
     }
   ],
   "procurements": [
     {
-      "id": "proc-1789806482998-7700",
-      "tokenNumber": "DPC-7700",
-      "farmerId": "FRM-OD-2026-8812",
-      "farmerName": "Ramesh Kumar",
-      "farmerPhone": "+91 98765 43210",
-      "centreId": "c-1",
-      "centreName": "Digha Central Procurement Centre",
-      "cropType": "Paddy (Common)",
-      "variety": "Swarna",
-      "declaredQuantity": 25,
-      "harvestDate": "2026-09-15",
-      "slotDate": "2026-09-20",
+      "id": "proc-1789811195754-9429",
+      "tokenNumber": "SMC-9429",
+      "farmerId": "FRM-OD-2026-9999",
+      "farmerName": "Bichitra Biswal",
+      "farmerPhone": "+91 94371 22334",
+      "centreId": "c-2",
+      "centreName": "Sambalpur Regulated Market Yard",
+      "cropType": "Wheat (Sharbati)",
+      "variety": "HD-2967",
+      "declaredQuantity": 60,
+      "harvestDate": "2026-09-22",
+      "slotDate": "2026-09-23",
       "slotTime": "11:00 - 12:00 PM",
-      "bookingTimestamp": "2026-09-19T08:28:02.998Z",
-      "stage": "WEIGHING",
-      "queueStatus": "Weighing",
-      "queuePosition": 2,
-      "estimatedWaitMinutes": 14,
-      "transportMode": "Tractor Trolley",
-      "qrData": "KRISHISETU:DPC-7700:FRM-OD-2026-8812:DPC-01:25QTL:PADDY (COMMON)",
-      "timeline": [
-        {
-          "stage": "REGISTRATION_COMPLETED",
-          "timestamp": "19/9/2026, 1:58:02 pm",
-          "title": "Crop Registered",
-          "description": "25 Quintals of Paddy (Common) (Swarna) registered."
-        },
-        {
-          "stage": "APPLICATION_APPROVED",
-          "timestamp": "19/9/2026, 1:58:02 pm",
-          "title": "Land Record & Aadhaar Verified",
-          "description": "Auto-verified with Agri Land Database."
-        },
-        {
-          "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:58:02 pm",
-          "title": "Slot Confirmed & Token Generated",
-          "description": "Token DPC-7700 allocated for 2026-09-20 (11:00 - 12:00 PM) at Digha Central Procurement Centre."
-        },
-        {
-          "stage": "QUALITY_CHECK",
-          "timestamp": "19/9/2026, 1:58:03 pm",
-          "title": "Quality Check - Grade A (PASS)",
-          "description": "Moisture: 14.2%, Foreign Matter: 0.5%. Inspected"
-        }
-      ],
-      "qualityInspection": {
-        "inspectedAt": "2026-09-19T08:28:03.053Z",
-        "inspectorName": "Inspector (Mandi Lab)",
-        "moisturePercentage": 14.2,
-        "foreignMatterPercentage": 0.5,
-        "damagedGrainPercentage": 1,
-        "immatureGrainPercentage": 1.2,
-        "grade": "Grade A",
-        "result": "PASS",
-        "remarks": "Inspected"
-      }
-    },
-    {
-      "id": "proc-1789806446242-2237",
-      "tokenNumber": "DPC-2237",
-      "farmerId": "FRM-OD-2026-8812",
-      "farmerName": "Ramesh Kumar",
-      "farmerPhone": "+91 98765 43210",
-      "centreId": "c-1",
-      "centreName": "Digha Central Procurement Centre",
-      "cropType": "Paddy (Common)",
-      "variety": "Swarna",
-      "declaredQuantity": 25,
-      "harvestDate": "2026-09-15",
-      "slotDate": "2026-09-20",
-      "slotTime": "11:00 - 12:00 PM",
-      "bookingTimestamp": "2026-09-19T08:27:26.242Z",
-      "stage": "PAYMENT_INITIATED",
-      "queueStatus": "Completed",
-      "queuePosition": 2,
-      "estimatedWaitMinutes": 14,
-      "transportMode": "Tractor Trolley",
-      "qrData": "KRISHISETU:DPC-2237:FRM-OD-2026-8812:DPC-01:25QTL:PADDY (COMMON)",
-      "timeline": [
-        {
-          "stage": "REGISTRATION_COMPLETED",
-          "timestamp": "19/9/2026, 1:57:26 pm",
-          "title": "Crop Registered",
-          "description": "25 Quintals of Paddy (Common) (Swarna) registered."
-        },
-        {
-          "stage": "APPLICATION_APPROVED",
-          "timestamp": "19/9/2026, 1:57:26 pm",
-          "title": "Land Record & Aadhaar Verified",
-          "description": "Auto-verified with Agri Land Database."
-        },
-        {
-          "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:57:26 pm",
-          "title": "Slot Confirmed & Token Generated",
-          "description": "Token DPC-2237 allocated for 2026-09-20 (11:00 - 12:00 PM) at Digha Central Procurement Centre."
-        },
-        {
-          "stage": "WEIGHING",
-          "timestamp": "19/9/2026, 1:57:26 pm",
-          "title": "Digital Weighbridge Recorded",
-          "description": "Gross: 27.5 Qtl, Tare: 2.5 Qtl, Net: 25 Qtl. Slip #WB-SLIP-446406."
-        },
-        {
-          "stage": "PAYMENT_INITIATED",
-          "timestamp": "19/9/2026, 1:57:26 pm",
-          "title": "DBT Payment Dispatched to PFMS",
-          "description": "₹57,500 initiated via DBT batch. UTR: DBT1789806446406383."
-        }
-      ],
-      "weighing": {
-        "weighedAt": "2026-09-19T08:27:26.406Z",
-        "weighbridgeOperator": "Digital Weighbridge Officer",
-        "vehicleNumber": "OD-02-AB-1234",
-        "vehicleType": "Tractor Trolley",
-        "declaredWeight": 25,
-        "grossWeight": 27.5,
-        "tareWeight": 2.5,
-        "netWeight": 25,
-        "bagCount": 50,
-        "tareWeightSlipNo": "WB-SLIP-446406"
-      },
-      "payment": {
-        "id": "pay-1789806446406",
-        "procurementAmount": 57500,
-        "mspRate": 2300,
-        "qualityDeductionBonus": 0,
-        "netPayableAmount": 57500,
-        "paymentStatus": "INITIATED",
-        "dbtBatchNo": "DBT-BATCH-2026-09-19-01",
-        "bankRefNo": "PFMS9806446406",
-        "utrNumber": "DBT1789806446406383",
-        "initiatedAt": "2026-09-19T08:27:26.406Z",
-        "accountNumberMasked": "XXXXXX4921",
-        "bankName": "State Bank of India"
-      }
-    },
-    {
-      "id": "proc-1789806437397-3260",
-      "tokenNumber": "DPC-3260",
-      "farmerId": "FRM-OD-2026-8812",
-      "farmerName": "Ramesh Kumar",
-      "farmerPhone": "+91 98765 43210",
-      "centreId": "c-1",
-      "centreName": "Digha Central Procurement Centre",
-      "cropType": "Paddy (Common)",
-      "variety": "Swarna",
-      "declaredQuantity": 20,
-      "harvestDate": "2026-09-15",
-      "slotDate": "2026-09-20",
-      "slotTime": "10:00 - 11:00 AM",
-      "bookingTimestamp": "2026-09-19T08:27:17.397Z",
+      "bookingTimestamp": "2026-09-19T09:46:35.754Z",
       "stage": "SLOT_ASSIGNED",
-      "queueStatus": "Cancelled",
-      "queuePosition": 2,
-      "estimatedWaitMinutes": 14,
-      "transportMode": "Mini Truck",
-      "qrData": "KRISHISETU:DPC-3260:FRM-OD-2026-8812:DPC-01:20QTL:PADDY (COMMON)",
+      "queueStatus": "Waiting",
+      "queuePosition": 1,
+      "estimatedWaitMinutes": 8,
+      "transportMode": "Small Commercial Vehicle (Tata Ace)",
+      "qrData": "KRISHISETU:SMC-9429:FRM-OD-2026-9999:SMC-02:60QTL:WHEAT (SHARBATI)",
       "timeline": [
         {
           "stage": "REGISTRATION_COMPLETED",
-          "timestamp": "19/9/2026, 1:57:17 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Crop Registered",
-          "description": "20 Quintals of Paddy (Common) (Swarna) registered."
+          "description": "60 Quintals of Wheat (Sharbati) (HD-2967) registered."
         },
         {
           "stage": "APPLICATION_APPROVED",
-          "timestamp": "19/9/2026, 1:57:17 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Land Record & Aadhaar Verified",
           "description": "Auto-verified with Agri Land Database."
         },
         {
           "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:57:17 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Slot Confirmed & Token Generated",
-          "description": "Token DPC-3260 allocated for 2026-09-20 (10:00 - 11:00 AM) at Digha Central Procurement Centre."
-        },
-        {
-          "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:57:17 pm",
-          "title": "Slot Cancelled (1-Min Window)",
-          "description": "Testing cancel"
+          "description": "Token SMC-9429 allocated for 2026-09-23 (11:00 - 12:00 PM) at Sambalpur Regulated Market Yard."
         }
       ]
     },
     {
-      "id": "proc-1789806420257-7403",
-      "tokenNumber": "DPC-7403",
+      "id": "proc-1789811195672-5682",
+      "tokenNumber": "DPC-5682",
       "farmerId": "FRM-OD-2026-8812",
       "farmerName": "Ramesh Kumar",
       "farmerPhone": "+91 98765 43210",
       "centreId": "c-1",
       "centreName": "Digha Central Procurement Centre",
-      "cropType": "Wheat (Sharbati)",
+      "cropType": "Paddy (Common)",
       "variety": "Swarna (MTU 7029)",
-      "declaredQuantity": 35,
-      "harvestDate": "2026-09-15",
-      "slotDate": "2026-09-20",
-      "slotTime": "09:00 - 10:00 AM",
-      "bookingTimestamp": "2026-09-19T08:27:00.278Z",
-      "stage": "FARMER_ARRIVED",
-      "queueStatus": "Called",
+      "declaredQuantity": 45,
+      "harvestDate": "2026-09-20",
+      "slotDate": "2026-09-21",
+      "slotTime": "10:00 - 11:00 AM",
+      "bookingTimestamp": "2026-09-19T09:46:35.720Z",
+      "stage": "SLOT_ASSIGNED",
+      "queueStatus": "Waiting",
       "queuePosition": 1,
       "estimatedWaitMinutes": 7,
       "transportMode": "Tractor Trolley",
-      "qrData": "KRISHISETU:DPC-7403:FRM-OD-2026-8812:DPC-01:35QTL:WHEAT (SHARBATI)",
+      "qrData": "KRISHISETU:DPC-5682:FRM-OD-2026-8812:DPC-01:45QTL:PADDY (COMMON)",
       "timeline": [
         {
           "stage": "REGISTRATION_COMPLETED",
-          "timestamp": "19/9/2026, 1:57:00 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Crop Registered",
-          "description": "30 Quintals of Paddy (Common) (Swarna (MTU 7029)) registered."
+          "description": "45 Quintals of Paddy (Common) (Swarna (MTU 7029)) registered."
         },
         {
           "stage": "APPLICATION_APPROVED",
-          "timestamp": "19/9/2026, 1:57:00 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Land Record & Aadhaar Verified",
           "description": "Auto-verified with Agri Land Database."
         },
         {
           "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:57:00 pm",
+          "timestamp": "19/9/2026, 3:16:35 pm",
           "title": "Slot Confirmed & Token Generated",
-          "description": "Token DPC-7403 allocated for 2026-09-20 (09:00 - 10:00 AM) at Digha Central Procurement Centre."
-        },
-        {
-          "stage": "SLOT_ASSIGNED",
-          "timestamp": "19/9/2026, 1:57:00 pm",
-          "title": "Booking Details Modified (1-Min Window)",
-          "description": "Edited within 1-min grace window: Wheat (Sharbati) (Swarna (MTU 7029)), 35 Qtl at Digha Central Procurement Centre, Date: 2026-09-20 (09:00 - 10:00 AM)."
-        },
-        {
-          "stage": "FARMER_ARRIVED",
-          "timestamp": "19/9/2026, 1:58:23 pm",
-          "title": "Token Called to Quality Bay 1 / Gate Inward",
-          "description": "Mandi Operator initiated loudspeaker/SMS call for Token DPC-7403."
+          "description": "Token DPC-5682 allocated for 2026-09-21 (10:00 - 11:00 AM) at Digha Central Procurement Centre."
         }
       ]
     },
@@ -422,8 +267,8 @@
       "slotDate": "2026-09-19",
       "slotTime": "10:00 - 11:00 AM",
       "bookingTimestamp": "2026-09-14T09:30:00.000Z",
-      "stage": "PAYMENT_COMPLETED",
-      "queueStatus": "Completed",
+      "stage": "FARMER_ARRIVED",
+      "queueStatus": "Called",
       "queuePosition": 1,
       "estimatedWaitMinutes": 5,
       "transportMode": "Tractor Trolley (OD-02-BQ-4412)",
@@ -453,59 +298,8 @@
           "timestamp": "2026-09-19 09:50 AM",
           "title": "Gate Inward Checkin",
           "description": "Arrival validated by Mandi Gate Scanner."
-        },
-        {
-          "stage": "FARMER_ARRIVED",
-          "timestamp": "19/9/2026, 1:58:23 pm",
-          "title": "Mandi Gate Inward Verified",
-          "description": "Farmer checked-in at Inward Gate. Vehicle verified."
-        },
-        {
-          "stage": "WEIGHING",
-          "timestamp": "19/9/2026, 1:58:31 pm",
-          "title": "Digital Weighbridge Recorded",
-          "description": "Gross: 47.5 Qtl, Tare: 2.5 Qtl, Net: 45 Qtl. Slip #WB-SLIP-511398."
-        },
-        {
-          "stage": "PAYMENT_INITIATED",
-          "timestamp": "19/9/2026, 1:58:31 pm",
-          "title": "DBT Payment Dispatched to PFMS",
-          "description": "₹1,03,500 initiated via DBT batch. UTR: DBT1789806511398411."
-        },
-        {
-          "stage": "PAYMENT_COMPLETED",
-          "timestamp": "19/9/2026, 1:58:31 pm",
-          "title": "DBT Payment Credited (PFMS Cleared)",
-          "description": "₹1,03,500 credited to State Bank of India. UTR: SBIN17898065114489486"
         }
-      ],
-      "weighing": {
-        "weighedAt": "2026-09-19T08:28:31.398Z",
-        "weighbridgeOperator": "Digital Weighbridge Officer",
-        "vehicleNumber": "OD-02-AB-1234",
-        "vehicleType": "Tractor Trolley",
-        "declaredWeight": 45,
-        "grossWeight": 47.5,
-        "tareWeight": 2.5,
-        "netWeight": 45,
-        "bagCount": 90,
-        "tareWeightSlipNo": "WB-SLIP-511398"
-      },
-      "payment": {
-        "id": "pay-1789806511398",
-        "procurementAmount": 103500,
-        "mspRate": 2300,
-        "qualityDeductionBonus": 0,
-        "netPayableAmount": 103500,
-        "paymentStatus": "CREDITED",
-        "dbtBatchNo": "DBT-BATCH-2026-09-19-01",
-        "bankRefNo": "PFMS9806511398",
-        "utrNumber": "SBIN17898065114489486",
-        "initiatedAt": "2026-09-19T08:28:31.398Z",
-        "accountNumberMasked": "XXXXXX4921",
-        "bankName": "State Bank of India",
-        "creditedAt": "2026-09-19T08:28:31.448Z"
-      }
+      ]
     },
     {
       "id": "proc-1043",
@@ -552,91 +346,25 @@
   ],
   "notifications": [
     {
-      "id": "notif-1789806511449",
-      "userId": "FRM-OD-2026-8812",
+      "id": "notif-1789811195755",
+      "userId": "FRM-OD-2026-9999",
       "role": "FARMER",
-      "title": "Payment Credited - ₹1,03,500",
-      "message": "Direct Benefit Transfer of ₹1,03,500 has been credited to your bank account. UTR: SBIN17898065114489486",
-      "timestamp": "2026-09-19T08:28:31.449Z",
-      "type": "payment",
+      "title": "Slot Confirmed - Token SMC-9429",
+      "message": "Your booking at Sambalpur Regulated Market Yard is confirmed for 2026-09-23 11:00 - 12:00 PM. Token: SMC-9429.",
+      "timestamp": "2026-09-19T09:46:35.755Z",
+      "type": "slot",
       "isRead": false,
-      "actionUrl": "/farmer/payments"
-    },
-    {
-      "id": "notif-1789806503400",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "NOW CALLING: Token DPC-7403",
-      "message": "Your token DPC-7403 is called to Quality Bay 1 / Gate Inward! Please move your tractor forward now.",
-      "timestamp": "2026-09-19T08:28:23.400Z",
-      "type": "queue",
-      "isRead": true,
-      "actionUrl": "/farmer/queue"
-    },
-    {
-      "id": "notif-1789806482998",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "Slot Confirmed - Token DPC-7700",
-      "message": "Your booking at Digha Central Procurement Centre is confirmed for 2026-09-20 11:00 - 12:00 PM. Token: DPC-7700.",
-      "timestamp": "2026-09-19T08:28:02.998Z",
-      "type": "slot",
-      "isRead": true,
       "actionUrl": "/farmer/my-slot"
     },
     {
-      "id": "notif-1789806446242",
+      "id": "notif-1789811195722",
       "userId": "FRM-OD-2026-8812",
       "role": "FARMER",
-      "title": "Slot Confirmed - Token DPC-2237",
-      "message": "Your booking at Digha Central Procurement Centre is confirmed for 2026-09-20 11:00 - 12:00 PM. Token: DPC-2237.",
-      "timestamp": "2026-09-19T08:27:26.242Z",
+      "title": "Slot Confirmed - Token DPC-5682",
+      "message": "Your booking at Digha Central Procurement Centre is confirmed for 2026-09-21 10:00 - 11:00 AM. Token: DPC-5682.",
+      "timestamp": "2026-09-19T09:46:35.722Z",
       "type": "slot",
-      "isRead": true,
-      "actionUrl": "/farmer/my-slot"
-    },
-    {
-      "id": "notif-1789806437464",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "Slot Cancelled - Token DPC-3260",
-      "message": "Your booking for Token DPC-3260 has been cancelled successfully.",
-      "timestamp": "2026-09-19T08:27:17.464Z",
-      "type": "slot",
-      "isRead": true,
-      "actionUrl": "/farmer/my-slot"
-    },
-    {
-      "id": "notif-1789806437398",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "Slot Confirmed - Token DPC-3260",
-      "message": "Your booking at Digha Central Procurement Centre is confirmed for 2026-09-20 10:00 - 11:00 AM. Token: DPC-3260.",
-      "timestamp": "2026-09-19T08:27:17.398Z",
-      "type": "slot",
-      "isRead": true,
-      "actionUrl": "/farmer/my-slot"
-    },
-    {
-      "id": "notif-1789806420334",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "Booking Updated - Token DPC-7403",
-      "message": "Your booking at Digha Central Procurement Centre was updated to Wheat (Sharbati) (35 Qtl) on 2026-09-20.",
-      "timestamp": "2026-09-19T08:27:00.334Z",
-      "type": "slot",
-      "isRead": true,
-      "actionUrl": "/farmer/my-slot"
-    },
-    {
-      "id": "notif-1789806420279",
-      "userId": "FRM-OD-2026-8812",
-      "role": "FARMER",
-      "title": "Slot Confirmed - Token DPC-7403",
-      "message": "Your booking at Digha Central Procurement Centre is confirmed for 2026-09-20 09:00 - 10:00 AM. Token: DPC-7403.",
-      "timestamp": "2026-09-19T08:27:00.279Z",
-      "type": "slot",
-      "isRead": true,
+      "isRead": false,
       "actionUrl": "/farmer/my-slot"
     },
     {
@@ -647,7 +375,7 @@
       "message": "Your token PDC-1043 is called to Quality Bay 1 / Gate Inward! Please move your tractor forward now.",
       "timestamp": "2026-09-19T04:19:22.879Z",
       "type": "queue",
-      "isRead": true,
+      "isRead": false,
       "actionUrl": "/farmer/queue"
     },
     {
@@ -658,7 +386,7 @@
       "message": "Your token PDC-1042 is now called! Please move your tractor to Quality Inspection Bay #1.",
       "timestamp": "2026-09-19T04:18:38.398Z",
       "type": "queue",
-      "isRead": true,
+      "isRead": false,
       "actionUrl": "/farmer/queue"
     },
     {
@@ -669,137 +397,38 @@
       "message": "Welcome to KrishiSetu Real-Time Smart Mandi Procurement System (SIH26032).",
       "timestamp": "2026-09-19T04:18:38.399Z",
       "type": "system",
-      "isRead": true
+      "isRead": false
     }
   ],
   "smsLogs": [
     {
-      "id": "SMS-1789806511449-331",
-      "recipientPhone": "+91 98765 43210",
+      "id": "SMS-1789811195754-975",
+      "recipientPhone": "+91 94371 22334",
       "senderId": "VM-KISANQ",
-      "templateId": "DLT_DBT_CREDIT",
-      "message": "Govt DBT Alert: Rs. 1,03,500 has been CREDITED via PFMS to account XXXXXX4921 for Token PDC-1042. UTR: SBIN17898065114489486. - Ministry of Consumer Affairs, Food & PD",
+      "templateId": "DLT_SLOT_BOOKED",
+      "message": "Dear Bichitra Biswal, your mandi procurement slot is CONFIRMED for 2026-09-23 at 11:00 - 12:00 PM. Token: SMC-9429 at Sambalpur Regulated Market Yard. Please arrive 15 mins prior. - Food & Public Distribution Dept, Govt of Odisha",
       "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:28:31.449Z",
+      "sentAt": "2026-09-19T09:46:35.754Z",
       "meta": {
-        "tokenNumber": "PDC-1042",
-        "procurementId": "proc-1042"
+        "tokenNumber": "SMC-9429",
+        "procurementId": "proc-1789811195754-9429",
+        "farmerId": "FRM-OD-2026-9999",
+        "farmerName": "Bichitra Biswal"
       }
     },
     {
-      "id": "SMS-1789806511398-945",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_WEIGH_SLIP",
-      "message": "Token PDC-1042: Digital weighment completed. Net Weight: 45 Quintals. Weighment Slip No: WB-SLIP-511398. Payment file generated. - KISAN-Q",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:28:31.398Z",
-      "meta": {
-        "tokenNumber": "PDC-1042",
-        "procurementId": "proc-1042"
-      }
-    },
-    {
-      "id": "SMS-1789806503399-329",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_TOKEN_CALLED",
-      "message": "URGENT: Token DPC-7403 (Ramesh Kumar) has been CALLED to Quality Bay 1 / Gate Inward. Please proceed immediately with your tractor/vehicle. - KISAN-Q Mandi Ops",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:28:23.399Z",
-      "meta": {
-        "tokenNumber": "DPC-7403",
-        "procurementId": "proc-1789806420257-7403"
-      }
-    },
-    {
-      "id": "SMS-1789806483053-926",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_QUALITY_RESULT",
-      "message": "Token DPC-7700: Quality inspection done. Grade: Grade A, Moisture: 14.2%. Status: APPROVED for weighment. - KISAN-Q Mandi Ops",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:28:03.053Z",
-      "meta": {
-        "tokenNumber": "DPC-7700",
-        "procurementId": "proc-1789806482998-7700"
-      }
-    },
-    {
-      "id": "SMS-1789806482998-390",
+      "id": "SMS-1789811195721-384",
       "recipientPhone": "+91 98765 43210",
       "senderId": "VM-KISANQ",
       "templateId": "DLT_SLOT_BOOKED",
-      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-20 at 11:00 - 12:00 PM. Token: DPC-7700 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept",
+      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-21 at 10:00 - 11:00 AM. Token: DPC-5682 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept, Govt of Odisha",
       "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:28:02.998Z",
+      "sentAt": "2026-09-19T09:46:35.721Z",
       "meta": {
-        "tokenNumber": "DPC-7700",
-        "procurementId": "proc-1789806482998-7700"
-      }
-    },
-    {
-      "id": "SMS-1789806446410-388",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_WEIGH_SLIP",
-      "message": "Token DPC-2237: Digital weighment completed. Net Weight: 25 Quintals. Weighment Slip No: WB-SLIP-446406. Payment file generated. - KISAN-Q",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:27:26.410Z",
-      "meta": {
-        "tokenNumber": "DPC-2237",
-        "procurementId": "proc-1789806446242-2237"
-      }
-    },
-    {
-      "id": "SMS-1789806446242-124",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_SLOT_BOOKED",
-      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-20 at 11:00 - 12:00 PM. Token: DPC-2237 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:27:26.242Z",
-      "meta": {
-        "tokenNumber": "DPC-2237",
-        "procurementId": "proc-1789806446242-2237"
-      }
-    },
-    {
-      "id": "SMS-1789806437397-220",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_SLOT_BOOKED",
-      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-20 at 10:00 - 11:00 AM. Token: DPC-3260 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:27:17.397Z",
-      "meta": {
-        "tokenNumber": "DPC-3260",
-        "procurementId": "proc-1789806437397-3260"
-      }
-    },
-    {
-      "id": "SMS-1789806420278-289",
-      "recipientPhone": "+91 98765 43210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_SLOT_BOOKED",
-      "message": "Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-20 at 09:00 - 10:00 AM. Token: DPC-7403 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:27:00.278Z",
-      "meta": {
-        "tokenNumber": "DPC-7403",
-        "procurementId": "proc-1789806420257-7403"
-      }
-    },
-    {
-      "id": "SMS-1789806337179-722",
-      "recipientPhone": "9876543210",
-      "senderId": "VM-KISANQ",
-      "templateId": "DLT_OTP_VERIFY",
-      "message": "Your KrishiSetu OTP is 595918. Valid for 5 minutes. Do not share with anyone. - Food & Public Distribution Dept",
-      "status": "DELIVERED",
-      "sentAt": "2026-09-19T08:25:37.179Z",
-      "meta": {
-        "otp": "595918"
+        "tokenNumber": "DPC-5682",
+        "procurementId": "proc-1789811195672-5682",
+        "farmerId": "FRM-OD-2026-8812",
+        "farmerName": "Ramesh Kumar"
       }
     },
     {
@@ -826,7 +455,7 @@
     }
   ],
   "meta": {
-    "lastUpdated": "2026-09-19T08:31:00.975Z",
+    "lastUpdated": "2026-09-19T09:46:35.755Z",
     "version": "1.0.0"
   }
 }

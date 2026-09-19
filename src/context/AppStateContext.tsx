@@ -21,7 +21,7 @@ import {
   CROPS_CATALOGUE
 } from '../data/mockData';
 import { generateToken, generateId } from '../utils/formatters';
-import { api } from '../services/api';
+import { api, SmsLogItem } from '../services/api';
 
 interface AppStateContextType {
   role: Role;
@@ -43,6 +43,8 @@ interface AppStateContextType {
   centres: ProcurementCentre[];
   procurements: ProcurementRecord[];
   notifications: NotificationItem[];
+  smsLogs: SmsLogItem[];
+  addSmsLog: (sms: SmsLogItem) => void;
 
   connectionStatus: 'online' | 'weak' | 'offline';
   setConnectionStatus: (status: 'online' | 'weak' | 'offline') => void;
@@ -123,11 +125,25 @@ const STORAGE_KEYS = {
   CENTRES: 'krishisetu_centres_v1',
   PROCUREMENTS: 'krishisetu_procurements_v1',
   NOTIFICATIONS: 'krishisetu_notifications_v1',
+  SMS_LOGS: 'krishisetu_sms_logs_v1',
   ACTIVE_FARMER: 'krishisetu_active_farmer_id',
   ACTIVE_CENTRE: 'krishisetu_active_centre_id',
   ROLE: 'krishisetu_active_role',
   USER_SESSION: 'krishisetu_user_session_v1'
 };
+
+const INITIAL_SMS_LOGS: SmsLogItem[] = [
+  {
+    id: 'SMS-INIT-01',
+    recipientPhone: '+91 98765 43210',
+    senderId: 'VM-KISANQ',
+    templateId: 'DLT_SLOT_BOOKED',
+    message: 'Dear Ramesh Kumar, your mandi procurement slot is CONFIRMED for 2026-09-19 at 10:00 - 11:00 AM. Token: PDC-1042 at Digha Central Procurement Centre. Please arrive 15 mins prior. - Food & Public Distribution Dept, Govt of Odisha',
+    status: 'DELIVERED',
+    sentAt: '2026-09-14T09:35:00.000Z',
+    meta: { tokenNumber: 'PDC-1042', farmerId: 'FRM-OD-2026-8812', farmerName: 'Ramesh Kumar' }
+  }
+];
 
 export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [role, setRoleState] = useState<Role>(() => {
@@ -193,6 +209,18 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : INITIAL_NOTIFICATIONS;
   });
 
+  const [smsLogs, setSmsLogs] = useState<SmsLogItem[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.SMS_LOGS);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // fallback
+      }
+    }
+    return INITIAL_SMS_LOGS;
+  });
+
   const [connectionStatus, setConnectionStatus] = useState<'online' | 'weak' | 'offline'>('online');
   const [lastSyncTime, setLastSyncTime] = useState<Date>(new Date());
 
@@ -213,6 +241,14 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [notifications]);
 
   useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.SMS_LOGS, JSON.stringify(smsLogs));
+  }, [smsLogs]);
+
+  const addSmsLog = useCallback((sms: SmsLogItem) => {
+    setSmsLogs(prev => [sms, ...prev]);
+  }, []);
+
+  useEffect(() => {
     const handleStorage = (e: StorageEvent) => {
       if (e.key === STORAGE_KEYS.PROCUREMENTS && e.newValue) {
         setProcurements(JSON.parse(e.newValue));
@@ -222,6 +258,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
       if (e.key === STORAGE_KEYS.NOTIFICATIONS && e.newValue) {
         setNotifications(JSON.parse(e.newValue));
+      }
+      if (e.key === STORAGE_KEYS.SMS_LOGS && e.newValue) {
+        setSmsLogs(JSON.parse(e.newValue));
       }
     };
     window.addEventListener('storage', handleStorage);
@@ -237,12 +276,23 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           api.getCentres(),
           api.getFarmers(),
           api.getProcurements(),
-          api.getNotifications()
-        ]).then(([cList, fList, pList, nList]) => {
+          api.getNotifications(),
+          api.getSmsLogs()
+        ]).then(([cList, fList, pList, nList, sList]) => {
           if (cList && cList.length) setCentres(cList);
           if (fList && fList.length) setFarmers(fList);
           if (pList && pList.length) setProcurements(pList);
           if (nList && nList.length) setNotifications(nList);
+          if (sList && sList.length) {
+            setSmsLogs(prev => {
+              const map = new Map<string, SmsLogItem>();
+              prev.forEach(item => map.set(item.id, item));
+              sList.forEach(item => map.set(item.id, item));
+              return Array.from(map.values()).sort(
+                (a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime()
+              );
+            });
+          }
         }).catch(err => console.warn('Initial backend sync error:', err));
       }
     });
@@ -287,6 +337,17 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         api.getNotifications().then(nList => {
           if (nList) setNotifications(nList);
         });
+      } else if (type === 'SMS_DELIVERED') {
+        const sData = payload as SmsLogItem;
+        if (sData) {
+          setSmsLogs(prev => {
+            const exists = prev.some(s => s.id === sData.id);
+            return exists ? prev : [sData, ...prev];
+          });
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: sData }));
+          }
+        }
       }
     });
 
@@ -389,6 +450,41 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     );
 
     setProcurements(prev => [newRecord, ...prev]);
+
+    // Generate simulated government SMS addressed to the registered farmer's name
+    const slotSms: SmsLogItem = {
+      id: `SMS-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+      recipientPhone: farmer.phone,
+      senderId: 'VM-KISANQ',
+      templateId: 'DLT_SLOT_BOOKED',
+      message: `Dear ${farmer.name}, your mandi procurement slot is CONFIRMED for ${data.slotDate} at ${data.slotTime}. Token: ${tokenNumber} at ${centre.name}. Please arrive 15 mins prior. - Food & Public Distribution Dept, Govt of Odisha`,
+      status: 'DELIVERED',
+      sentAt: nowISO,
+      meta: {
+        tokenNumber,
+        procurementId: newId,
+        farmerId: farmer.id,
+        farmerName: farmer.name,
+        centreName: centre.name,
+        slotDate: data.slotDate,
+        slotTime: data.slotTime
+      }
+    };
+
+    setSmsLogs(prev => [slotSms, ...prev]);
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: slotSms }));
+    }
+
+    // Call backend API for multi-client broadcasting & DB sync
+    api.bookSlot({
+      ...data,
+      farmerName: farmer.name,
+      farmerPhone: farmer.phone
+    }).catch(err => {
+      console.warn('Backend slot booking sync (local state preserved):', err);
+    });
 
     const newNotif: NotificationItem = {
       id: generateId('notif'),
@@ -520,6 +616,30 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           return c;
         })
       );
+
+      // Dispatch SMS for modified slot
+      const newCentre = centres.find(c => c.id === (data.centreId || target.centreId)) || centres[0];
+      const newSlotDate = data.slotDate || target.slotDate;
+      const newSlotTime = data.slotTime || target.slotTime;
+      const modifySms: SmsLogItem = {
+        id: `SMS-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+        recipientPhone: target.farmerPhone,
+        senderId: 'VM-KISANQ',
+        templateId: 'DLT_SLOT_UPDATED',
+        message: `Dear ${target.farmerName}, your mandi procurement slot details have been UPDATED for ${newSlotDate} at ${newSlotTime}. Token: ${target.tokenNumber} at ${newCentre.name}. - Food & Public Distribution Dept, Govt of Odisha`,
+        status: 'DELIVERED',
+        sentAt: new Date().toISOString(),
+        meta: {
+          tokenNumber: target.tokenNumber,
+          procurementId,
+          farmerId: target.farmerId,
+          farmerName: target.farmerName
+        }
+      };
+      setSmsLogs(prev => [modifySms, ...prev]);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: modifySms }));
+      }
     }
 
     setLastSyncTime(new Date());
@@ -577,6 +697,27 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           return c;
         })
       );
+
+      // Dispatch SMS for cancelled slot
+      const cancelSms: SmsLogItem = {
+        id: `SMS-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+        recipientPhone: target.farmerPhone,
+        senderId: 'VM-KISANQ',
+        templateId: 'DLT_SLOT_CANCELLED',
+        message: `Dear ${target.farmerName}, your mandi procurement slot for Token ${target.tokenNumber} at ${target.centreName} has been CANCELLED as requested. Mandi capacity was released. - Food & Public Distribution Dept, Govt of Odisha`,
+        status: 'DELIVERED',
+        sentAt: new Date().toISOString(),
+        meta: {
+          tokenNumber: target.tokenNumber,
+          procurementId,
+          farmerId: target.farmerId,
+          farmerName: target.farmerName
+        }
+      };
+      setSmsLogs(prev => [cancelSms, ...prev]);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: cancelSms }));
+      }
     }
     setLastSyncTime(new Date());
   };
@@ -607,6 +748,25 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     const target = procurements.find(p => p.id === procurementId);
     if (target) {
+      const callSms: SmsLogItem = {
+        id: `SMS-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+        recipientPhone: target.farmerPhone,
+        senderId: 'VM-KISANQ',
+        templateId: 'DLT_TOKEN_CALLED',
+        message: `URGENT: Token ${target.tokenNumber} (${target.farmerName}) has been CALLED to Inspection Bay 1 at ${target.centreName}. Please proceed immediately with your tractor/vehicle. - KISAN-Q Mandi Ops`,
+        status: 'DELIVERED',
+        sentAt: new Date().toISOString(),
+        meta: {
+          tokenNumber: target.tokenNumber,
+          procurementId,
+          farmerId: target.farmerId,
+          farmerName: target.farmerName
+        }
+      };
+      setSmsLogs(prev => [callSms, ...prev]);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: callSms }));
+      }
       const notif: NotificationItem = {
         id: generateId('notif'),
         userId: target.farmerId,
@@ -1144,6 +1304,32 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
       return p;
     }));
+
+    const targetProc = procurements.find(p => p.id === procurementId);
+    if (targetProc) {
+      const utr = utrNumber || `SBIN${Date.now()}`;
+      const amount = targetProc.payment?.netPayableAmount || targetProc.payment?.procurementAmount || 0;
+      const dbtSms: SmsLogItem = {
+        id: `SMS-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+        recipientPhone: targetProc.farmerPhone,
+        senderId: 'VM-KISANQ',
+        templateId: 'DLT_DBT_CREDIT',
+        message: `Govt DBT Alert: Rs. ${amount.toLocaleString('en-IN')} has been CREDITED via PFMS to account of ${targetProc.farmerName} for Token ${targetProc.tokenNumber}. UTR: ${utr}. - Ministry of Consumer Affairs, Food & PD`,
+        status: 'DELIVERED',
+        sentAt: new Date().toISOString(),
+        meta: {
+          tokenNumber: targetProc.tokenNumber,
+          procurementId,
+          farmerId: targetProc.farmerId,
+          farmerName: targetProc.farmerName
+        }
+      };
+      setSmsLogs(prev => [dbtSms, ...prev]);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('SMS_DELIVERED', { detail: dbtSms }));
+      }
+    }
+
     setLastSyncTime(new Date());
     return true;
   };
@@ -1153,11 +1339,13 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.removeItem(STORAGE_KEYS.CENTRES);
     localStorage.removeItem(STORAGE_KEYS.PROCUREMENTS);
     localStorage.removeItem(STORAGE_KEYS.NOTIFICATIONS);
+    localStorage.removeItem(STORAGE_KEYS.SMS_LOGS);
     localStorage.removeItem(STORAGE_KEYS.USER_SESSION);
     setFarmers(INITIAL_FARMERS);
     setCentres(INITIAL_CENTRES);
     setProcurements(INITIAL_PROCUREMENTS);
     setNotifications(INITIAL_NOTIFICATIONS);
+    setSmsLogs(INITIAL_SMS_LOGS);
     setActiveFarmerIdState('FRM-OD-2026-8812');
     setActiveCentreIdState('c-1');
     setRoleState('FARMER');
@@ -1194,6 +1382,8 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         centres,
         procurements,
         notifications,
+        smsLogs,
+        addSmsLog,
         connectionStatus,
         setConnectionStatus,
         lastSyncTime,

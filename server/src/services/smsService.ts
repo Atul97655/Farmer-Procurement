@@ -36,12 +36,12 @@ class SmsService {
     return record;
   }
 
-  public notifySlotBooking(farmerName: string, phone: string, tokenNumber: string, centreName: string, date: string, time: string, procurementId: string) {
+  public notifySlotBooking(farmerName: string, phone: string, tokenNumber: string, centreName: string, date: string, time: string, procurementId: string, farmerId?: string) {
     return this.sendSms({
       phone,
       templateId: 'DLT_SLOT_BOOKED',
-      message: `Dear ${farmerName}, your mandi procurement slot is CONFIRMED for ${date} at ${time}. Token: ${tokenNumber} at ${centreName}. Please arrive 15 mins prior. - Food & Public Distribution Dept`,
-      meta: { tokenNumber, procurementId }
+      message: `Dear ${farmerName}, your mandi procurement slot is CONFIRMED for ${date} at ${time}. Token: ${tokenNumber} at ${centreName}. Please arrive 15 mins prior. - Food & Public Distribution Dept, Govt of Odisha`,
+      meta: { tokenNumber, procurementId, farmerId, farmerName }
     });
   }
 
