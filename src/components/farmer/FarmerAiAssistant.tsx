@@ -286,7 +286,7 @@ export const FarmerAiAssistant: React.FC = () => {
       {/* Floating AI Sahayak Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-5 right-20 sm:right-24 z-40 bg-gradient-to-r from-amber-500 via-emerald-600 to-teal-700 hover:from-amber-400 hover:to-emerald-600 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-xl shadow-emerald-900/30 flex items-center gap-2.5 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/20 group"
+        className="fixed bottom-20 sm:bottom-24 right-5 sm:right-6 z-40 bg-gradient-to-r from-amber-500 via-emerald-600 to-teal-700 hover:from-amber-400 hover:to-emerald-600 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-xl shadow-emerald-900/30 flex items-center gap-2.5 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/20 group"
         title="Kisan-Q AI Sahayak (24x7 Assistance)"
       >
         <div className="relative">
@@ -308,7 +308,7 @@ export const FarmerAiAssistant: React.FC = () => {
 
       {/* Slide-Up / Floating Chatbot Window */}
       {isOpen && (
-        <div className="fixed inset-0 sm:inset-auto sm:bottom-20 sm:right-6 z-50 flex items-end justify-center sm:items-auto sm:justify-auto p-0 sm:p-0">
+        <div className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 z-[60] flex items-end justify-center sm:items-auto sm:justify-auto p-0 sm:p-0">
           <div className="w-full sm:w-[420px] h-[92vh] sm:h-[600px] max-h-[92vh] bg-white sm:rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
             
             {/* Header */}
