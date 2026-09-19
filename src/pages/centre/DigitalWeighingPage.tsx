@@ -22,6 +22,15 @@ export const DigitalWeighingPage: React.FC = () => {
   const { t } = useLanguage();
 
   const currentCentre = centres.find(c => c.id === activeCentreId) || centres[0];
+
+  if (!currentCentre) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-slate-500 text-sm">No procurement centres available. Please contact the administrator.</p>
+      </div>
+    );
+  }
+
   const pendingWeighProcurements = procurements.filter(
     p => p.centreId === currentCentre.id && p.queueStatus !== 'Cancelled' && p.queueStatus !== 'Completed'
   );

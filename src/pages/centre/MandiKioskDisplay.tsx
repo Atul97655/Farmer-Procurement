@@ -27,6 +27,14 @@ export const MandiKioskDisplay: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  if (!currentCentre) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <p className="text-slate-400 text-sm">No procurement centres available.</p>
+      </div>
+    );
+  }
+
   const activeForCentre = procurements.filter(p => p.centreId === currentCentre.id);
   const calledTokens = activeForCentre.filter(p => p.queueStatus === 'Called');
   const waitingTokens = activeForCentre.filter(p => p.queueStatus === 'Waiting');

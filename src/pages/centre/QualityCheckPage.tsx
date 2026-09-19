@@ -25,6 +25,15 @@ export const QualityCheckPage: React.FC = () => {
   const { t } = useLanguage();
 
   const currentCentre = centres.find(c => c.id === activeCentreId) || centres[0];
+
+  if (!currentCentre) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-slate-500 text-sm">No procurement centres available. Please contact the administrator.</p>
+      </div>
+    );
+  }
+
   const pendingQualityProcurements = procurements.filter(
     p => p.centreId === currentCentre.id && p.queueStatus !== 'Completed' && p.queueStatus !== 'Cancelled'
   );
@@ -40,7 +49,7 @@ export const QualityCheckPage: React.FC = () => {
   const [damagedGrain, setDamagedGrain] = useState<number>(1.2);
   const [immatureGrain, setImmatureGrain] = useState<number>(1.8);
   const [remarks, setRemarks] = useState<string>('Standard quality grain conforming to FAQ specifications.');
-  const [inspectorName, setInspectorName] = useState<string>(currentCentre.officerInCharge.split(' ')[0] + ' ' + currentCentre.officerInCharge.split(' ')[1] || 'Quality Inspector');
+  const [inspectorName, setInspectorName] = useState<string>((currentCentre.officerInCharge || 'Quality Inspector').split(' ').slice(0, 2).join(' '));
   const [submittedMessage, setSubmittedMessage] = useState('');
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 

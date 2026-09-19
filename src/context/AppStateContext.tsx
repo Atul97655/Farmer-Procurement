@@ -895,17 +895,30 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       })
     );
     setLastSyncTime(new Date());
+    // Persist to backend
+    api.updateCentre(centreId, data).catch(err => {
+      console.warn('Failed to persist centre update to backend:', err);
+    });
   };
 
   const addCentre = (newCentreData: Omit<ProcurementCentre, 'id' | 'queueLength' | 'currentLoad'>) => {
+    const tempId = generateId('c');
     const newCentre: ProcurementCentre = {
       ...newCentreData,
-      id: generateId('c'),
+      id: tempId,
       queueLength: 0,
       currentLoad: 0
     };
     setCentres(prev => [...prev, newCentre]);
     setLastSyncTime(new Date());
+    // Persist to backend — replace temp ID with server-assigned ID on success
+    api.addCentre(newCentreData as Partial<ProcurementCentre>).then(serverCentre => {
+      setCentres(prev =>
+        prev.map(c => c.id === tempId ? { ...serverCentre } : c)
+      );
+    }).catch(err => {
+      console.warn('Failed to persist new centre to backend:', err);
+    });
   };
 
   const markNotificationAsRead = (id: string) => {

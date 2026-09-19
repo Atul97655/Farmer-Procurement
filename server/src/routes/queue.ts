@@ -7,6 +7,47 @@ import { QueueStatus, TimelineEvent } from '../types.js';
 export const queueRouter = Router();
 
 /**
+ * Get aggregated queue summary across all centres
+ */
+queueRouter.get('/', (req: Request, res: Response) => {
+  const allCentres = db.centres.find();
+  const allProcurements = db.procurements.find();
+
+  const centresSummary = allCentres.map(centre => {
+    const forCentre = allProcurements.filter(p => p.centreId === centre.id);
+    const waiting = forCentre.filter(p => p.queueStatus === 'Waiting').length;
+    const called = forCentre.filter(p => p.queueStatus === 'Called').length;
+    const inService = forCentre.filter(p => p.queueStatus === 'Quality Check' || p.queueStatus === 'Weighing').length;
+    const completed = forCentre.filter(p => p.queueStatus === 'Completed').length;
+
+    return {
+      centreId: centre.id,
+      centreName: centre.name,
+      code: centre.code,
+      waiting,
+      called,
+      inService,
+      completed,
+      totalActive: waiting + called + inService
+    };
+  });
+
+  const totals = centresSummary.reduce((acc, c) => ({
+    waiting: acc.waiting + c.waiting,
+    called: acc.called + c.called,
+    inService: acc.inService + c.inService,
+    completed: acc.completed + c.completed,
+    totalActive: acc.totalActive + c.totalActive
+  }), { waiting: 0, called: 0, inService: 0, completed: 0, totalActive: 0 });
+
+  return res.json({
+    success: true,
+    summary: totals,
+    centres: centresSummary
+  });
+});
+
+/**
  * Get live queue state for a procurement centre
  */
 queueRouter.get('/:centreId', (req: Request, res: Response) => {

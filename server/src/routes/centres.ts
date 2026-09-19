@@ -88,3 +88,75 @@ centresRouter.post('/', (req: Request, res: Response) => {
 
   return res.status(201).json({ success: true, centre });
 });
+
+/**
+ * Put a centre on hold (pause intake)
+ */
+centresRouter.post('/:id/hold', (req: Request, res: Response) => {
+  const centre = db.centres.findById(req.params.id as string);
+  if (!centre) {
+    return res.status(404).json({ error: 'Centre not found' });
+  }
+
+  const { reason } = req.body;
+  const newStatus: CentreStatus = centre.status === 'HOLD' ? 'NORMAL' : 'HOLD';
+  const updated = db.centres.update(req.params.id as string, { status: newStatus });
+
+  eventService.broadcast('CENTRE_CAPACITY_UPDATED', { ...updated, holdReason: reason || 'Admin action' }, { centreId: centre.id });
+
+  return res.json({
+    success: true,
+    message: newStatus === 'HOLD' ? `Centre ${centre.code} placed on hold` : `Centre ${centre.code} resumed to normal`,
+    centre: updated
+  });
+});
+
+/**
+ * Rebalance queue: redistribute waiting tokens from this centre to least loaded neighbours
+ */
+centresRouter.post('/:id/rebalance', (req: Request, res: Response) => {
+  const centre = db.centres.findById(req.params.id as string);
+  if (!centre) {
+    return res.status(404).json({ error: 'Centre not found' });
+  }
+
+  const allCentres = db.centres.find();
+  const waitingProcurements = db.procurements
+    .find(p => p.centreId === centre.id && p.queueStatus === 'Waiting');
+
+  if (waitingProcurements.length === 0) {
+    return res.json({ success: true, message: 'No waiting tokens to rebalance', rebalanced: 0 });
+  }
+
+  // Find alternative centres sorted by current load ascending (least loaded first), exclude self
+  const alternatives = allCentres
+    .filter(c => c.id !== centre.id && c.status !== 'HOLD')
+    .sort((a, b) => a.currentLoad - b.currentLoad);
+
+  if (alternatives.length === 0) {
+    return res.json({ success: true, message: 'No alternative centres available for rebalancing', rebalanced: 0 });
+  }
+
+  let rebalancedCount = 0;
+  const transfers: { procurementId: string; from: string; to: string }[] = [];
+
+  for (const proc of waitingProcurements) {
+    const target = alternatives[rebalancedCount % alternatives.length];
+    db.procurements.update(proc.id, { centreId: target.id });
+    transfers.push({ procurementId: proc.id, from: centre.id, to: target.id });
+    rebalancedCount++;
+  }
+
+  eventService.broadcast('QUEUE_REBALANCED', {
+    sourceCentreId: centre.id,
+    transfers,
+    count: rebalancedCount
+  }, { centreId: centre.id });
+
+  return res.json({
+    success: true,
+    message: `Rebalanced ${rebalancedCount} waiting token(s) from ${centre.code}`,
+    rebalanced: rebalancedCount,
+    transfers
+  });
+});

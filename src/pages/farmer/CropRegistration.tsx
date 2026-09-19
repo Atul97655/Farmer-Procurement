@@ -41,7 +41,7 @@ export const CropRegistration: React.FC = () => {
     block: activeFarmer.block,
     village: activeFarmer.village,
     pincode: activeFarmer.pincode,
-    selectedCentreId: centres[0].id
+    selectedCentreId: centres[0]?.id || ''
   });
 
   const [validationError, setValidationError] = useState('');

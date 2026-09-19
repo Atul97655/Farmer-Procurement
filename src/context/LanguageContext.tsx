@@ -23,7 +23,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const languageRef = useRef<Language>(language);
-  languageRef.current = language;
+  useEffect(() => {
+    languageRef.current = language;
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

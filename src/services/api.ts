@@ -84,6 +84,22 @@ class ApiService {
     return data.centre;
   }
 
+  async addCentre(centreData: Partial<ProcurementCentre>): Promise<ProcurementCentre> {
+    const data = await this.request<{ success: boolean; centre: ProcurementCentre }>('/centres', {
+      method: 'POST',
+      body: JSON.stringify(centreData)
+    });
+    return data.centre;
+  }
+
+  async updateCentre(centreId: string, updates: Partial<ProcurementCentre>): Promise<ProcurementCentre> {
+    const data = await this.request<{ success: boolean; centre: ProcurementCentre }>(`/centres/${centreId}/capacity`, {
+      method: 'PATCH',
+      body: JSON.stringify({ newDailyCapacity: updates.dailyCapacity, newStatus: updates.status, ...updates })
+    });
+    return data.centre;
+  }
+
   // Farmers
   async getFarmers(): Promise<Farmer[]> {
     const data = await this.request<{ success: boolean; farmers: Farmer[] }>('/farmers');

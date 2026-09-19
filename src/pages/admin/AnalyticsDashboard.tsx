@@ -32,16 +32,32 @@ export const AnalyticsDashboard: React.FC = () => {
   const { centres, procurements, farmers } = useAppState();
   const { t } = useLanguage();
 
-  // 1. Daily Procurement Volume over last 7 days
-  const dailyTrendsData = [
-    { date: '31 Aug', paddy: 1200, wheat: 450, total: 1650 },
-    { date: '01 Sep', paddy: 1450, wheat: 520, total: 1970 },
-    { date: '02 Sep', paddy: 1800, wheat: 610, total: 2410 },
-    { date: '03 Sep', paddy: 2100, wheat: 700, total: 2800 },
-    { date: '04 Sep', paddy: 2350, wheat: 820, total: 3170 },
-    { date: '05 Sep', paddy: 2600, wheat: 910, total: 3510 },
-    { date: '06 Sep', paddy: 2840, wheat: 980, total: 3820 }
-  ];
+  // 1. Daily Procurement Volume over last 7 days (computed from live data)
+  const dailyTrendsData = (() => {
+    const dayMap = new Map<string, { paddy: number; wheat: number; total: number }>();
+    const now = new Date();
+    // Pre-fill last 7 days
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const label = d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+      dayMap.set(label, { paddy: 0, wheat: 0, total: 0 });
+    }
+    for (const p of procurements) {
+      if (p.queueStatus === 'Cancelled') continue;
+      const bookDate = p.slotDate ? new Date(p.slotDate) : (p.timeline?.[0] ? new Date(p.timeline[0].timestamp) : null);
+      if (!bookDate || isNaN(bookDate.getTime())) continue;
+      const label = bookDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+      const entry = dayMap.get(label);
+      if (!entry) continue;
+      const qty = p.declaredQuantity || 0;
+      const cropLower = (p.cropType || '').toLowerCase();
+      if (cropLower.includes('paddy')) entry.paddy += qty;
+      else if (cropLower.includes('wheat')) entry.wheat += qty;
+      entry.total += qty;
+    }
+    return Array.from(dayMap.entries()).map(([date, vals]) => ({ date, ...vals }));
+  })();
 
   // 2. Centre Workload vs Capacity
   const centreWorkloadData = centres.map(c => ({
@@ -51,15 +67,25 @@ export const AnalyticsDashboard: React.FC = () => {
     queue: c.queueLength
   }));
 
-  // 3. Crop-wise Share (Pie Chart)
-  const cropShareData = [
-    { name: 'Paddy Common', value: 2450, color: '#15803d' },
-    { name: 'Paddy Grade A', value: 890, color: '#16a34a' },
-    { name: 'Wheat Sharbati', value: 980, color: '#d97706' },
-    { name: 'Mustard', value: 340, color: '#eab308' },
-    { name: 'Groundnut', value: 210, color: '#854d0e' },
-    { name: 'Maize', value: 180, color: '#0284c7' }
-  ];
+  // 3. Crop-wise Share (Pie Chart — computed from live procurements)
+  const cropShareData = (() => {
+    const colorMap: Record<string, string> = {
+      'Paddy (Common)': '#15803d', 'Paddy (Grade A)': '#16a34a',
+      'Wheat (Sharbati)': '#d97706', 'Mustard': '#eab308',
+      'Groundnut': '#854d0e', 'Maize': '#0284c7', 'Moong': '#059669'
+    };
+    const cropTotals = new Map<string, number>();
+    for (const p of procurements) {
+      if (p.queueStatus === 'Cancelled') continue;
+      const crop = p.cropType || 'Other';
+      cropTotals.set(crop, (cropTotals.get(crop) || 0) + (p.declaredQuantity || 0));
+    }
+    return Array.from(cropTotals.entries()).map(([name, value]) => ({
+      name,
+      value,
+      color: colorMap[name] || '#6b7280'
+    }));
+  })();
 
   // 4. Quality Grade Distribution
   const qualityGradeData = [
