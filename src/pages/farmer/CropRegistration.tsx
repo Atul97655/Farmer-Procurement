@@ -16,13 +16,17 @@ import {
   ArrowRight,
   Info,
   Calendar,
-  Truck
+  Truck,
+  BookOpen
 } from 'lucide-react';
+import { UserManualModal } from '../../components/farmer/UserManualModal';
 
 export const CropRegistration: React.FC = () => {
   const { activeFarmer, centres, registerAndBookSlot } = useAppState();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
+
+  const [isManualModalOpen, setIsManualModalOpen] = useState(false);
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
@@ -85,13 +89,25 @@ export const CropRegistration: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6 pb-20 md:pb-8">
       
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-          Crop Procurement Registration
-        </h1>
-        <p className="text-sm text-slate-500">
-          Register your harvest details and receive a transparent rule-based Mandi recommendation.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+            Crop Procurement Registration
+          </h1>
+          <p className="text-sm text-slate-500">
+            Register your harvest details and receive a transparent rule-based Mandi recommendation.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsManualModalOpen(true)}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all shadow-2xs cursor-pointer self-start sm:self-center shrink-0"
+          title="Open Farmer User Manual & Registration Guide"
+        >
+          <BookOpen className="w-4 h-4 text-emerald-700" />
+          <span>{language === 'or' ? 'ମାର୍ଗଦର୍ଶିକା (Manual)' : language === 'hi' ? 'पुस्तिका (Manual)' : 'User Manual'}</span>
+        </button>
       </div>
 
       {/* 4-Step Visual Progress Bar */}
@@ -440,6 +456,13 @@ export const CropRegistration: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* User Manual Modal */}
+      <UserManualModal
+        isOpen={isManualModalOpen}
+        onClose={() => setIsManualModalOpen(false)}
+        defaultStep={step === 1 ? 1 : step === 2 ? 3 : 4}
+      />
 
     </div>
   );

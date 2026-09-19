@@ -34,6 +34,7 @@ export const translations = {
     navProcurement: 'Procurement Records',
     navAnalytics: 'Analytics & Reports',
     navFarmers: 'Farmer Registry',
+    navUserManual: 'User Manual',
 
     upcomingProcurement: 'Upcoming Procurement',
     quickActions: 'Quick Actions',
@@ -173,6 +174,7 @@ export const translations = {
     navProcurement: 'खरीद अभिलेख',
     navAnalytics: 'एनालिटिक्स एवं रिपोर्ट',
     navFarmers: 'किसान सूची',
+    navUserManual: 'उपयोगकर्ता पुस्तिका',
 
     upcomingProcurement: 'आगामी खरीद अनुसूची',
     quickActions: 'त्वरित सेवाएं',
@@ -278,6 +280,9 @@ export const translations = {
     rupees: '₹'
   },
   or: {
+    navUserManual: 'ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
+    'User Manual': 'ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
+    'Farmer User Manual': 'କୃଷକ ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
     'Mandi Gate Inward & QR Check-In': 'ମଣ୍ଡି ଗେଟ୍ ପ୍ରବେଶ ଓ QR ଚେକ୍-ଇନ୍',
     'Scan farmer entry pass / QR code to log physical vehicle arrival': 'ଗାଡ଼ି ଆଗମନ ରେକର୍ଡ କରିବାକୁ ଚାଷୀଙ୍କ ପ୍ରବେଶ ପାସ୍ / QR କୋଡ୍ ସ୍କାନ୍ କରନ୍ତୁ',
     'Farmer Name': 'କୃଷକଙ୍କ ନାମ',

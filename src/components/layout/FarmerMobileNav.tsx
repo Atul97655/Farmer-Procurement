@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Calendar, Users, Activity, User, PlusCircle, CreditCard, Bell } from 'lucide-react';
+import { Home, Calendar, Users, Activity, User, PlusCircle, CreditCard, Bell, BookOpen } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 export const FarmerMobileNav: React.FC = () => {
@@ -68,7 +68,8 @@ export const FarmerMobileNav: React.FC = () => {
               { to: '/farmer/status', label: t.navStatus, icon: Activity },
               { to: '/farmer/payments', label: t.navPayments, icon: CreditCard },
               { to: '/farmer/notifications', label: t.navNotifications, icon: Bell },
-              { to: '/farmer/profile', label: t.navProfile, icon: User }
+              { to: '/farmer/profile', label: t.navProfile, icon: User },
+              { to: '/farmer/user-manual', label: t.navUserManual || 'User Manual', icon: BookOpen }
             ].map((item) => {
               const Icon = item.icon;
               return (
