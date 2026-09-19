@@ -48,7 +48,7 @@ export const Sidebar: React.FC = () => {
           </div>
           {role === 'OPERATOR' ? (
             <div>
-              <label className="text-[11px] text-slate-400 block mb-1">Operating Centre:</label>
+              <label className="text-[11px] text-slate-400 block mb-1">{t('Operating Centre:')}</label>
               <select
                 value={activeCentreId}
                 onChange={(e) => setActiveCentreId(e.target.value)}
@@ -61,13 +61,13 @@ export const Sidebar: React.FC = () => {
                 ))}
               </select>
               <div className="mt-2 text-[11px] text-slate-400 flex items-center justify-between">
-                <span>Queue: <strong className="text-emerald-400">{currentCentre.queueLength}</strong></span>
-                <span>Load: <strong className="text-amber-400">{currentCentre.currentLoad}/{currentCentre.dailyCapacity} Qtl</strong></span>
+                <span>{t('Queue:')} <strong className="text-emerald-400">{currentCentre.queueLength}</strong></span>
+                <span>{t('Load:')} <strong className="text-amber-400">{currentCentre.currentLoad}/{currentCentre.dailyCapacity} {t('Qtl')}</strong></span>
               </div>
             </div>
           ) : (
             <div className="text-xs text-slate-400">
-              Statewide Procurement & Capacity Administration
+              {t('Statewide Procurement & Capacity Administration')}
             </div>
           )}
         </div>
@@ -98,8 +98,8 @@ export const Sidebar: React.FC = () => {
 
       {/* Footer Info */}
       <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500">
-        <div className="font-semibold text-slate-400">KrishiSetu National Portal</div>
-        <div>Ver 2.4 · Secure & Gov Verified</div>
+        <div className="font-semibold text-slate-400">{t('KISAN-Q National Portal')}</div>
+        <div>{t('Ver 2.4 · Secure & Gov Verified')}</div>
       </div>
     </aside>
   );

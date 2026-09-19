@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAppState } from '../../context/AppStateContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { UserCheck, Building2, ShieldCheck, RotateCcw, Sliders, ChevronDown, ChevronUp } from 'lucide-react';
 
 export const RoleSwitcherBar: React.FC = () => {
   const { role, setRole, activeFarmer, setActiveFarmerId, activeCentreId, setActiveCentreId, resetDemoData } = useAppState();
+  const { t } = useLanguage();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ export const RoleSwitcherBar: React.FC = () => {
           className="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer font-medium"
         >
           <Sliders className="w-3 h-3 text-emerald-400" />
-          <span>Quick Role Switcher</span>
+          <span>{t('Quick Role Switcher')}</span>
           <ChevronDown className="w-3 h-3" />
         </button>
       </div>
@@ -46,10 +48,10 @@ export const RoleSwitcherBar: React.FC = () => {
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1 font-bold text-amber-400">
             <Sliders className="w-3.5 h-3.5" />
-            <span>Quick Role Switcher:</span>
+            <span>{t('Quick Role Switcher:')}</span>
           </span>
           <span className="text-slate-400 hidden lg:inline text-[11px]">
-            Switch roles to test real-time synchronization across the procurement lifecycle
+            {t('Switch roles to test real-time synchronization across the procurement lifecycle')}
           </span>
         </div>
 
@@ -64,7 +66,7 @@ export const RoleSwitcherBar: React.FC = () => {
             }`}
           >
             <UserCheck className="w-3 h-3" />
-            <span>Farmer (Ramesh #PDC-1042)</span>
+            <span>{t('Farmer')} (Ramesh #PDC-1042)</span>
           </button>
 
           {/* Farmer 2: Sunita Devi */}
@@ -77,7 +79,7 @@ export const RoleSwitcherBar: React.FC = () => {
             }`}
           >
             <UserCheck className="w-3 h-3" />
-            <span>Farmer (Sunita #WHT-2019)</span>
+            <span>{t('Farmer')} (Sunita #WHT-2019)</span>
           </button>
 
           {/* Operator 1: Digha Mandi */}
@@ -90,7 +92,7 @@ export const RoleSwitcherBar: React.FC = () => {
             }`}
           >
             <Building2 className="w-3 h-3" />
-            <span>Operator (Digha)</span>
+            <span>{t('Operator')} (Digha)</span>
           </button>
 
           {/* Admin */}
@@ -103,7 +105,7 @@ export const RoleSwitcherBar: React.FC = () => {
             }`}
           >
             <ShieldCheck className="w-3 h-3" />
-            <span>State Admin</span>
+            <span>{t('State Admin')}</span>
           </button>
 
           {/* Reset Platform Data button */}
@@ -117,7 +119,7 @@ export const RoleSwitcherBar: React.FC = () => {
             className="flex items-center gap-1 px-2 py-1 rounded bg-rose-900/60 hover:bg-rose-800 text-rose-200 transition-colors ml-1 cursor-pointer"
           >
             <RotateCcw className="w-3 h-3" />
-            <span className="hidden sm:inline">Reset</span>
+            <span className="hidden sm:inline">{t('Reset')}</span>
           </button>
 
           {/* Collapse button */}

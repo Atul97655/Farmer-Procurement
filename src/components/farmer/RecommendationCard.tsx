@@ -2,6 +2,7 @@ import React from 'react';
 import { CentreRecommendation } from '../../types';
 import { MapPin, Award, CheckCircle2, ArrowRight } from 'lucide-react';
 import { StatusBadge } from '../common/StatusBadge';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface RecommendationCardProps {
   rec: CentreRecommendation;
@@ -9,6 +10,7 @@ interface RecommendationCardProps {
 }
 
 export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onSelect }) => {
+  const { t } = useLanguage();
   const { centre, distanceKm, estimatedWaitMinutes, capacityUtilizationPercent, score, scoreBreakdown, recommendationReason, isBestMatch } = rec;
 
   return (
@@ -23,10 +25,10 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
         <div className="flex items-center justify-between mb-3 bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-xs">
           <span className="flex items-center gap-1.5">
             <Award className="w-4 h-4 text-amber-300" />
-            RECOMMENDED MANDI (Lowest Waiting Time)
+            {t('RECOMMENDED MANDI (Lowest Waiting Time)')}
           </span>
           <span className="bg-emerald-900/60 px-2 py-0.5 rounded text-[11px]">
-            Score: {score}/100
+            {t('Score:')} {score}/100
           </span>
         </div>
       )}
@@ -46,7 +48,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
         {!isBestMatch && (
           <div className="text-right">
             <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-md">
-              Score: {score}/100
+              {t('Score:')} {score}/100
             </span>
           </div>
         )}
@@ -55,21 +57,21 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
       {/* Metrics Row */}
       <div className="grid grid-cols-3 gap-2 my-3 text-center">
         <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-          <span className="text-[10px] text-slate-500 font-semibold uppercase block">Distance</span>
+          <span className="text-[10px] text-slate-500 font-semibold uppercase block">{t('Distance')}</span>
           <strong className="text-slate-900 text-sm">{distanceKm} km</strong>
           <span className="text-[10px] text-slate-400 block">{scoreBreakdown.distanceScore} pts</span>
         </div>
 
         <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-          <span className="text-[10px] text-slate-500 font-semibold uppercase block">Est. Wait</span>
-          <strong className="text-amber-800 text-sm">~{estimatedWaitMinutes} mins</strong>
-          <span className="text-[10px] text-slate-400 block">{centre.queueLength} in queue</span>
+          <span className="text-[10px] text-slate-500 font-semibold uppercase block">{t('Est. Wait')}</span>
+          <strong className="text-amber-800 text-sm">~{estimatedWaitMinutes} {t('mins')}</strong>
+          <span className="text-[10px] text-slate-400 block">{centre.queueLength} {t('in queue')}</span>
         </div>
 
         <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-          <span className="text-[10px] text-slate-500 font-semibold uppercase block">Free Capacity</span>
-          <strong className="text-emerald-800 text-sm">{centre.dailyCapacity - centre.currentLoad} Qtl</strong>
-          <span className="text-[10px] text-slate-400 block">{capacityUtilizationPercent}% full</span>
+          <span className="text-[10px] text-slate-500 font-semibold uppercase block">{t('Free Capacity')}</span>
+          <strong className="text-emerald-800 text-sm">{centre.dailyCapacity - centre.currentLoad} {t('Qtl')}</strong>
+          <span className="text-[10px] text-slate-400 block">{capacityUtilizationPercent}% {t('full')}</span>
         </div>
       </div>
 
@@ -77,9 +79,9 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
       <div className="bg-slate-100/80 rounded-lg p-2.5 text-xs text-slate-700 mb-4 border border-slate-200">
         <div className="font-semibold text-slate-800 mb-0.5 flex items-center gap-1">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Transparent Rule Factor:</span>
+          <span>{t('Transparent Rule Factor:')}</span>
         </div>
-        <p className="text-[11px] text-slate-600 leading-relaxed">{recommendationReason}</p>
+        <p className="text-[11px] text-slate-600 leading-relaxed">{t(recommendationReason)}</p>
       </div>
 
       <button
@@ -90,7 +92,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ rec, onS
             : 'bg-slate-800 hover:bg-slate-900 text-white'
         }`}
       >
-        <span>Select Mandi & Book Slot</span>
+        <span>{t('Select Mandi & Book Slot')}</span>
         <ArrowRight className="w-4 h-4" />
       </button>
     </div>

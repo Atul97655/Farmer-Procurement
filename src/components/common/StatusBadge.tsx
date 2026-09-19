@@ -1,5 +1,6 @@
 import React from 'react';
 import { QueueStatus, CentreStatus, QualityGrade, QualityResult, PaymentStatus, ProcurementStage } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface StatusBadgeProps {
   status: QueueStatus | CentreStatus | QualityGrade | QualityResult | PaymentStatus | ProcurementStage | string;
@@ -7,6 +8,7 @@ interface StatusBadgeProps {
 }
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' }) => {
+  const { t } = useLanguage();
   let colorClasses = 'bg-slate-100 text-slate-700 border-slate-300';
 
   switch (status) {
@@ -85,9 +87,12 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
 
   const sizeClasses = size === 'sm' ? 'text-[11px] px-2 py-0.5' : size === 'lg' ? 'text-sm px-3.5 py-1.5' : 'text-xs px-2.5 py-1';
 
+  const readableStatus = String(status || '').replace(/_/g, ' ');
+  const displayLabel = t(readableStatus) || readableStatus;
+
   return (
     <span className={`inline-flex items-center rounded-full border ${sizeClasses} ${colorClasses} whitespace-nowrap`}>
-      {status}
+      {displayLabel}
     </span>
   );
 };

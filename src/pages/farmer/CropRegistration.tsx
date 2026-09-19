@@ -123,9 +123,9 @@ export const CropRegistration: React.FC = () => {
                   ) : (
                     <Icon className="w-4 h-4" />
                   )}
-                  <span className="hidden sm:inline">Step {s.num}</span>
+                  <span className="hidden sm:inline">{t('Step')} {s.num}</span>
                 </div>
-                <div className="text-[11px] truncate mt-0.5">{s.title}</div>
+                <div className="text-[11px] truncate mt-0.5">{t(s.title)}</div>
               </div>
             );
           })}
@@ -408,7 +408,7 @@ export const CropRegistration: React.FC = () => {
           {/* Transparent Algorithm Banner */}
           <div className="bg-emerald-900 text-white p-5 rounded-2xl shadow-md border border-emerald-700">
             <div className="flex items-center gap-2 font-black text-amber-300 text-sm mb-1">
-              <span>⚡ KrishiSetu Deterministic Allocation Engine</span>
+              <span>⚡ KISAN-Q Deterministic Allocation Engine</span>
             </div>
             <h2 className="text-xl font-black text-white">
               Rule-Based Procurement Centre Recommendation

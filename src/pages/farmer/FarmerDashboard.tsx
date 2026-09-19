@@ -106,7 +106,7 @@ export const FarmerDashboard: React.FC = () => {
             {/* Centre & Slot */}
             <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5" /> Mandi / Date
+                <MapPin className="w-3.5 h-3.5" /> {t('Mandi / Date')}
               </span>
               <strong className="text-slate-800 text-sm block mt-1 leading-tight">
                 {activeProcurement.centreName}
@@ -126,11 +126,11 @@ export const FarmerDashboard: React.FC = () => {
                   {activeProcurement.queueStatus === 'Completed' ? '0' : activeProcurement.queuePosition}
                 </span>
                 <span className="text-xs text-slate-500">
-                  {activeProcurement.queueStatus === 'Completed' ? 'Processed' : t.farmersAhead}
+                  {activeProcurement.queueStatus === 'Completed' ? t('Processed') : t.farmersAhead}
                 </span>
               </div>
               <Link to="/farmer/queue" className="text-xs text-emerald-700 hover:underline font-bold mt-1 inline-block">
-                View Mandi Live Queue →
+                {t('View Mandi Live Queue →')}
               </Link>
             </div>
 
@@ -141,15 +141,15 @@ export const FarmerDashboard: React.FC = () => {
               </span>
               <span className="text-2xl font-black text-emerald-950 mt-1 block">
                 {activeProcurement.queueStatus === 'Completed'
-                  ? '0 mins'
-                  : `~${activeProcurement.estimatedWaitMinutes} mins`}
+                  ? `0 ${t('mins')}`
+                  : `~${activeProcurement.estimatedWaitMinutes} ${t('mins')}`}
               </span>
               <span className="text-[11px] text-emerald-700 mt-1 block">
                 {activeProcurement.queueStatus === 'Called'
-                  ? '🚀 Called to Gate Now!'
+                  ? `🚀 ${t('Called to Gate Now!')}`
                   : activeProcurement.queueStatus === 'Completed'
-                  ? '✓ Procurement Done'
-                  : 'Based on current weighing rate'}
+                  ? `✓ ${t('Procurement Done')}`
+                  : t('Based on current weighing rate')}
               </span>
             </div>
 
@@ -159,10 +159,10 @@ export const FarmerDashboard: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-50 rounded-2xl p-4 border border-slate-100">
             <div className="flex items-center gap-3">
               <span className="text-xs text-slate-500 font-semibold">
-                Procurement Stage:
+                {t('Procurement Stage:')}
               </span>
               <span className="text-xs font-bold text-slate-800 bg-white px-3 py-1 rounded-lg border border-slate-200">
-                {activeProcurement.stage.replace(/_/g, ' ')}
+                {t(activeProcurement.stage.replace(/_/g, ' '))}
               </span>
             </div>
 
@@ -172,14 +172,14 @@ export const FarmerDashboard: React.FC = () => {
                 className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <QrCode className="w-3.5 h-3.5" />
-                <span>Show QR Pass</span>
+                <span>{t('Show QR Pass')}</span>
               </button>
               <button
                 onClick={() => navigate('/farmer/status')}
                 className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Activity className="w-3.5 h-3.5" />
-                <span>Track Progress</span>
+                <span>{t('Track Progress')}</span>
               </button>
             </div>
           </div>
@@ -199,7 +199,7 @@ export const FarmerDashboard: React.FC = () => {
             className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2 shadow-md transition-colors"
           >
             <PlusCircle className="w-5 h-5" />
-            <span>Register Crop & Book Mandi Slot</span>
+            <span>{t('Register Crop & Book Mandi Slot')}</span>
           </Link>
         </div>
       )}
@@ -217,7 +217,7 @@ export const FarmerDashboard: React.FC = () => {
               <PlusCircle className="w-5 h-5" />
             </div>
             <strong className="text-sm text-slate-900 block">{t.navRegisterCrop}</strong>
-            <span className="text-xs text-slate-500">Smart Recommendation</span>
+            <span className="text-xs text-slate-500">{t('Smart Recommendation')}</span>
           </Link>
 
           <Link
@@ -228,7 +228,7 @@ export const FarmerDashboard: React.FC = () => {
               <Calendar className="w-5 h-5" />
             </div>
             <strong className="text-sm text-slate-900 block">{t.navMySlot}</strong>
-            <span className="text-xs text-slate-500">View Pass & QR</span>
+            <span className="text-xs text-slate-500">{t('View Pass & QR')}</span>
           </Link>
 
           <Link
@@ -239,7 +239,7 @@ export const FarmerDashboard: React.FC = () => {
               <Users className="w-5 h-5" />
             </div>
             <strong className="text-sm text-slate-900 block">{t.navQueue}</strong>
-            <span className="text-xs text-slate-500">Live Yard Tracking</span>
+            <span className="text-xs text-slate-500">{t('Live Yard Tracking')}</span>
           </Link>
 
           <Link
@@ -250,7 +250,7 @@ export const FarmerDashboard: React.FC = () => {
               <CreditCard className="w-5 h-5" />
             </div>
             <strong className="text-sm text-slate-900 block">{t.navPayments}</strong>
-            <span className="text-xs text-slate-500">Direct DBT Disbursal</span>
+            <span className="text-xs text-slate-500">{t('Direct DBT Disbursal')}</span>
           </Link>
 
         </div>

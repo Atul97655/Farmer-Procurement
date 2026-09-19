@@ -13,6 +13,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 // WeakMaps to store the original English text and attributes of DOM nodes
 const originalTextMap = new WeakMap<Node, string>();
+const translatedTextMap = new WeakMap<Node, string>();
 const originalAttrMap = new WeakMap<Element, { placeholder?: string; title?: string }>();
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -33,8 +34,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     document.documentElement.lang = language;
 
-    let isTranslating = false;
-
     const translateNode = (node: Node) => {
       if (!node) return;
 
@@ -51,9 +50,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
         const target = language === 'en' ? orig : translateText(orig, language);
         if (node.nodeValue !== target) {
-          isTranslating = true;
+          translatedTextMap.set(node, target);
           node.nodeValue = target;
-          isTranslating = false;
         }
         return;
       }
@@ -123,8 +121,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     // MutationObserver to automatically translate newly added or modified nodes
     const observer = new MutationObserver((mutations) => {
-      if (isTranslating) return;
-
       for (const mutation of mutations) {
         if (mutation.type === 'childList') {
           for (let i = 0; i < mutation.addedNodes.length; i++) {
@@ -136,19 +132,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             const currentVal = targetNode.nodeValue || '';
             if (!currentVal.trim()) continue;
 
-            const orig = originalTextMap.get(targetNode);
-            const expected = languageRef.current === 'en' 
-              ? orig 
-              : (orig ? translateText(orig, languageRef.current) : null);
+            // If the change was our own translation being applied, do not process
+            if (translatedTextMap.get(targetNode) === currentVal) {
+              continue;
+            }
 
-            if (currentVal !== expected) {
-              // Node was updated dynamically by React with new content
-              originalTextMap.set(targetNode, currentVal);
-              if (languageRef.current !== 'en') {
-                isTranslating = true;
-                targetNode.nodeValue = translateText(currentVal, languageRef.current);
-                isTranslating = false;
-              }
+            // Otherwise, content was changed by React with new English text
+            originalTextMap.set(targetNode, currentVal);
+            if (languageRef.current !== 'en') {
+              const target = translateText(currentVal, languageRef.current);
+              translatedTextMap.set(targetNode, target);
+              targetNode.nodeValue = target;
             }
           }
         }
