@@ -33,6 +33,9 @@ export const MySlotPage: React.FC = () => {
 
   const handleCancel = async (id: string, token: string) => {
     if (window.confirm(`Are you sure you want to cancel slot for Token #${token}?`)) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       await cancelSlot(id, 'Cancelled by farmer from My Bookings.');
     }
   };

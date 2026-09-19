@@ -21,7 +21,9 @@ export const KishanSahayakVoice: React.FC<KishanSahayakVoiceProps> = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [spokenText, setSpokenText] = useState('');
 
-  // Stop speech if unmounting
+  const isCancelled = !procurement || procurement.queueStatus === 'Cancelled';
+
+  // Stop speech if unmounting or if token was cancelled
   useEffect(() => {
     return () => {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -30,10 +32,31 @@ export const KishanSahayakVoice: React.FC<KishanSahayakVoiceProps> = ({
     };
   }, []);
 
+  // When token is cancelled or removed, immediately stop speech and clear old active transcript
+  useEffect(() => {
+    if (isCancelled) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setIsSpeaking(false);
+      setSpokenText('');
+    }
+  }, [isCancelled, procurement?.id, procurement?.queueStatus]);
+
   const getSpeechScript = (lang: SupportedVoiceLang): string => {
-    const token = procurement?.tokenNumber || 'PDC-1042';
-    const crop = procurement?.cropType || 'धान';
-    const qty = procurement?.declaredQuantity || 45;
+    if (isCancelled) {
+      if (lang === 'hi') {
+        return 'नमस्कार किसान भाई। वर्तमान में आपका कोई सक्रिय कतार टोकन नहीं है अथवा आपका टोकन रद्द कर दिया गया है। नई तारीख या समय पर स्लॉट बुक करने के लिए कृपया फसल पंजीकरण पर जाएं।';
+      }
+      if (lang === 'or') {
+        return 'ନମସ୍କାର କୃଷକ ଭାଇ। ବର୍ତ୍ତମାନ ଆପଣଙ୍କର କୌଣସି ସକ୍ରିୟ ଟୋକନ୍ ନାହିଁ କିମ୍ବା ଆପଣଙ୍କ ଟୋକନ୍ ବାତିଲ ହୋଇଛି। ନୂତନ ସ୍ଲଟ୍ ବୁକିଂ କରିବା ପାଇଁ ଦୟାକରି ଫସଲ ପଞ୍ଜୀକରଣ କରନ୍ତୁ।';
+      }
+      return 'Hello respected farmer. You currently do not have an active queue token or your previous token was cancelled. Please book a new slot under Crop Registration.';
+    }
+
+    const token = procurement.tokenNumber;
+    const crop = procurement.cropType;
+    const qty = procurement.declaredQuantity;
 
     if (lang === 'hi') {
       return `नमस्कार किसान भाई। आपका टोकन नंबर है ${token}। आप ${centreName} पर कतार में नंबर ${queuePosition} पर हैं। हमारी एआई प्रणाली के अनुसार अनुमानित प्रतीक्षा समय लगभग ${estimatedWaitMinutes} मिनट है। आपका ${crop} फसल का भार ${qty} क्विंटल है। कृपया वाहन अनलोडिंग बे के पास तैयार रहें।`;
@@ -105,12 +128,26 @@ export const KishanSahayakVoice: React.FC<KishanSahayakVoiceProps> = ({
                 <span className="text-emerald-400">·</span>
                 <span className="text-xs font-normal text-emerald-200">किसान सहायक</span>
               </h3>
-              <span className="text-[10px] font-mono bg-emerald-400/20 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-400/30">
-                Voice Assistant
+              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                isCancelled
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+                  : 'bg-emerald-400/20 text-emerald-200 border-emerald-400/30'
+              }`}>
+                {isCancelled ? (procurement?.queueStatus === 'Cancelled' ? 'Token Cancelled' : 'No Active Token') : 'Live Voice Status'}
               </span>
             </div>
             <p className="text-xs text-emerald-200/80 mt-0.5">
-              Spoken queue status & instructions for farmers who prefer audio updates.
+              {isCancelled
+                ? (selectedLang === 'hi'
+                    ? 'टोकन रद्द कर दिया गया है। कतार की लाइव घोषणा रोक दी गई है।'
+                    : selectedLang === 'or'
+                    ? 'ଟୋକନ୍ ବାତିଲ ହୋଇଛି। ଲାଇଭ୍ ଘୋଷଣା ସ୍ଥଗିତ ରଖାଯାଇଛି।'
+                    : 'Token is cancelled. Live queue audio announcements are suspended.')
+                : (selectedLang === 'hi'
+                    ? 'ऑडियो अपडेट पसंद करने वाले किसानों के लिए कतार स्थिति एवं दिशानिर्देश।'
+                    : selectedLang === 'or'
+                    ? 'ଅଡିଓ ଅପଡେଟ୍ ପସନ୍ଦ କରୁଥିବା କୃଷକଙ୍କ ପାଇଁ ଧାଡ଼ି ସ୍ଥିତି ଏବଂ ନିର୍ଦ୍ଦେଶନାମା।'
+                    : 'Spoken queue status & instructions for farmers who prefer audio updates.')}
             </p>
           </div>
         </div>
@@ -159,6 +196,8 @@ export const KishanSahayakVoice: React.FC<KishanSahayakVoiceProps> = ({
           className={`px-5 py-3 rounded-2xl font-black text-xs flex items-center gap-2.5 shadow-md transition-all cursor-pointer ${
             isSpeaking
               ? 'bg-rose-600 hover:bg-rose-700 text-white ring-2 ring-rose-400/40 animate-pulse'
+              : isCancelled
+              ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-amber-500/20'
               : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-emerald-500/20'
           }`}
         >
@@ -176,7 +215,11 @@ export const KishanSahayakVoice: React.FC<KishanSahayakVoiceProps> = ({
           ) : (
             <>
               <Volume2 className="w-4 h-4" />
-              <span>Listen to My Queue Status</span>
+              <span>
+                {isCancelled
+                  ? (selectedLang === 'hi' ? 'रद्द स्थिति सुनें' : selectedLang === 'or' ? 'ବାତିଲ ସ୍ଥିତି ଶୁଣନ୍ତୁ' : 'Hear Cancellation Status')
+                  : (selectedLang === 'hi' ? 'मेरी कतार स्थिति सुनें' : selectedLang === 'or' ? 'ମୋର ଧାଡ଼ି ସ୍ଥିତି ଶୁଣନ୍ତୁ' : 'Listen to My Queue Status')}
+              </span>
             </>
           )}
         </button>

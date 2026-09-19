@@ -527,6 +527,15 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const cancelSlot = async (procurementId: string, reason?: string) => {
+    // Immediately silence any active audio speech synthesis
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        console.warn('Speech synthesis cancellation error:', e);
+      }
+    }
+
     try {
       await api.cancelSlot(procurementId, reason);
     } catch (e) {

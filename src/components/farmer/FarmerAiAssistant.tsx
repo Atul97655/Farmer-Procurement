@@ -281,6 +281,16 @@ export const FarmerAiAssistant: React.FC = () => {
     window.speechSynthesis.speak(utterance);
   };
 
+  // If token is cancelled while speech is active, immediately silence speech
+  useEffect(() => {
+    if (!activeProcurement && activeSpeech) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setActiveSpeech(null);
+    }
+  }, [activeProcurement, activeSpeech]);
+
   return (
     <>
       {/* Floating AI Sahayak Trigger Button */}

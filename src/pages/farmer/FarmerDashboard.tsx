@@ -30,10 +30,13 @@ export const FarmerDashboard: React.FC = () => {
 
   // Get current active procurement for this farmer
   const farmerProcurements = procurements.filter(p => p.farmerId === activeFarmer.id);
-  const activeProcurement = farmerProcurements.find(p => p.queueStatus !== 'Cancelled') || farmerProcurements[0];
+  const activeProcurement = farmerProcurements.find(p => p.queueStatus !== 'Cancelled');
 
   const handleCancelBooking = async (id: string, token: string) => {
     if (window.confirm(`Are you sure you want to cancel slot for Token #${token}?`)) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       await cancelSlot(id, 'Cancelled by farmer from dashboard.');
     }
   };

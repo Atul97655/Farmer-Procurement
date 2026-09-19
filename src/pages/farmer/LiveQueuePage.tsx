@@ -141,8 +141,8 @@ export const LiveQueuePage: React.FC = () => {
       <KishanSahayakVoice
         procurement={currentFarmerProc}
         centreName={currentCentre.name}
-        queuePosition={currentFarmerProc ? currentFarmerProc.queuePosition : 4}
-        estimatedWaitMinutes={currentFarmerProc ? currentFarmerProc.estimatedWaitMinutes : 35}
+        queuePosition={currentFarmerProc ? currentFarmerProc.queuePosition : 0}
+        estimatedWaitMinutes={currentFarmerProc ? currentFarmerProc.estimatedWaitMinutes : 0}
       />
 
       {/* Search & Filter Bar */}

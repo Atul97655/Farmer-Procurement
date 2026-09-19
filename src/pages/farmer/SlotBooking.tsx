@@ -156,6 +156,9 @@ export const SlotBooking: React.FC = () => {
   const handleCancelBooking = async () => {
     if (!createdRecord) return;
     if (window.confirm('Are you sure you want to cancel this booking? This will release your reserved slot immediately.')) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       await cancelSlot(createdRecord.id, 'Cancelled by farmer during 1-min grace period.');
       setIsCancelled(true);
       setToastMessage('Booking has been cancelled. Mandi capacity was released.');
