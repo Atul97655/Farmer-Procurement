@@ -158,6 +158,23 @@ class ApiService {
     return res.procurement;
   }
 
+  async updateSlotBooking(procurementId: string, data: Partial<{
+    cropType: CropType;
+    variety: string;
+    declaredQuantity: number;
+    centreId: string;
+    slotDate: string;
+    slotTime: string;
+    transportMode: string;
+    harvestDate: string;
+  }>): Promise<ProcurementRecord> {
+    const res = await this.request<{ success: boolean; procurement: ProcurementRecord }>(`/procurements/${procurementId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+    return res.procurement;
+  }
+
   async cancelSlot(procurementId: string, reason?: string): Promise<ProcurementRecord> {
     const res = await this.request<{ success: boolean; procurement: ProcurementRecord }>(`/procurements/${procurementId}/cancel`, {
       method: 'POST',

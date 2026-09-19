@@ -10,7 +10,7 @@ export const queueRouter = Router();
  * Get live queue state for a procurement centre
  */
 queueRouter.get('/:centreId', (req: Request, res: Response) => {
-  const { centreId } = req.params;
+  const centreId = req.params.centreId as string;
   const centre = db.centres.findById(centreId);
 
   if (!centre) {

@@ -16,7 +16,7 @@ farmersRouter.get('/', (req: Request, res: Response) => {
  * Get farmer profile by ID
  */
 farmersRouter.get('/:id', (req: Request, res: Response) => {
-  const farmer = db.farmers.findById(req.params.id);
+  const farmer = db.farmers.findById(req.params.id as string);
   if (!farmer) {
     return res.status(404).json({ error: 'Farmer not found' });
   }
@@ -59,7 +59,7 @@ farmersRouter.post('/', (req: Request, res: Response) => {
  * Update farmer profile
  */
 farmersRouter.patch('/:id', (req: Request, res: Response) => {
-  const updated = db.farmers.update(req.params.id, req.body);
+  const updated = db.farmers.update(req.params.id as string, req.body);
   if (!updated) {
     return res.status(404).json({ error: 'Farmer not found' });
   }

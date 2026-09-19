@@ -61,7 +61,21 @@ interface AppStateContextType {
     transportMode: string;
   }) => ProcurementRecord;
 
-  cancelSlot: (procurementId: string) => void;
+  updateSlotBooking: (
+    procurementId: string,
+    data: Partial<{
+      cropType: CropType;
+      variety: string;
+      declaredQuantity: number;
+      centreId: string;
+      slotDate: string;
+      slotTime: string;
+      transportMode: string;
+      harvestDate: string;
+    }>
+  ) => Promise<ProcurementRecord | undefined>;
+
+  cancelSlot: (procurementId: string, reason?: string) => Promise<void>;
   callFarmer: (procurementId: string) => void;
   gateCheckin: (tokenOrQr: string) => Promise<boolean>;
   updateQueueStatus: (procurementId: string, status: QueueStatus) => void;
@@ -406,7 +420,119 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return newRecord;
   };
 
-  const cancelSlot = (procurementId: string) => {
+  const updateSlotBooking = async (
+    procurementId: string,
+    data: Partial<{
+      cropType: CropType;
+      variety: string;
+      declaredQuantity: number;
+      centreId: string;
+      slotDate: string;
+      slotTime: string;
+      transportMode: string;
+      harvestDate: string;
+    }>
+  ): Promise<ProcurementRecord | undefined> => {
+    try {
+      const updatedBackend = await api.updateSlotBooking(procurementId, data);
+      if (updatedBackend) {
+        setProcurements(prev => prev.map(p => p.id === updatedBackend.id ? updatedBackend : p));
+        api.getCentres().then(cList => { if (cList?.length) setCentres(cList); }).catch(() => {});
+        setLastSyncTime(new Date());
+        return updatedBackend;
+      }
+    } catch (e) {
+      console.warn('Backend updateSlotBooking failed, updating locally:', e);
+    }
+
+    // Local fallback update
+    let updatedRecord: ProcurementRecord | undefined;
+    setProcurements(prev =>
+      prev.map(p => {
+        if (p.id === procurementId) {
+          const newCentre = centres.find(c => c.id === (data.centreId || p.centreId)) || centres[0];
+          const newCrop = (data.cropType || p.cropType) as CropType;
+          const newQty = data.declaredQuantity !== undefined ? Number(data.declaredQuantity) : p.declaredQuantity;
+          const newVariety = data.variety || p.variety;
+          const newSlotDate = data.slotDate || p.slotDate;
+          const newSlotTime = data.slotTime || p.slotTime;
+          const newTransport = data.transportMode || p.transportMode;
+          const newHarvest = data.harvestDate || p.harvestDate;
+
+          const qrData = `KRISHISETU:${p.tokenNumber}:${p.farmerId}:${newCentre.code}:${newQty}QTL:${newCrop.toUpperCase()}`;
+          const note = `Edited within 1-min grace window: ${newCrop} (${newVariety}), ${newQty} Qtl at ${newCentre.name}, Date: ${newSlotDate} (${newSlotTime}).`;
+
+          updatedRecord = {
+            ...p,
+            cropType: newCrop,
+            variety: newVariety,
+            declaredQuantity: newQty,
+            centreId: newCentre.id,
+            centreName: newCentre.name,
+            slotDate: newSlotDate,
+            slotTime: newSlotTime,
+            transportMode: newTransport,
+            harvestDate: newHarvest,
+            qrData,
+            timeline: [
+              ...p.timeline,
+              {
+                stage: p.stage,
+                timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }),
+                title: 'Booking Details Modified (1-Min Window)',
+                description: note
+              }
+            ]
+          };
+          return updatedRecord;
+        }
+        return p;
+      })
+    );
+
+    // Update centre loads locally
+    const target = procurements.find(p => p.id === procurementId);
+    if (target) {
+      const oldCentreId = target.centreId;
+      const newCentreId = data.centreId || oldCentreId;
+      const newQty = data.declaredQuantity !== undefined ? Number(data.declaredQuantity) : target.declaredQuantity;
+
+      setCentres(prev =>
+        prev.map(c => {
+          if (oldCentreId === newCentreId && c.id === oldCentreId) {
+            const diff = newQty - target.declaredQuantity;
+            return { ...c, currentLoad: Math.max(0, c.currentLoad + diff) };
+          }
+          if (c.id === oldCentreId) {
+            return {
+              ...c,
+              queueLength: Math.max(0, c.queueLength - 1),
+              currentLoad: Math.max(0, c.currentLoad - target.declaredQuantity)
+            };
+          }
+          if (c.id === newCentreId) {
+            return {
+              ...c,
+              queueLength: c.queueLength + 1,
+              currentLoad: c.currentLoad + newQty
+            };
+          }
+          return c;
+        })
+      );
+    }
+
+    setLastSyncTime(new Date());
+    return updatedRecord;
+  };
+
+  const cancelSlot = async (procurementId: string, reason?: string) => {
+    try {
+      await api.cancelSlot(procurementId, reason);
+    } catch (e) {
+      console.warn('Backend cancelSlot error, proceeding locally:', e);
+    }
+
     setProcurements(prev =>
       prev.map(p => {
         if (p.id === procurementId) {
@@ -419,7 +545,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 stage: p.stage,
                 timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }),
                 title: 'Slot Cancelled',
-                description: 'Slot cancelled by farmer.'
+                description: reason || 'Slot cancelled by farmer during grace window.'
               }
             ]
           };
@@ -1051,6 +1177,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         lastSyncTime,
         syncNow,
         registerAndBookSlot,
+        updateSlotBooking,
         cancelSlot,
         callFarmer,
         gateCheckin,
