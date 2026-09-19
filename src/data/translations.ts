@@ -417,3 +417,913 @@ export const translations = {
     rupees: '₹'
   }
 };
+
+/**
+ * Universal Comprehensive Phrase Dictionary
+ * Mapped systematically for Hindi (hi) and Odia (or)
+ */
+export const PHRASE_DICTIONARY: Record<'hi' | 'or', Record<string, string>> = {
+  hi: {
+    // Brand & System
+    'KISAN-Q': 'किसान-क्यू (KISAN-Q)',
+    'Smart Crop Procurement & Queue Management Platform': 'स्मार्ट फसल खरीद एवं कतार प्रबंधन प्रणाली',
+    'Department of Agriculture & Farmers Empowerment': 'कृषि एवं किसान सशक्तिकरण विभाग',
+    'Government of Odisha / Government of India': 'ओडिशा सरकार / भारत सरकार',
+    'Ministry of Agriculture & Farmers Welfare, Govt. of India': 'कृषि एवं किसान कल्याण मंत्रालय, भारत सरकार',
+    'Ministry of Consumer Affairs, Food & Public Distribution': 'उपभोक्ता मामले, खाद्य एवं सार्वजनिक वितरण मंत्रालय',
+    'Quick Role Switcher': 'त्वरित भूमिका परिवर्तक',
+    'Quick Role Switcher:': 'त्वरित भूमिका परिवर्तक:',
+    'Switch roles to test real-time synchronization across the procurement lifecycle': 'खरीद प्रक्रिया में वास्तविक समय समन्वय का परीक्षण करने के लिए भूमिकाएं बदलें',
+    'Reset Demo Data': 'डेमो डेटा रीसेट करें',
+    'Reset All Data': 'सभी डेटा रीसेट करें',
+    'Demo Mode': 'डेमो मोड',
+    'Collapse': 'समेटें',
+    'Connected (Live Sync)': 'सक्रिय (लाइव सिंक)',
+    'Weak Network (2G Cache)': 'धीमा नेटवर्क (2जी कैश)',
+    'Offline Mode': 'ऑफ़लाइन मोड',
+    'Last synced': 'अंतिम सिंक',
+    'Sync Now': 'अभी सिंक करें',
+    'Force Sync': 'तुरंत सिंक करें',
+    'Logged in as': 'लॉग इन:',
+    'Simulate Network Condition': 'नेटवर्क स्थिति सिम्युलेट करें',
+    'Live Sync': 'लाइव सिंक',
+    '2G Network': '2जी नेटवर्क',
+    'Offline': 'ऑफ़लाइन',
+
+    // Roles & Switcher
+    'Farmer Portal': 'किसान पोर्टल',
+    'Procurement Centre Operator': 'मंडी ऑपरेटर पोर्टल',
+    'State Administrator': 'राज्य व्यवस्थापक पोर्टल',
+    'State Agri Admin': 'राज्य कृषि व्यवस्थापक',
+    'Mandi Operator': 'मंडी ऑपरेटर',
+    'Switch Role': 'भूमिका बदलें',
+    'Active Persona:': 'सक्रिय भूमिका:',
+    'Switch to': 'बदलें:',
+    'Farmer': 'किसान',
+    'Operator': 'ऑपरेटर',
+    'Admin': 'व्यवस्थापक',
+    'Ramesh Kumar (Farmer)': 'रमेश कुमार (किसान)',
+    'Priya Patel (Farmer)': 'प्रिया पटेल (किसान)',
+    'Bhadrak Mandi (Operator)': 'भद्रक मंडी (ऑपरेटर)',
+    'Puri RMC Mandi (Operator)': 'पुरी आरएमसी मंडी (ऑपरेटर)',
+
+    // Navigation
+    'Dashboard': 'डैशबोर्ड',
+    'Register Crop': 'फसल पंजीकरण',
+    'Book Slot': 'स्लॉट बुक करें',
+    'My Slot & Pass': 'मेरा स्लॉट एवं पास',
+    'Live Queue': 'लाइव कतार',
+    'Procurement Status': 'खरीद स्थिति',
+    'Notifications': 'सूचनाएं',
+    'DBT Payments': 'डीबीटी भुगतान',
+    'Profile & Land': 'प्रोफाइल एवं भूमि',
+    'Mandi Management': 'मंडी प्रबंधन',
+    'Quality Inspection': 'गुणवत्ता जांच',
+    'Digital Weighbridge': 'डिजिटल वजन (वेब्रिज)',
+    'Procurement Records': 'खरीद अभिलेख',
+    'Analytics & Reports': 'एनालिटिक्स एवं रिपोर्ट',
+    'Farmer Registry': 'किसान सूची',
+    'Mandi Live Yard': 'मंडी लाइव यार्ड',
+    'Live Display Kiosk': 'लाइव डिस्प्ले कियोस्क',
+    'SMS Simulator': 'एसएमएस सिम्युलेटर',
+
+    // Farmer Dashboard & Actions
+    '🌾 PM-KISAN Verified Portal': '🌾 पीएम-किसान सत्यापित पोर्टल',
+    'PM-KISAN Verified Portal': 'पीएम-किसान सत्यापित पोर्टल',
+    'Farmer ID:': 'किसान आईडी:',
+    'Farmer ID': 'किसान आईडी',
+    'Upcoming Procurement': 'आगामी खरीद अनुसूची',
+    'Quick Actions': 'त्वरित सेवाएं',
+    'Token Number': 'टोकन संख्या',
+    'Crop': 'फसल',
+    'Quantity': 'मात्रा',
+    'Procurement Centre': 'खरीद केंद्र / मंडी',
+    'Scheduled Date & Time': 'निर्धारित तिथि व समय',
+    'Live Queue Position': 'लाइव कतार स्थान',
+    'farmers ahead of you': 'किसान आपके आगे हैं',
+    'Estimated Wait Time': 'अनुमानित प्रतीक्षा समय',
+    'Payment Status': 'भुगतान स्थिति',
+    'View Digital Pass': 'डिजिटल पास देखें',
+    'Track Live Queue': 'लाइव कतार ट्रैक करें',
+    'No Active Slot Booked': 'कोई सक्रिय स्लॉट बुक नहीं है',
+    'Register your crop and book a preferred procurement slot to avoid waiting in Mandi queues.': 'मंडी में लंबी कतारों से बचने के लिए अपनी फसल पंजीकृत करें और पसंदीदा स्लॉट बुक करें।',
+    'Register New Crop': 'नई फसल पंजीकृत करें',
+    'Book Procurement Slot': 'खरीद स्लॉट बुक करें',
+    'Check DBT Payment': 'डीबीटी भुगतान जांचें',
+    'View Live Queue': 'लाइव कतार देखें',
+    'SMS Notifications & Alerts': 'एसएमएस सूचनाएं एवं अलर्ट',
+    'Simulate incoming SMS messages sent to your registered mobile number': 'अपने पंजीकृत मोबाइल नंबर पर आने वाले एसएमएस संदेश देखें',
+    'Open SMS Simulator': 'एसएमएस सिम्युलेटर खोलें',
+    'Recent Activity': 'हालिया गतिविधि',
+    'Active Procurement Slot': 'सक्रिय खरीद स्लॉट',
+    'No recent activity recorded': 'कोई हालिया गतिविधि नहीं है',
+    'Token #': 'टोकन नं. ',
+
+    // Crop Registration Form
+    'Crop Procurement Registration': 'फसल खरीद पंजीकरण',
+    'Register your harvest details and receive a transparent rule-based Mandi recommendation.': 'अपनी फसल का विवरण दर्ज करें और पारदर्शी नियम-आधारित मंडी सिफारिश प्राप्त करें।',
+    'Farmer & Land Details': 'किसान एवं भूमि विवरण',
+    'Harvest & Crop Specs': 'फसल एवं उपज विवरण',
+    'Mandi Optimization': 'मंडी अनुकूलन सिफारिश',
+    'Slot Booking Confirmation': 'स्लॉट बुकिंग पुष्टि',
+    'Land & Location': 'भूमि एवं स्थान',
+    'Crop Details': 'फसल विवरण',
+    'Bank & DBT Verification': 'बैंक एवं डीबीटी सत्यापन',
+    'Review & Submit': 'समीक्षा एवं सबमिट',
+    'District': 'जिला',
+    'Block / Tehsil': 'ब्लॉक / तहसील',
+    'Block': 'ब्लॉक',
+    'Tehsil': 'तहसील',
+    'Gram Panchayat': 'ग्राम पंचायत',
+    'Village': 'गांव',
+    'Pincode': 'पिन कोड',
+    'Plot / Khata Number': 'खसरा / खाता संख्या',
+    'Total Land Area (Acres)': 'कुल भूमि क्षेत्रफल (एकड़)',
+    'Cultivated Area for Procurement': 'खरीद हेतु बोया गया क्षेत्र',
+    'Crop Name': 'फसल का नाम',
+    'Crop Season': 'फसल का मौसम',
+    'Crop Variety': 'फसल की किस्म',
+    'Variety': 'किस्म',
+    'Estimated Harvest Yield (Quintals)': 'अनुमानित उपज (क्विंटल)',
+    'Quantity Offered for Procurement': 'खरीद हेतु प्रस्तावित मात्रा',
+    'Sowing Date': 'बुवाई की तारीख',
+    'Expected Harvest Date': 'अपेक्षित कटाई की तारीख',
+    'Mode of Transport': 'परिवहन साधन',
+    'Transport Mode': 'वाहन का प्रकार',
+    'Tractor Trolley': 'ट्रैक्टर ट्रॉली',
+    'Mini Truck / Pickup': 'मिनी ट्रक / पिकअप',
+    'Bullock Cart': 'बैलगाड़ी',
+    'Bank Name': 'बैंक का नाम',
+    'Account Number': 'खाता संख्या',
+    'Confirm Account Number': 'खाता संख्या दोबारा दर्ज करें',
+    'IFSC Code': 'आईएफएससी कोड (IFSC)',
+    'Branch Name': 'शाखा का नाम',
+    'Aadhaar Linked to Bank Account': 'बैंक खाते से जुड़ा आधार',
+    'I hereby declare that the crop details and land records provided above are authentic...': 'मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई फसल और भूमि विवरण पूरी तरह सही हैं...',
+    'Back': 'पीछे जाएं',
+    'Next Step': 'अगला चरण',
+    'Submit Crop Registration': 'फसल पंजीकरण जमा करें',
+    'Registration Successful!': 'पंजीकरण सफल हुआ!',
+    'Your crop has been registered and verified with Bhulekh Land Records.': 'आपकी फसल पंजीकृत हो गई है और भूलेख भूमि रिकॉर्ड द्वारा सत्यापित है।',
+    'Proceed to Book Slot': 'स्लॉट बुकिंग के लिए आगे बढ़ें',
+    'Download Certificate': 'प्रमाण पत्र डाउनलोड करें',
+    'Please enter a valid quantity between 1 and 500 Quintals.': 'कृपया 1 से 500 क्विंटल के बीच वैध मात्रा दर्ज करें।',
+    'Please enter crop variety name.': 'कृपया फसल किस्म का नाम दर्ज करें।',
+
+    // Recommendation & Slot Booking
+    'RECOMMENDED CENTRE': 'अनुशंसित खरीद केंद्र',
+    'Lowest estimated waiting time & optimal capacity': 'न्यूनतम प्रतीक्षा समय एवं सर्वोत्तम क्षमता',
+    'Calculated using transparent formula (Distance 35% + Queue Wait 35% + Remaining Capacity 30%)': 'पारदर्शी नियम-आधारित सूत्र (दूरी 35% + कतार प्रतीक्षा 35% + शेष क्षमता 30%) द्वारा गणना',
+    'Distance': 'दूरी',
+    'Daily Capacity': 'दैनिक क्षमता',
+    'Remaining Capacity': 'शेष उपलब्ध क्षमता',
+    'Current Queue Length': 'वर्तमान कतार संख्या',
+    'Select This Centre & Book Slot': 'इस केंद्र का चयन करें एवं स्लॉट बुक करें',
+    'Alternative Procurement Centres': 'वैकल्पिक खरीद केंद्र',
+    'Select Slot Date': 'स्लॉट की तारीख चुनें',
+    'Select Available Time Window': 'उपलब्ध समय चुनें',
+    'slots available': 'स्लॉट उपलब्ध',
+    'FULL': 'भर चुका है (FULL)',
+    'Confirm & Generate Token': 'पुष्टि करें एवं टोकन प्राप्त करें',
+    'Slot Booked Successfully!': 'स्लॉट सफलतापूर्वक बुक हो गया!',
+    'Your Digital Token is Generated': 'आपका डिजिटल टोकन जारी हो गया है',
+    'Please arrive at Gate No. 1 with valid photo ID and Land Record copy 15 minutes before your time slot.': 'कृपया अपने समय से 15 मिनट पहले गेट नं. 1 पर पहचान पत्र और जमीन के कागजात के साथ पहुंचें।',
+    'Morning Slot': 'सुबह का स्लॉट',
+    'Mid-Day Slot': 'दोपहर का स्लॉट',
+    'Afternoon Slot': 'अपराह्न का स्लॉट',
+    'Evening Slot': 'शाम का स्लॉट',
+
+    // Digital Pass & QR
+    'My Booked Slot & Digital Gate Pass': 'मेरा बुक किया गया स्लॉट एवं डिजिटल गेट पास',
+    'Present this QR code at Mandi Gate No. 1 for instant barcode check-in': 'त्वरित गेट एंट्री के लिए मंडी गेट नं. 1 पर यह क्यूआर कोड दिखाएं',
+    'Digital Entry Pass': 'डिजिटल प्रवेश पास',
+    'QR Code Pass': 'क्यूआर कोड पास',
+    'Download Pass (PDF)': 'पास डाउनलोड करें (PDF)',
+    'Print Pass': 'पास प्रिंट करें',
+    'Share via SMS': 'एसएमएस द्वारा भेजें',
+    'Cancel Slot': 'स्लॉट रद्द करें',
+    'Reschedule Slot': 'समय बदलें',
+    'Security Gate Note': 'सुरक्षा गेट निर्देश',
+    'Valid Government ID proof (Aadhaar/Voter ID) mandatory upon arrival': 'आगमन पर वैध सरकारी पहचान पत्र (आधार/मतदाता पत्र) अनिवार्य है',
+
+    // Live Queue & Yard Status
+    'Live Mandi Queue & Yard Status': 'लाइव मंडी कतार एवं यार्ड स्थिति',
+    'Real-time queue tracking powered by IoT gate sensors and weight sensors': 'आईओटी गेट सेंसर एवं वेइंग सेंसर द्वारा वास्तविक समय कतार ट्रैकिंग',
+    'Your Token': 'आपका टोकन',
+    'Currently Serving': 'वर्तमान में सेवा जारी',
+    'Mandi Live Yard Queue Board': 'मंडी लाइव यार्ड कतार बोर्ड',
+    'Queue Position': 'कतार स्थान',
+    'Estimated Call Time': 'अनुमानित बुलावा समय',
+    'Gate 1 - Arrival & Security Check': 'गेट 1 - आगमन एवं सुरक्षा जांच',
+    'Station 1 - Grain Quality Inspection': 'स्टेशन 1 - अनाज गुणवत्ता परीक्षण',
+    'Station 2 - IoT Weighbridge': 'स्टेशन 2 - आईओटी वेब्रिज (तौल)',
+    'Station 3 - Godown Unloading & J-Form': 'स्टेशन 3 - गोदाम खाली करना एवं जे-फॉर्म',
+    'Tokens in Yard': 'यार्ड में टोकन संख्या',
+    'Average Processing Time': 'औसत प्रसंस्करण समय',
+    'Mandi Operations Status: NORMAL': 'मंडी संचालन स्थिति: सामान्य',
+    'Waiting': 'प्रतीक्षारत',
+    'Called to Gate': 'गेट पर बुलाया गया',
+    'Called': 'बुलाया गया',
+    'Quality Check': 'गुणवत्ता जांच',
+    'Weighing': 'तौल जारी',
+    'Procurement Completed': 'खरीद पूर्ण',
+    'Completed': 'पूर्ण',
+    'On Hold': 'होल्ड पर',
+    'Hold': 'होल्ड',
+    'Cancelled': 'रद्द',
+
+    // Quality Check & AI Grain
+    'Quality Inspection & Grain Analysis': 'गुणवत्ता परीक्षण एवं अनाज विश्लेषण',
+    'Automated grain analysis with optical moisture & defect detection': 'ऑप्टिकल नमी एवं दोष पहचान के साथ स्वचालित अनाज विश्लेषण',
+    'AI Grain Quality Assistant': 'एआई अनाज गुणवत्ता सहायक',
+    'AI Optical Analysis': 'एआई ऑप्टिकल विश्लेषण',
+    'Moisture Content': 'नमी की मात्रा',
+    'Foreign Matter / Dust': 'विजातीय तत्व / धूल (%)',
+    'Damaged & Discolored Grains': 'क्षतिग्रस्त एवं बदरंग दाने (%)',
+    'Immature & Shriveled Grains': 'अपरिपक्व एवं सिकुड़े दाने (%)',
+    'Calculated Grade': 'निर्धारित गुणवत्ता श्रेणी',
+    'Officer Remarks': 'अधिकारी की टिप्पणी',
+    'Pass & Send to Weighbridge': 'पास करें और वेब्रिज भेजें',
+    'PASS & Send to Weighbridge': 'पास करें और वेब्रिज भेजें',
+    'Fail & Reject Batch': 'फेल / अस्वीकृत करें',
+    'FAIL & Reject Batch': 'फेल / अस्वीकृत करें',
+    'Put on Hold': 'होल्ड पर रखें',
+    'PUT ON HOLD': 'होल्ड पर रखें',
+    'Start AI Camera Inspection': 'एआई कैमरा जांच शुरू करें',
+    'Capture Sample': 'नमूना कैप्चर करें',
+    'Analyze Sample': 'नमूना विश्लेषण करें',
+    'Standard quality grain conforming to FAQ specifications.': 'मानक गुणवत्ता का अनाज जो FAQ विनिर्देशों के अनुरूप है।',
+    'Quality Grade': 'गुणवत्ता श्रेणी',
+    'Grade A': 'ग्रेड \'ए\'',
+    'Grade B': 'ग्रेड \'बी\'',
+    'FAQ (Fair Average Quality)': 'उचित औसत गुणवत्ता (FAQ)',
+    'Rejected': 'अस्वीकृत',
+    'Pending': 'लंबित',
+
+    // Digital Weighbridge
+    'Digital Weighbridge Operations': 'डिजिटल वेब्रिज संचालन',
+    'Digital Weighbridge Gross & Tare Logger': 'डिजिटल वेब्रिज ग्रॉस एवं तारे वजन लॉगर',
+    'Automated weighbridge interface calculating Net Crop Weight = Gross Weight - Tare Weight.': 'स्वचालित वेब्रिज इंटरफेस: शुद्ध वजन = सकल वजन - खाली वाहन वजन।',
+    'Select Token for Weighbridge Measurement:': 'वेब्रिज माप के लिए टोकन चुनें:',
+    'Electronic Weighbridge': 'इलेक्ट्रॉनिक वेब्रिज',
+    'Gross Weight (Vehicle + Crop)': 'सकल वजन (वाहन + फसल)',
+    'Tare Weight (Empty Vehicle)': 'खाली वाहन वजन (तारे)',
+    'Net Weight (Verified Crop)': 'शुद्ध फसल वजन (Net Weight)',
+    'Declared Weight': 'घोषित मात्रा',
+    'Declared Quantity': 'घोषित मात्रा',
+    'Complete Procurement & Issue J-Form': 'खरीद पूर्ण करें एवं जे-फॉर्म जारी करें',
+    'Weight Variance': 'वजन का अंतर',
+    'Bag Count': 'बोरियों की संख्या',
+    'Vehicle Number': 'वाहन संख्या',
+    'Operator Name': 'ऑपरेटर का नाम',
+    'Capture Stable Weight': 'स्थिर वजन दर्ज करें',
+    'Capture Gross Weight': 'सकल वजन लें',
+    'Capture Tare Weight': 'तारे वजन लें',
+    'Zero Tare': 'जीरो तारे (शून्य करें)',
+    'Print Weighbridge Slip': 'वजन पर्ची प्रिंट करें',
+    'IoT Digital Weighbridge Simulator': 'आईओटी डिजिटल वेब्रिज सिम्युलेटर',
+    'Live Weighbridge Indicator': 'लाइव वेब्रिज इंडिकेटर',
+    'Stabilized Reading': 'स्थिर रीडिंग',
+    'Apply Weights to Form': 'फॉर्म में वजन लागू करें',
+
+    // Procurement Complete & J-Form
+    'Procurement Receipt & J-Form Generation': 'खरीद रसीद एवं जे-फॉर्म जारी करना',
+    'Official receipt issued under State Agricultural Produce Marketing Act': 'राज्य कृषि उपज विपणन अधिनियम के तहत जारी आधिकारिक रसीद',
+    'J-Form Certificate Number': 'जे-फॉर्म प्रमाण पत्र संख्या',
+    'Farmer Details': 'किसान का विवरण',
+    'Mandi Name': 'मंडी का नाम',
+    'Commodity': 'फसल / जिंस',
+    'Total Net Quantity': 'कुल शुद्ध मात्रा',
+    'MSP Rate Applied': 'लागू न्यूनतम समर्थन मूल्य (MSP)',
+    'Total Payable': 'कुल देय राशि',
+    'Issue J-Form & Push to PFMS': 'जे-फॉर्म जारी करें एवं PFMS को भेजें',
+    'Print Official Receipt': 'आधिकारिक रसीद प्रिंट करें',
+
+    // DBT Payments
+    'Direct Benefit Transfer (DBT) Tracker': 'प्रत्यक्ष लाभ अंतरण (DBT) ट्रैकर',
+    'Total Procurement Amount': 'कुल खरीद राशि',
+    'Applied MSP Rate': 'लागू न्यूनतम समर्थन मूल्य (MSP)',
+    'PFMS Batch Number': 'पीएफएमएस बैच संख्या',
+    'Bank Transaction Reference (UTR)': 'बैंक यूटीआर संदर्भ (UTR)',
+    'Step 1: Procurement Completed': 'चरण 1: खरीद पूर्ण हुई',
+    'Step 2: Payment Calculated': 'चरण 2: राशि की गणना हुई',
+    'Step 3: PFMS Batch Initiated': 'चरण 3: PFMS बैच तैयार हुआ',
+    'Step 4: Processing at Bank': 'चरण 4: बैंक में प्रसंस्करण जारी',
+    'Step 5: Payment Credited to Bank A/C': 'चरण 5: खाते में राशि जमा हुई',
+    'Credit Date': 'जमा होने की तारीख',
+
+    // Admin & Centre Management
+    'Statewide Procurement Monitoring & Intelligence': 'राज्य स्तरीय खरीद निगरानी एवं विश्लेषण',
+    'Total Registered Farmers': 'कुल पंजीकृत किसान',
+    'Active Procurement Centres': 'सक्रिय खरीद केंद्र',
+    'Total Procured (Quintals)': 'कुल खरीद (क्विंटल)',
+    'Total Disbursed Value': 'कुल वितरित राशि',
+    'Pending Registrations': 'लंबित पंजीकरण',
+    'Pending DBT Disbursals': 'लंबित डीबीटी भुगतान',
+    'Mandi Workload & Real-time Capacity': 'मंडी कार्यभार एवं वास्तविक क्षमता',
+    'Add New Procurement Centre': 'नया खरीद केंद्र जोड़ें',
+    'Edit Daily Capacity': 'दैनिक क्षमता संशोधित करें',
+    'Change Status': 'स्थिति बदलें',
+    'Procurement Centre Name': 'खरीद केंद्र का नाम',
+    'District / Location': 'जिला / स्थान',
+    'Today\'s Intake Overview': 'आज की आवक का विवरण',
+    'Waiting in Yard': 'यार्ड में प्रतीक्षारत',
+    'In Inspection/Weighing': 'जांच / तौल में',
+    'Total Procured Today': 'आज की कुल खरीद',
+    'Call Farmer': 'किसान को बुलाएं',
+    'Start Quality Check': 'गुणवत्ता जांच शुरू करें',
+    'Start Weighing': 'तौल शुरू करें',
+
+    // General Buttons & Table terms
+    'Submit': 'जमा करें',
+    'Cancel': 'रद्द करें',
+    'Save': 'सहेजें',
+    'Confirm': 'पुष्टि करें',
+    'Download': 'डाउनलोड',
+    'Download Receipt / J-Form': 'रसीद / जे-फॉर्म डाउनलोड करें',
+    'Download PDF': 'पीडीएफ डाउनलोड करें',
+    'Print Receipt': 'रसीद प्रिंट करें',
+    'Close': 'बंद करें',
+    'Search': 'खोजें',
+    'Filter': 'फ़िल्टर',
+    'Refresh': 'रीफ्रेश',
+    'Refresh Live Data': 'डेटा रीफ्रेश करें',
+    'Search by Token, Farmer Name or Phone...': 'टोकन, किसान का नाम या फोन से खोजें...',
+    'Action': 'कार्रवाई',
+    'Actions': 'कार्रवाइयां',
+    'Status': 'स्थिति',
+    'Date': 'तारीख',
+    'Time': 'समय',
+    'Remarks': 'टिप्पणी',
+    'View': 'देखें',
+    'Edit': 'संपादित करें',
+    'Delete': 'हटाएं',
+    'Verified': 'सत्यापित',
+    'Success': 'सफल',
+    'Error': 'त्रुटि',
+    'Warning': 'चेतावनी',
+    'Info': 'सूचना',
+    'Loading...': 'लोड हो रहा है...',
+    'Please wait...': 'कृपया प्रतीक्षा करें...',
+
+    // Agricultural commodities
+    'Paddy (Common)': 'धान (सामान्य)',
+    'Paddy (Grade A)': 'धान (ग्रेड \'ए\')',
+    'Wheat (Sharbati)': 'गेहूं (शरबती)',
+    'Mustard': 'सरसों (राई)',
+    'Groundnut': 'मूंगफली',
+    'Maize': 'मक्का',
+    'Moong / Green Gram': 'मूंग दाल',
+    'Ragi': 'रागी / मड़ुआ',
+    'Paddy': 'धान',
+    'Wheat': 'गेहूं',
+    'Kharif': 'खरीफ',
+    'Rabi': 'रबी',
+    'Commercial': 'व्यावसायिक',
+    'Swarna (MTU 7029)': 'स्वर्णा (MTU 7029)',
+    'Pooja (CR 1009)': 'पूजा (CR 1009)',
+    'Sambha Mahsuri': 'साम्भा महसूरी',
+
+    // Units & Measures
+    'Quintal': 'क्विंटल',
+    'Quintals': 'क्विंटल',
+    'Qtl': 'क्विंटल',
+    'Acres': 'एकड़',
+    'Acre': 'एकड़',
+    'kg': 'किग्रा',
+    'km': 'किमी',
+    'mins': 'मिनट',
+    'min': 'मिनट',
+    'sec': 'सेकंड',
+    'seconds': 'सेकंड',
+    'sec ago': 'सेकंड पहले',
+
+    // Odisha locations
+    'Bhadrak': 'भद्रक',
+    'Puri': 'पुरी',
+    'Sambalpur': 'संबलपुर',
+    'Bargarh': 'बरगढ़',
+    'Khordha': 'खोर्धा',
+    'Cuttack': 'कटक',
+    'Balasore': 'बालेश्वर',
+    'Jagatsinghpur': 'जगतसिंहपुर',
+    'Ganjam': 'गंजाम',
+    'Koraput': 'कोरापुट',
+    'Kalahandi': 'कालाहांडी',
+    'Bhubaneswar': 'भुवनेश्वर',
+    'Odisha': 'ओडिशा',
+    'India': 'भारत'
+  },
+  or: {
+    // Brand & System
+    'KISAN-Q': 'କିଷାନ-କ୍ୟୁ (KISAN-Q)',
+    'Smart Crop Procurement & Queue Management Platform': 'ସ୍ମାର୍ଟ ଫସଲ ସଂଗ୍ରହ ଓ ଧାଡ଼ି ପରିଚାଳନା ପୋର୍ଟାଲ',
+    'Department of Agriculture & Farmers Empowerment': 'କୃଷି ଓ କୃଷକ ସଶକ୍ତିକରଣ ବିଭାଗ',
+    'Government of Odisha / Government of India': 'ଓଡ଼ିଶା ସରକାର / ଭାରତ ସରକାର',
+    'Ministry of Agriculture & Farmers Welfare, Govt. of India': 'କୃଷି ଓ କୃଷକ କଲ୍ୟାଣ ମନ୍ତ୍ରଣାଳୟ, ଭାରତ ସରକାର',
+    'Ministry of Consumer Affairs, Food & Public Distribution': 'ଉପଭୋକ୍ତା ବ୍ୟାପାର, ଖାଦ୍ୟ ଓ ସାଧାରଣ ବଣ୍ଟନ ମନ୍ତ୍ରଣାଳୟ',
+    'Quick Role Switcher': 'ତ୍ୱରିତ ଭୂମିକା ପରିବର୍ତ୍ତକ',
+    'Quick Role Switcher:': 'ତ୍ୱରିତ ଭୂମିକା ପରିବର୍ତ୍ତକ:',
+    'Switch roles to test real-time synchronization across the procurement lifecycle': 'କ୍ରୟ ପ୍ରକ୍ରିୟାରେ ରିଅଲ-ଟାଇମ ସମନ୍ୱୟ ପରୀକ୍ଷା ପାଇଁ ଭୂମିକା ବଦଳାନ୍ତୁ',
+    'Reset Demo Data': 'ଡେମୋ ତଥ୍ୟ ରିସେଟ୍ କରନ୍ତୁ',
+    'Reset All Data': 'ସମସ୍ତ ତଥ୍ୟ ରିସେଟ୍ କରନ୍ତୁ',
+    'Demo Mode': 'ଡେମୋ ମୋଡ୍',
+    'Collapse': 'ସଙ୍କୁଚିତ କରନ୍ତୁ',
+    'Connected (Live Sync)': 'ସଂଯୁକ୍ତ (ଲାଇଭ୍ ସିଙ୍କ୍)',
+    'Weak Network (2G Cache)': 'ଦୁର୍ବଳ ନେଟୱର୍କ (2G କ୍ୟାସ)',
+    'Offline Mode': 'ଅଫଲାଇନ୍ ମୋଡ୍',
+    'Last synced': 'ଶେଷ ସିଙ୍କ୍',
+    'Sync Now': 'ବର୍ତ୍ତମାନ ସିଙ୍କ୍ କରନ୍ତୁ',
+    'Force Sync': 'ତୁରନ୍ତ ସିଙ୍କ୍ କରନ୍ତୁ',
+    'Logged in as': 'ଲଗ୍ ଇନ୍:',
+    'Simulate Network Condition': 'ନେଟୱର୍କ ଅବସ୍ଥା ସିମ୍ୟୁଲେଟ୍ କରନ୍ତୁ',
+    'Live Sync': 'ଲାଇଭ୍ ସିଙ୍କ୍',
+    '2G Network': '2G ନେଟୱର୍କ',
+    'Offline': 'ଅଫଲାଇନ୍',
+
+    // Roles & Switcher
+    'Farmer Portal': 'କୃଷକ ପୋର୍ଟାଲ',
+    'Procurement Centre Operator': 'ମଣ୍ଡି ଅପରେଟର ପୋର୍ଟାଲ',
+    'State Administrator': 'ରାଜ୍ୟ ପ୍ରଶାସକ ପୋର୍ଟାଲ',
+    'State Agri Admin': 'ରାଜ୍ୟ କୃଷି ପ୍ରଶାସକ',
+    'Mandi Operator': 'ମଣ୍ଡି ଅପରେଟର',
+    'Switch Role': 'ଭୂମିକା ପରିବର୍ତ୍ତନ',
+    'Active Persona:': 'ସକ୍ରିୟ ଭୂମିକା:',
+    'Switch to': 'ବଦଳାନ୍ତୁ:',
+    'Farmer': 'କୃଷକ',
+    'Operator': 'ଅପରେଟର',
+    'Admin': 'ପ୍ରଶାସକ',
+    'Ramesh Kumar (Farmer)': 'ରମେଶ କୁମାର (କୃଷକ)',
+    'Priya Patel (Farmer)': 'ପ୍ରିୟା ପଟେଲ (କୃଷକ)',
+    'Bhadrak Mandi (Operator)': 'ଭଦ୍ରକ ମଣ୍ଡି (ଅପରେଟର)',
+    'Puri RMC Mandi (Operator)': 'ପୁରୀ RMC ମଣ୍ଡି (ଅପରେଟର)',
+
+    // Navigation
+    'Dashboard': 'ଡ୍ୟାସବୋର୍ଡ',
+    'Register Crop': 'ଫସଲ ପଞ୍ଜୀକରଣ',
+    'Book Slot': 'ସ୍ଲଟ୍ ବୁକିଂ',
+    'My Slot & Pass': 'ମୋର ସ୍ଲଟ୍ ଓ ପାସ୍',
+    'Live Queue': 'ଲାଇଭ୍ ଧାଡ଼ି',
+    'Procurement Status': 'ସଂଗ୍ରହ ସ୍ଥିତି',
+    'Notifications': 'ସୂଚନା',
+    'DBT Payments': 'DBT ପ୍ରଦାନ',
+    'Profile & Land': 'ପ୍ରୋଫାଇଲ୍ ଓ ଜମି',
+    'Mandi Management': 'ମଣ୍ଡି ପରିଚାଳନା',
+    'Quality Inspection': 'ଗୁଣବତ୍ତା ଯାଞ୍ଚ',
+    'Digital Weighbridge': 'ଡିଜିଟାଲ୍ ଓଜନ (ୱେବ୍ରିଜ୍)',
+    'Procurement Records': 'ସଂଗ୍ରହ ରେକର୍ଡ',
+    'Analytics & Reports': 'ଆନାଲିଟିକ୍ସ ଓ ରିପୋର୍ଟ',
+    'Farmer Registry': 'କୃଷକ ତାଲିକା',
+    'Mandi Live Yard': 'ମଣ୍ଡି ଲାଇଭ୍ ୟାର୍ଡ',
+    'Live Display Kiosk': 'ଲାଇଭ୍ ପ୍ରଦର୍ଶନ କିଓସ୍କ',
+    'SMS Simulator': 'SMS ସିମୁଲେଟର',
+
+    // Farmer Dashboard & Actions
+    '🌾 PM-KISAN Verified Portal': '🌾 PM-କିଷାନ ଯାଞ୍ଚ ହୋଇଥିବା ପୋର୍ଟାଲ',
+    'PM-KISAN Verified Portal': 'PM-କିଷାନ ଯାଞ୍ଚ ହୋଇଥିବା ପୋର୍ଟାଲ',
+    'Farmer ID:': 'କୃଷକ ID:',
+    'Farmer ID': 'କୃଷକ ID',
+    'Upcoming Procurement': 'ଆଗାମୀ ଫସଲ ବିକ୍ରୟ ସୂଚୀ',
+    'Quick Actions': 'ତ୍ୱରିତ ସେବା',
+    'Token Number': 'ଟୋକନ୍ ନମ୍ବର',
+    'Crop': 'ଫସଲ',
+    'Quantity': 'ପରିମାଣ',
+    'Procurement Centre': 'ସଂଗ୍ରହ କେନ୍ଦ୍ର / ମଣ୍ଡି',
+    'Scheduled Date & Time': 'ନିର୍ଦ୍ଧାରିତ ତାରିଖ ଓ ସମୟ',
+    'Live Queue Position': 'ଲାଇଭ୍ ଧାଡ଼ି ସ୍ଥାନ',
+    'farmers ahead of you': 'ଜଣ କୃଷକ ଆପଣଙ୍କ ଆଗରେ ଅଛନ୍ତି',
+    'Estimated Wait Time': 'ଆନୁମାନିକ ଅପେକ୍ଷା ସମୟ',
+    'Payment Status': 'ପ୍ରଦାନ ସ୍ଥିତି',
+    'View Digital Pass': 'ଡିଜିଟାଲ୍ ପାସ୍ ଦେଖନ୍ତୁ',
+    'Track Live Queue': 'ଲାଇଭ୍ ଧାଡ଼ି ଟ୍ରାକ୍ କରନ୍ତୁ',
+    'No Active Slot Booked': 'କୌଣସି ସକ୍ରିୟ ସ୍ଲଟ୍ ବୁକ୍ ହୋଇନାହିଁ',
+    'Register your crop and book a preferred procurement slot to avoid waiting in Mandi queues.': 'ମଣ୍ଡିରେ ଅପେକ୍ଷା ସମୟ କମାଇବା ପାଇଁ ଫସଲ ପଞ୍ଜୀକରଣ କରନ୍ତୁ ଏବଂ ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ।',
+    'Register New Crop': 'ନୂତନ ଫସଲ ପଞ୍ଜୀକରଣ',
+    'Book Procurement Slot': 'ସଂଗ୍ରହ ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ',
+    'Check DBT Payment': 'DBT ପ୍ରଦାନ ଯାଞ୍ଚ କରନ୍ତୁ',
+    'View Live Queue': 'ଲାଇଭ୍ ଧାଡ଼ି ଦେଖନ୍ତୁ',
+    'SMS Notifications & Alerts': 'SMS ସୂଚନା ଓ ଆଲର୍ଟ',
+    'Simulate incoming SMS messages sent to your registered mobile number': 'ନିଜ ପଞ୍ଜୀକୃତ ମୋବାଇଲ ନମ୍ବରକୁ ଆସୁଥିବା SMS ଦେଖନ୍ତୁ',
+    'Open SMS Simulator': 'SMS ସିମୁଲେଟର ଖୋଲନ୍ତୁ',
+    'Recent Activity': 'ସାମ୍ପ୍ରତିକ କାର୍ଯ୍ୟକଳାପ',
+    'Active Procurement Slot': 'ସକ୍ରିୟ ସଂଗ୍ରହ ସ୍ଲଟ୍',
+    'No recent activity recorded': 'କୌଣସି ସାମ୍ପ୍ରତିକ ତଥ୍ୟ ନାହିଁ',
+    'Token #': 'ଟୋକନ୍ ନଂ. ',
+
+    // Crop Registration Form
+    'Crop Procurement Registration': 'ଫସଲ ସଂଗ୍ରହ ପଞ୍ଜୀକରଣ',
+    'Register your harvest details and receive a transparent rule-based Mandi recommendation.': 'ନିଜ ଫସଲ ବିବରଣୀ ଦାଖଲ କରି ସ୍ୱଚ୍ଛ ନିୟମ-ଆଧାରିତ ମଣ୍ଡି ସୁପାରିଶ ପାଆନ୍ତୁ।',
+    'Farmer & Land Details': 'କୃଷକ ଓ ଜମି ବିବରଣୀ',
+    'Harvest & Crop Specs': 'ଫସଲ ଓ ଉତ୍ପାଦନ ବିବରଣୀ',
+    'Mandi Optimization': 'ମଣ୍ଡି ଅନୁମୋଦନ',
+    'Slot Booking Confirmation': 'ସ୍ଲଟ୍ ବୁକିଂ ନିଶ୍ଚିତତା',
+    'Land & Location': 'ଜମି ଓ ଅବସ୍ଥିତି',
+    'Crop Details': 'ଫସଲ ବିବରଣୀ',
+    'Bank & DBT Verification': 'ବ୍ୟାଙ୍କ ଓ DBT ଯାଞ୍ଚ',
+    'Review & Submit': 'ସମୀକ୍ଷା ଓ ଦାଖଲ',
+    'District': 'ଜିଲ୍ଲା',
+    'Block / Tehsil': 'ବ୍ଲକ / ତହସିଲ',
+    'Block': 'ବ୍ଲକ',
+    'Tehsil': 'ତହସିଲ',
+    'Gram Panchayat': 'ଗ୍ରାମ ପଞ୍ଚାୟତ',
+    'Village': 'ଗ୍ରାମ',
+    'Pincode': 'ପିନ୍ କୋଡ୍',
+    'Plot / Khata Number': 'ଖାତା / ପ୍ଲଟ୍ ନମ୍ବର',
+    'Total Land Area (Acres)': 'ମୋଟ ଜମି ପରିମାଣ (ଏକର)',
+    'Cultivated Area for Procurement': 'ବିକ୍ରୟ ପାଇଁ ଚାଷ ଜମି',
+    'Crop Name': 'ଫସଲର ନାମ',
+    'Crop Season': 'ଫସଲ ଋତୁ',
+    'Crop Variety': 'ଫସଲ କିସମ',
+    'Variety': 'କିସମ',
+    'Estimated Harvest Yield (Quintals)': 'ଆନୁମାନିକ ଅମଳ (କ୍ୱିଣ୍ଟାଲ୍)',
+    'Quantity Offered for Procurement': 'ସଂଗ୍ରହ ପାଇଁ ପ୍ରସ୍ତାବିତ ପରିମାଣ',
+    'Sowing Date': 'ବୁଣା ତାରିଖ',
+    'Expected Harvest Date': 'ଅମଳ ତାରିଖ',
+    'Mode of Transport': 'ପରିବହନ ସାଧନ',
+    'Transport Mode': 'ଗାଡ଼ି ପ୍ରକାର',
+    'Tractor Trolley': 'ଟ୍ରାକ୍ଟର ଟ୍ରଲି',
+    'Mini Truck / Pickup': 'ମିନି ଟ୍ରକ୍ / ପିକଅପ୍',
+    'Bullock Cart': 'ବଳଦ ଗାଡ଼ି',
+    'Bank Name': 'ବ୍ୟାଙ୍କ ନାମ',
+    'Account Number': 'ଖାତା ନମ୍ବର',
+    'Confirm Account Number': 'ଖାତା ନମ୍ବର ପୁନର୍ବାର ଦିଅନ୍ତୁ',
+    'IFSC Code': 'IFSC କୋଡ୍',
+    'Branch Name': 'ଶାଖା ନାମ',
+    'Aadhaar Linked to Bank Account': 'ବ୍ୟାଙ୍କ ଖାତା ସହିତ ଆଧାର ଯୋଡ଼ା ଅଛି',
+    'I hereby declare that the crop details and land records provided above are authentic...': 'ମୁଁ ଘୋଷଣା କରୁଛି ଯେ ଉପରୋକ୍ତ ଫସଲ ଓ ଜମି ତଥ୍ୟ ସମ୍ପୂର୍ଣ୍ଣ ସତ୍ୟ ଅଟେ...',
+    'Back': 'ପଛକୁ ଯାଆନ୍ତୁ',
+    'Next Step': 'ପରବର୍ତ୍ତୀ ପଦକ୍ଷେପ',
+    'Submit Crop Registration': 'ଫସଲ ପଞ୍ଜୀକରଣ ଦାଖଲ କରନ୍ତୁ',
+    'Registration Successful!': 'ପଞ୍ଜୀକରଣ ସଫଳ ହେଲା!',
+    'Your crop has been registered and verified with Bhulekh Land Records.': 'ଆପଣଙ୍କ ଫସଲ ପଞ୍ଜୀକୃତ ହୋଇ ଭୂଲେଖ ଜମି ରେକର୍ଡ ଦ୍ୱାରା ଯାଞ୍ଚ ହୋଇଛି।',
+    'Proceed to Book Slot': 'ସ୍ଲଟ୍ ବୁକ୍ କରିବାକୁ ଆଗକୁ ବଢ଼ନ୍ତୁ',
+    'Download Certificate': 'ପ୍ରମାଣପତ୍ର ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
+    'Please enter a valid quantity between 1 and 500 Quintals.': 'ଦୟାକରି ୧ ରୁ ୫୦୦ କ୍ୱିଣ୍ଟାଲ୍ ମଧ୍ୟରେ ସଠିକ୍ ପରିମାଣ ଦିଅନ୍ତୁ।',
+    'Please enter crop variety name.': 'ଦୟାକରି ଫସଲ କିସମ ନାମ ଲେଖନ୍ତୁ।',
+
+    // Recommendation & Slot Booking
+    'RECOMMENDED CENTRE': 'ସର୍ବୋତ୍ତମ ଅନୁମୋଦିତ ମଣ୍ଡି',
+    'Lowest estimated waiting time & optimal capacity': 'ସର୍ବନିମ୍ନ ଅପେକ୍ଷା ସମୟ ଓ ଉପଯୁକ୍ତ କ୍ଷମତା',
+    'Calculated using transparent formula (Distance 35% + Queue Wait 35% + Remaining Capacity 30%)': 'ସ୍ୱଚ୍ଛ ନିୟମ-ଆଧାରିତ ସୂତ୍ର (ଦୂରତା ୩୫% + ଧାଡ଼ି ସମୟ ୩୫% + ଉପଲବ୍ଧ କ୍ଷମତା ୩୦%)',
+    'Distance': 'ଦୂରତା',
+    'Daily Capacity': 'ଦୈନିକ କ୍ଷମତା',
+    'Remaining Capacity': 'ବାକି ଉପଲବ୍ଧ କ୍ଷମତା',
+    'Current Queue Length': 'ବର୍ତ୍ତମାନ ଧାଡ଼ିରେ ଥିବା ସଂଖ୍ୟା',
+    'Select This Centre & Book Slot': 'ଏହି ମଣ୍ଡି ଚୟନ କରି ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ',
+    'Alternative Procurement Centres': 'ଅନ୍ୟାନ୍ୟ ବିକଳ୍ପ ମଣ୍ଡି',
+    'Select Slot Date': 'ସ୍ଲଟ୍ ତାରିଖ ବାଛନ୍ତୁ',
+    'Select Available Time Window': 'ଉପଲବ୍ଧ ସମୟ ବାଛନ୍ତୁ',
+    'slots available': 'ସ୍ଲଟ୍ ଉପଲବ୍ଧ',
+    'FULL': 'ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଛି (FULL)',
+    'Confirm & Generate Token': 'ନିଶ୍ଚିତ କରନ୍ତୁ ଓ ଟୋକନ୍ ପାଆନ୍ତୁ',
+    'Slot Booked Successfully!': 'ସ୍ଲଟ୍ ସଫଳତାର ସହ ବୁକ୍ ହୋଇଛି!',
+    'Your Digital Token is Generated': 'ଆପଣଙ୍କ ଡିଜିଟାଲ୍ ଟୋକନ୍ ପ୍ରସ୍ତୁତ ହୋଇଛି',
+    'Please arrive at Gate No. 1 with valid photo ID and Land Record copy 15 minutes before your time slot.': 'ଦୟାକରି ଫଟୋ ପରିଚୟ ପତ୍ର ଓ ଜମି ପଟ୍ଟା ସହିତ ନିର୍ଦ୍ଧାରିତ ସମୟର ୧୫ ମିନିଟ ପୂର୍ବରୁ ଗେଟ୍ ନଂ. ୧ ରେ ପହଞ୍ଚନ୍ତୁ।',
+    'Morning Slot': 'ସକାଳ ସ୍ଲଟ୍',
+    'Mid-Day Slot': 'ମଧ୍ୟାହ୍ନ ସ୍ଲଟ୍',
+    'Afternoon Slot': 'ଅପରାହ୍ନ ସ୍ଲଟ୍',
+    'Evening Slot': 'ସନ୍ଧ୍ୟା ସ୍ଲଟ୍',
+
+    // Digital Pass & QR
+    'My Booked Slot & Digital Gate Pass': 'ମୋର ସ୍ଲଟ୍ ଓ ଡିଜିଟାଲ୍ ଗେଟ୍ ପାସ୍',
+    'Present this QR code at Mandi Gate No. 1 for instant barcode check-in': 'ମଣ୍ଡି ଗେଟ୍ ନଂ. ୧ ରେ ତୁରନ୍ତ ଚେକ୍-ଇନ୍ ପାଇଁ ଏହି QR ଦେଖାନ୍ତୁ',
+    'Digital Entry Pass': 'ଡିଜିଟାଲ୍ ପ୍ରବେଶ ପାସ୍',
+    'QR Code Pass': 'QR କୋଡ୍ ପାସ୍',
+    'Download Pass (PDF)': 'ପାସ୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ (PDF)',
+    'Print Pass': 'ପାସ୍ ପ୍ରିଣ୍ଟ କରନ୍ତୁ',
+    'Share via SMS': 'SMS ମାଧ୍ୟମରେ ପଠାନ୍ତୁ',
+    'Cancel Slot': 'ସ୍ଲଟ୍ ବାତିଲ କରନ୍ତୁ',
+    'Reschedule Slot': 'ସମୟ ପରିବର୍ତ୍ତନ କରନ୍ତୁ',
+    'Security Gate Note': 'ସୁରକ୍ଷା ଗେଟ୍ ନିର୍ଦ୍ଦେଶ',
+    'Valid Government ID proof (Aadhaar/Voter ID) mandatory upon arrival': 'ପହଞ୍ଚିବା ପରେ ସରକାରୀ ପରିଚୟ ପତ୍ର (ଆଧାର/ଭୋଟର କାର୍ଡ) ବାଧ୍ୟତାମୂଳକ',
+
+    // Live Queue & Yard Status
+    'Live Mandi Queue & Yard Status': 'ଲାଇଭ୍ ମଣ୍ଡି ଧାଡ଼ି ଓ ୟାର୍ଡ ସ୍ଥିତି',
+    'Real-time queue tracking powered by IoT gate sensors and weight sensors': 'IoT ଗେଟ୍ ସେନ୍ସର ଦ୍ୱାରା ରିଅଲ-ଟାଇମ ଧାଡ଼ି ସ୍ଥିତି',
+    'Your Token': 'ଆପଣଙ୍କ ଟୋକନ୍',
+    'Currently Serving': 'ବର୍ତ୍ତମାନ ଚାଲୁଥିବା ଟୋକନ୍',
+    'Mandi Live Yard Queue Board': 'ମଣ୍ଡି ଲାଇଭ୍ ଧାଡ଼ି ବୋର୍ଡ',
+    'Queue Position': 'ଧାଡ଼ି ସ୍ଥାନ',
+    'Estimated Call Time': 'ଆନୁମାନିକ ଡାକରା ସମୟ',
+    'Gate 1 - Arrival & Security Check': 'ଗେଟ୍ ୧ - ଆଗମନ ଓ ଯାଞ୍ଚ',
+    'Station 1 - Grain Quality Inspection': 'ଷ୍ଟେସନ ୧ - ଶସ୍ୟ ଗୁଣବତ୍ତା ଯାଞ୍ଚ',
+    'Station 2 - IoT Weighbridge': 'ଷ୍ଟେସନ ୨ - IoT ୱେବ୍ରିଜ୍ (ଓଜନ)',
+    'Station 3 - Godown Unloading & J-Form': 'ଷ୍ଟେସନ ୩ - ଗୋଦାମ ଖଲାସ ଓ J-Form',
+    'Tokens in Yard': 'ୟାର୍ଡରେ ଥିବା ଟୋକନ୍ ସଂଖ୍ୟା',
+    'Average Processing Time': 'ହାରାହାରି ପ୍ରକ୍ରିୟାକରଣ ସମୟ',
+    'Mandi Operations Status: NORMAL': 'ମଣ୍ଡି ପରିଚାଳନା ସ୍ଥିତି: ସ୍ୱାଭାବିକ',
+    'Waiting': 'ଅପେକ୍ଷାରତ',
+    'Called to Gate': 'ଗେଟ୍ କୁ ଡକାଯାଇଛି',
+    'Called': 'ଡକାଯାଇଛି',
+    'Quality Check': 'ଗୁଣବତ୍ତା ଯାଞ୍ଚ',
+    'Weighing': 'ଓଜନ ଚାଲିଛି',
+    'Procurement Completed': 'ସଂଗ୍ରହ ସମ୍ପୂର୍ଣ୍ଣ',
+    'Completed': 'ସମ୍ପୂର୍ଣ୍ଣ',
+    'On Hold': 'ସ୍ଥଗିତ',
+    'Hold': 'ସ୍ଥଗିତ',
+    'Cancelled': 'ବାତିଲ',
+
+    // Quality Check & AI Grain
+    'Quality Inspection & Grain Analysis': 'ଗୁଣବତ୍ତା ପରୀକ୍ଷା ଓ ଶସ୍ୟ ବିଶ୍ଳେଷଣ',
+    'Automated grain analysis with optical moisture & defect detection': 'ଅପ୍ଟିକାଲ୍ ଆର୍ଦ୍ରତା ଓ ତ୍ରୁଟି ଚିହ୍ନଟ ସହିତ ସ୍ୱୟଂଚାଳିତ ଶସ୍ୟ ବିଶ୍ଳେଷଣ',
+    'AI Grain Quality Assistant': 'AI ଶସ୍ୟ ଗୁଣବତ୍ତା ସହାୟକ',
+    'AI Optical Analysis': 'AI ଅପ୍ଟିକାଲ୍ ବିଶ୍ଳେଷଣ',
+    'Moisture Content': 'ଆର୍ଦ୍ରତା ପରିମାଣ',
+    'Foreign Matter / Dust': 'ଅନ୍ୟାନ୍ୟ ଅଦରକାରୀ (%)',
+    'Damaged & Discolored Grains': 'ନଷ୍ଟ ଓ ରଙ୍ଗହୀନ ଦାନା (%)',
+    'Immature & Shriveled Grains': 'ଅପରିପକ୍ୱ ଦାନା (%)',
+    'Calculated Grade': 'ନିର୍ଦ୍ଧାରିତ ଗୁଣବତ୍ତା ମାନ',
+    'Officer Remarks': 'ଅଧିକାରୀଙ୍କ ମନ୍ତବ୍ୟ',
+    'Pass & Send to Weighbridge': 'ପାସ୍ କରନ୍ତୁ ଓ ୱେବ୍ରିଜ୍ ପଠାନ୍ତୁ',
+    'PASS & Send to Weighbridge': 'ପାସ୍ କରନ୍ତୁ ଓ ୱେବ୍ରିଜ୍ ପଠାନ୍ତୁ',
+    'Fail & Reject Batch': 'ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ',
+    'FAIL & Reject Batch': 'ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ',
+    'Put on Hold': 'ସ୍ଥଗିତ ରଖନ୍ତୁ',
+    'PUT ON HOLD': 'ସ୍ଥଗିତ ରଖନ୍ତୁ',
+    'Start AI Camera Inspection': 'AI କ୍ୟାମେରା ଯାଞ୍ଚ ଆରମ୍ଭ କରନ୍ତୁ',
+    'Capture Sample': 'ନମୁନା ନିଅନ୍ତୁ',
+    'Analyze Sample': 'ନମୁନା ବିଶ୍ଳେଷଣ କରନ୍ତୁ',
+    'Standard quality grain conforming to FAQ specifications.': 'ମାନକ ଗୁଣବତ୍ତା ଶସ୍ୟ ଯାହା FAQ ମାନଦଣ୍ଡ ଅନୁଯାୟୀ ଅଟେ।',
+    'Quality Grade': 'ଗୁଣବତ୍ତା ମାନ',
+    'Grade A': 'ଗ୍ରେଡ୍ \'ଏ\'',
+    'Grade B': 'ଗ୍ରେଡ୍ \'ବି\'',
+    'FAQ (Fair Average Quality)': 'ଉପଯୁକ୍ତ ମାନ (FAQ)',
+    'Rejected': 'ଅଗ୍ରାହ୍ୟ',
+    'Pending': 'ବାକି ଅଛି',
+
+    // Digital Weighbridge
+    'Digital Weighbridge Operations': 'ଡିଜିଟାଲ୍ ୱେବ୍ରିଜ୍ ପରିଚାଳନା',
+    'Digital Weighbridge Gross & Tare Logger': 'ଡିଜିଟାଲ୍ ୱେବ୍ରିଜ୍ ମୋଟ ଓ ଖାଲି ଓଜନ ରେକର୍ଡର',
+    'Automated weighbridge interface calculating Net Crop Weight = Gross Weight - Tare Weight.': 'ସ୍ୱୟଂଚାଳିତ ୱେବ୍ରିଜ୍: ଖାଣ୍ଟି ଓଜନ = ମୋଟ ଓଜନ - ଖାଲି ଗାଡ଼ି ଓଜନ।',
+    'Select Token for Weighbridge Measurement:': 'ୱେବ୍ରିଜ୍ ମାପ ପାଇଁ ଟୋକନ୍ ବାଛନ୍ତୁ:',
+    'Electronic Weighbridge': 'ଇଲେକ୍ଟ୍ରୋନିକ୍ ୱେବ୍ରିଜ୍',
+    'Gross Weight (Vehicle + Crop)': 'ମୋଟ ଓଜନ (ଗାଡ଼ି + ଫସଲ)',
+    'Tare Weight (Empty Vehicle)': 'ଖାଲି ଗାଡ଼ି ଓଜନ (ଟାୟାର)',
+    'Net Weight (Verified Crop)': 'ଖାଣ୍ଟି ଫସଲ ଓଜନ (Net Weight)',
+    'Declared Weight': 'ପଞ୍ଜୀକୃତ ପରିମାଣ',
+    'Declared Quantity': 'ପଞ୍ଜୀକୃତ ପରିମାଣ',
+    'Complete Procurement & Issue J-Form': 'ସଂଗ୍ରହ ସମ୍ପୂର୍ଣ୍ଣ କରି J-Form ଦିଅନ୍ତୁ',
+    'Weight Variance': 'ଓଜନ ତାରତମ୍ୟ',
+    'Bag Count': 'ବସ୍ତା ସଂଖ୍ୟା',
+    'Vehicle Number': 'ଗାଡ଼ି ନମ୍ବର',
+    'Operator Name': 'ଅପରେଟର ନାମ',
+    'Capture Stable Weight': 'ସ୍ଥିର ଓଜନ ନିଅନ୍ତୁ',
+    'Capture Gross Weight': 'ମୋଟ ଓଜନ ନିଅନ୍ତୁ',
+    'Capture Tare Weight': 'ଖାଲି ଓଜନ ନିଅନ୍ତୁ',
+    'Zero Tare': 'ଶୂନ୍ୟ କରନ୍ତୁ (Zero Tare)',
+    'Print Weighbridge Slip': 'ଓଜନ ରସିଦ୍ ପ୍ରିଣ୍ଟ କରନ୍ତୁ',
+    'IoT Digital Weighbridge Simulator': 'IoT ଡିଜିଟାଲ୍ ୱେବ୍ରିଜ୍ ସିମୁଲେଟର',
+    'Live Weighbridge Indicator': 'ଲାଇଭ୍ ୱେବ୍ରିଜ୍ ସୂଚକ',
+    'Stabilized Reading': 'ସ୍ଥିର ପଠନ',
+    'Apply Weights to Form': 'ଫର୍ମରେ ଓଜନ ଯୋଗ କରନ୍ତୁ',
+
+    // Procurement Complete & J-Form
+    'Procurement Receipt & J-Form Generation': 'ସଂଗ୍ରହ ରସିଦ୍ ଓ J-Form ପ୍ରଦାନ',
+    'Official receipt issued under State Agricultural Produce Marketing Act': 'ରାଜ୍ୟ କୃଷି ଉତ୍ପାଦନ ନିୟନ୍ତ୍ରଣ ଆଇନ ଅଧୀନରେ ଜାରି ରସିଦ୍',
+    'J-Form Certificate Number': 'J-Form ପ୍ରମାଣପତ୍ର ନମ୍ବର',
+    'Farmer Details': 'କୃଷକଙ୍କ ବିବରଣୀ',
+    'Mandi Name': 'ମଣ୍ଡିର ନାମ',
+    'Commodity': 'ଫସଲ / ଶସ୍ୟ',
+    'Total Net Quantity': 'ମୋଟ ଖାଣ୍ଟି ପରିମାଣ',
+    'MSP Rate Applied': 'ଧାର୍ଯ୍ୟ ସର୍ବନିମ୍ନ ସହାୟକ ମୂଲ୍ୟ (MSP)',
+    'Total Payable': 'ମୋଟ ପ୍ରାପ୍ୟ ରାଶି',
+    'Issue J-Form & Push to PFMS': 'J-Form ଜାରି କରି PFMS କୁ ପଠାନ୍ତୁ',
+    'Print Official Receipt': 'ଅଫିସିଆଲ୍ ରସିଦ୍ ପ୍ରିଣ୍ଟ କରନ୍ତୁ',
+
+    // DBT Payments
+    'Direct Benefit Transfer (DBT) Tracker': 'DBT ପ୍ରତ୍ୟକ୍ଷ ହିତାଧିକାରୀ ପ୍ରଦାନ ଟ୍ରାକର୍',
+    'Total Procurement Amount': 'ମୋଟ ପ୍ରାପ୍ୟ ରାଶି',
+    'Applied MSP Rate': 'ଧାର୍ଯ୍ୟ ସର୍ବନିମ୍ନ ସହାୟକ ମୂଲ୍ୟ (MSP)',
+    'PFMS Batch Number': 'PFMS ବ୍ୟାଚ୍ ନମ୍ବର',
+    'Bank Transaction Reference (UTR)': 'ବ୍ୟାଙ୍କ UTR ନମ୍ବର',
+    'Step 1: Procurement Completed': 'ପର୍ଯ୍ୟାୟ ୧: ସଂଗ୍ରହ ସମ୍ପୂର୍ଣ୍ଣ',
+    'Step 2: Payment Calculated': 'ପର୍ଯ୍ୟାୟ ୨: ରାଶି ହିସାବ ସରିଛି',
+    'Step 3: PFMS Batch Initiated': 'ପର୍ଯ୍ୟାୟ ୩: PFMS ବ୍ୟାଚ୍ ପ୍ରସ୍ତୁତ',
+    'Step 4: Processing at Bank': 'ପର୍ଯ୍ୟାୟ ୪: ବ୍ୟାଙ୍କ ପ୍ରକ୍ରିୟା ଚାଲିଛି',
+    'Step 5: Payment Credited to Bank A/C': 'ପର୍ଯ୍ୟାୟ ୫: ଖାତାକୁ ଟଙ୍କା ଜମା ହୋଇଛି',
+    'Credit Date': 'ଜମା ହୋଇଥିବା ତାରିଖ',
+
+    // Admin & Centre Management
+    'Statewide Procurement Monitoring & Intelligence': 'ରାଜ୍ୟସ୍ତରୀୟ ସଂଗ୍ରହ ଅନୁଧ୍ୟାନ ଓ ଡ୍ୟାସବୋର୍ଡ',
+    'Total Registered Farmers': 'ମୋଟ ପଞ୍ଜୀକୃତ କୃଷକ',
+    'Active Procurement Centres': 'ସକ୍ରିୟ ସଂଗ୍ରହ କେନ୍ଦ୍ର',
+    'Total Procured (Quintals)': 'ମୋଟ ସଂଗୃହୀତ ଫସଲ (କ୍ୱିଣ୍ଟାଲ୍)',
+    'Total Disbursed Value': 'ପ୍ରଦାନ କରାଯାଇଥିବା ରାଶି',
+    'Pending Registrations': 'ବାକିଥିବା ପଞ୍ଜୀକରଣ',
+    'Pending DBT Disbursals': 'ବାକିଥିବା DBT ପ୍ରଦାନ',
+    'Mandi Workload & Real-time Capacity': 'ମଣ୍ଡି କାର୍ଯ୍ୟଭାର ଓ କ୍ଷମତା',
+    'Add New Procurement Centre': 'ନୂତନ ସଂଗ୍ରହ କେନ୍ଦ୍ର ଯୋଗ କରନ୍ତୁ',
+    'Edit Daily Capacity': 'ଦୈନିକ କ୍ଷମତା ପରିବର୍ତ୍ତନ',
+    'Change Status': 'ସ୍ଥିତି ପରିବର୍ତ୍ତନ',
+    'Procurement Centre Name': 'ସଂଗ୍ରହ କେନ୍ଦ୍ରର ନାମ',
+    'District / Location': 'ଜିଲ୍ଲା / ସ୍ଥାନ',
+    'Today\'s Intake Overview': 'ଆଜିର ମୋଟ ଆବକ',
+    'Waiting in Yard': 'ମଣ୍ଡିରେ ଅପେକ୍ଷାରତ',
+    'In Inspection/Weighing': 'ଯାଞ୍ଚ / ଓଜନ ଚାଲିଛି',
+    'Total Procured Today': 'ଆଜିର ମୋଟ ସଂଗ୍ରହ',
+    'Call Farmer': 'କୃଷକଙ୍କୁ ଡାକନ୍ତୁ',
+    'Start Quality Check': 'ଗୁଣବତ୍ତା ଯାଞ୍ଚ ଆରମ୍ଭ କରନ୍ତୁ',
+    'Start Weighing': 'ଓଜନ ଆରମ୍ଭ କରନ୍ତୁ',
+
+    // General Buttons & Table terms
+    'Submit': 'ଦାଖଲ କରନ୍ତୁ',
+    'Cancel': 'ବାତିଲ କରନ୍ତୁ',
+    'Save': 'ସାଇତନ୍ତୁ',
+    'Confirm': 'ନିଶ୍ଚିତ କରନ୍ତୁ',
+    'Download': 'ଡାଉନଲୋଡ୍',
+    'Download Receipt / J-Form': 'ରସିଦ୍ / J-Form ଡାଉନଲୋଡ୍',
+    'Download PDF': 'PDF ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
+    'Print Receipt': 'ରସିଦ୍ ପ୍ରିଣ୍ଟ କରନ୍ତୁ',
+    'Close': 'ବନ୍ଦ କରନ୍ତୁ',
+    'Search': 'ଖୋଜନ୍ତୁ',
+    'Filter': 'ଫିଲ୍ଟର୍',
+    'Refresh': 'ରିଫ୍ରେଶ୍',
+    'Refresh Live Data': 'ତଥ୍ୟ ରିଫ୍ରେଶ୍',
+    'Search by Token, Farmer Name or Phone...': 'ଟୋକନ୍, ନାମ କିମ୍ବା ଫୋନ ନମ୍ବର ଦ୍ୱାରା ଖୋଜନ୍ତୁ...',
+    'Action': 'କାର୍ଯ୍ୟାନୁଷ୍ଠାନ',
+    'Actions': 'କାର୍ଯ୍ୟ',
+    'Status': 'ସ୍ଥିତି',
+    'Date': 'ତାରିଖ',
+    'Time': 'ସମୟ',
+    'Remarks': 'ମନ୍ତବ୍ୟ',
+    'View': 'ଦେଖନ୍ତୁ',
+    'Edit': 'ସମ୍ପାଦନା',
+    'Delete': 'କାଟି ଦିଅନ୍ତୁ',
+    'Verified': 'ଯାଞ୍ଚ ସରିଛି',
+    'Success': 'ସଫଳ',
+    'Error': 'ତ୍ରୁଟି',
+    'Warning': 'ଚେତାବନୀ',
+    'Info': 'ସୂଚନା',
+    'Loading...': 'ଲୋଡ୍ ହେଉଛି...',
+    'Please wait...': 'ଦୟାକରି ଅପେକ୍ଷା କରନ୍ତୁ...',
+
+    // Agricultural commodities
+    'Paddy (Common)': 'ଧାନ (ସାଧାରଣ)',
+    'Paddy (Grade A)': 'ଧାନ (ଗ୍ରେଡ୍ \'ଏ\')',
+    'Wheat (Sharbati)': 'ଗହମ (ଶରବତୀ)',
+    'Mustard': 'ସୋରିଷ',
+    'Groundnut': 'ଚିନାବାଦାମ',
+    'Maize': 'ମକା',
+    'Moong / Green Gram': 'ମୁଗ ଡାଲି',
+    'Ragi': 'ମାଣ୍ଡିଆ',
+    'Paddy': 'ଧାନ',
+    'Wheat': 'ଗହମ',
+    'Kharif': 'ଖରିଫ୍',
+    'Rabi': 'ରବି',
+    'Commercial': 'ବାଣିଜ୍ୟିକ',
+    'Swarna (MTU 7029)': 'ସ୍ୱର୍ଣ୍ଣା (MTU 7029)',
+    'Pooja (CR 1009)': 'ପୂଜା (CR 1009)',
+    'Sambha Mahsuri': 'ସାମ୍ବା ମହସୁରୀ',
+
+    // Units & Measures
+    'Quintal': 'କ୍ୱିଣ୍ଟାଲ୍',
+    'Quintals': 'କ୍ୱିଣ୍ଟାଲ୍',
+    'Qtl': 'କ୍ୱିଣ୍ଟାଲ୍',
+    'Acres': 'ଏକର',
+    'Acre': 'ଏକର',
+    'kg': 'କିଗ୍ରା',
+    'km': 'କିମି',
+    'mins': 'ମିନିଟ୍',
+    'min': 'ମିନିଟ୍',
+    'sec': 'ସେକେଣ୍ଡ',
+    'seconds': 'ସେକେଣ୍ଡ',
+    'sec ago': 'ସେକେଣ୍ଡ ପୂର୍ବରୁ',
+
+    // Odisha locations
+    'Bhadrak': 'ଭଦ୍ରକ',
+    'Puri': 'ପୁରୀ',
+    'Sambalpur': 'ସମ୍ବଲପୁର',
+    'Bargarh': 'ବରଗଡ଼',
+    'Khordha': 'ଖୋର୍ଦ୍ଧା',
+    'Cuttack': 'କଟକ',
+    'Balasore': 'ବାଲେଶ୍ୱର',
+    'Jagatsinghpur': 'ଜଗତସିଂହପୁର',
+    'Ganjam': 'ଗଞ୍ଜାମ',
+    'Koraput': 'କୋରାପୁଟ',
+    'Kalahandi': 'କଳାହାଣ୍ଡି',
+    'Bhubaneswar': 'ଭୁବନେଶ୍ୱର',
+    'Odisha': 'ଓଡ଼ିଶା',
+    'India': 'ଭାରତ'
+  }
+};
+
+// Pre-sort dictionary keys descending by string length for optimal substring matching
+const SORTED_KEYS: Record<'hi' | 'or', Array<[string, string]>> = {
+  hi: Object.entries(PHRASE_DICTIONARY.hi).sort((a, b) => b[0].length - a[0].length),
+  or: Object.entries(PHRASE_DICTIONARY.or).sort((a, b) => b[0].length - a[0].length)
+};
+
+// Fast translation memoization cache
+const translationCache = new Map<string, string>();
+
+/**
+ * Universal text translation function.
+ * Translates any English string or phrase into target language (Hindi or Odia)
+ */
+export function translateText(text: string, lang: 'en' | 'hi' | 'or'): string {
+  if (!text || lang === 'en' || typeof text !== 'string') {
+    return text;
+  }
+
+  const cacheKey = `${lang}:${text}`;
+  const cached = translationCache.get(cacheKey);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const dict = PHRASE_DICTIONARY[lang];
+  if (!dict) return text;
+
+  // Preserve leading and trailing whitespaces
+  const matchSpaces = text.match(/^(\s*)([\s\S]*?)(\s*)$/);
+  if (!matchSpaces) return text;
+
+  const lead = matchSpaces[1];
+  const core = matchSpaces[2];
+  const trail = matchSpaces[3];
+
+  if (!core) return text;
+
+  // 1. Direct exact match
+  if (dict[core]) {
+    const result = lead + dict[core] + trail;
+    translationCache.set(cacheKey, result);
+    return result;
+  }
+
+  // 2. Check with trimmed trailing punctuation (colon, period, comma, question, dash)
+  const puncMatch = core.match(/^([\s\S]*?)([:!?,.\-–—\)]+)$/);
+  if (puncMatch) {
+    const innerCore = puncMatch[1];
+    const punc = puncMatch[2];
+    if (dict[innerCore]) {
+      const result = lead + dict[innerCore] + punc + trail;
+      translationCache.set(cacheKey, result);
+      return result;
+    }
+  }
+
+  // 3. Check leading emoji / symbols like "🌾 PM-KISAN..."
+  const emojiMatch = core.match(/^([^\w\s]+)\s+([\s\S]+)$/);
+  if (emojiMatch) {
+    const symbol = emojiMatch[1];
+    const rest = emojiMatch[2];
+    if (dict[rest]) {
+      const result = lead + symbol + ' ' + dict[rest] + trail;
+      translationCache.set(cacheKey, result);
+      return result;
+    }
+  }
+
+  // 4. Common quantity/distance/time patterns e.g. "40 Quintals", "3 farmers ahead of you", "15 mins", "8.5 km"
+  let translatedCore = core;
+
+  if (lang === 'hi') {
+    translatedCore = translatedCore
+      .replace(/(\d+)\s+farmers ahead of you/gi, '$1 किसान आपके आगे हैं')
+      .replace(/(\d+(?:\.\d+)?)\s*Quintals?/gi, '$1 क्विंटल')
+      .replace(/(\d+(?:\.\d+)?)\s*Qtl/gi, '$1 क्विंटल')
+      .replace(/(\d+(?:\.\d+)?)\s*kg/gi, '$1 किग्रा')
+      .replace(/(\d+(?:\.\d+)?)\s*km/gi, '$1 किमी')
+      .replace(/(\d+(?:\.\d+)?)\s*mins?/gi, '$1 मिनट')
+      .replace(/(\d+(?:\.\d+)?)\s*sec(?:onds)?/gi, '$1 सेकंड')
+      .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*\/\s*Qtl/gi, '₹ $1/क्विंटल')
+      .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*\/\s*Quintal/gi, '₹ $1/क्विंटल')
+      .replace(/Gate No\.\s*(\d+)/gi, 'गेट नं. $1')
+      .replace(/Step\s*(\d+)\s*of\s*(\d+)/gi, 'चरण $1 / $2')
+      .replace(/Step\s*(\d+):/gi, 'चरण $1:')
+      .replace(/Bay\s*(\d+)/gi, 'बे $1');
+  } else if (lang === 'or') {
+    translatedCore = translatedCore
+      .replace(/(\d+)\s+farmers ahead of you/gi, '$1 ଜଣ କୃଷକ ଆପଣଙ୍କ ଆଗରେ ଅଛନ୍ତି')
+      .replace(/(\d+(?:\.\d+)?)\s*Quintals?/gi, '$1 କ୍ୱିଣ୍ଟାଲ୍')
+      .replace(/(\d+(?:\.\d+)?)\s*Qtl/gi, '$1 କ୍ୱିଣ୍ଟାଲ୍')
+      .replace(/(\d+(?:\.\d+)?)\s*kg/gi, '$1 କିଗ୍ରା')
+      .replace(/(\d+(?:\.\d+)?)\s*km/gi, '$1 କିମି')
+      .replace(/(\d+(?:\.\d+)?)\s*mins?/gi, '$1 ମିନିଟ୍')
+      .replace(/(\d+(?:\.\d+)?)\s*sec(?:onds)?/gi, '$1 ସେକେଣ୍ଡ')
+      .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*\/\s*Qtl/gi, '₹ $1/କ୍ୱିଣ୍ଟାଲ୍')
+      .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*\/\s*Quintal/gi, '₹ $1/କ୍ୱିଣ୍ଟାଲ୍')
+      .replace(/Gate No\.\s*(\d+)/gi, 'ଗେଟ୍ ନଂ. $1')
+      .replace(/Step\s*(\d+)\s*of\s*(\d+)/gi, 'ପର୍ଯ୍ୟାୟ $1 / $2')
+      .replace(/Step\s*(\d+):/gi, 'ପର୍ଯ୍ୟାୟ $1:')
+      .replace(/Bay\s*(\d+)/gi, 'ବେ $1');
+  }
+
+  // 5. Multi-phrase and term substitution for compound sentences
+  const sortedPairs = SORTED_KEYS[lang];
+  for (let i = 0; i < sortedPairs.length; i++) {
+    const [enPhrase, targetPhrase] = sortedPairs[i];
+    // Only substitute phrases of reasonable length to avoid accidental substrings
+    if (enPhrase.length >= 4 && translatedCore.includes(enPhrase)) {
+      // Escape for regex
+      const escaped = enPhrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const reg = new RegExp(`\\b${escaped}\\b`, 'gi');
+      translatedCore = translatedCore.replace(reg, targetPhrase);
+    }
+  }
+
+  const finalResult = lead + translatedCore + trail;
+  translationCache.set(cacheKey, finalResult);
+  return finalResult;
+}
