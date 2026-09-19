@@ -1,4 +1,4 @@
-# 🌾 KrishiSetu (कृषिसेतु) — Smart Mandi Procurement System
+# 🌾 KISAN-Q (किसान-क्यू) — Smart Mandi Procurement System
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026-brightgreen.svg)](https://www.sih.gov.in/)
 [![Problem Statement ID](https://img.shields.io/badge/Problem%20ID-SIH26032-orange.svg)](https://www.sih.gov.in/)
@@ -11,7 +11,7 @@
 ---
 
 ## 🎯 Overview
-**KrishiSetu** is an end-to-end digital smart procurement platform built for the **Ministry of Consumer Affairs, Food & Public Distribution** (Food Corporation of India & State Civil Supplies Corporations). It eliminates physical congestion and long waiting times at mandis through intelligent slot scheduling, real-time queue synchronization, tamper-proof IoT weighbridge capture, AI grain quality inspection, and direct benefit transfer (DBT) settlement.
+**KISAN-Q** is an end-to-end digital smart procurement platform built for the **Ministry of Consumer Affairs, Food & Public Distribution** (Food Corporation of India & State Civil Supplies Corporations). It eliminates physical congestion and long waiting times at mandis through intelligent slot scheduling, real-time queue synchronization, tamper-proof IoT weighbridge capture, AI grain quality inspection, and direct benefit transfer (DBT) settlement.
 
 ---
 
@@ -40,7 +40,7 @@
 - Fullscreen Mandi TV board accessible at `/display` showing **NOW CALLING** billboard, upcoming queue list, weather, and real-time audio announcements using speech synthesis.
 
 ### 📱 5. Government DLT SMS Simulator
-- Floating mobile device drawer showcasing real-time simulated telecom SMS messages delivered from `VM-KRISHI` for OTPs, slot booking confirmations, gate calling alerts, and PFMS DBT credits.
+- Floating mobile device drawer showcasing real-time simulated telecom SMS messages delivered from `VM-KISANQ` for OTPs, slot booking confirmations, gate calling alerts, and PFMS DBT credits.
 
 ---
 
@@ -59,7 +59,7 @@
 |        - Real-Time SSE Broadcaster (/api/events)            |
 |        - REST API (Centres, Procurements, Queue, Payments)  |
 |        - AI Grain Quality Analysis Engine                   |
-|        - DLT SMS Simulation Service (VM-KRISHI)             |
+|        - DLT SMS Simulation Service (VM-KISANQ)            |
 +------------------------------+------------------------------+
                                |
 +------------------------------v------------------------------+

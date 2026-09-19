@@ -36,7 +36,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     status: 'ok',
-    service: 'KrishiSetu Mandi Backend',
+    service: 'KISAN-Q Mandi Backend',
     sihProblemStatement: 'SIH26032',
     ministry: 'Ministry of Consumer Affairs, Food & Public Distribution',
     uptimeSeconds: Math.round(process.uptime()),
@@ -98,7 +98,7 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 
 app.listen(PORT, () => {
   console.log('================================================================');
-  console.log(`🌾 KrishiSetu Backend Server running on http://localhost:${PORT}`);
+  console.log(`🌾 KISAN-Q Backend Server running on http://localhost:${PORT}`);
   console.log(`📡 Real-Time SSE Stream: http://localhost:${PORT}/api/events`);
   console.log(`🎯 SIH26032: Ministry of Consumer Affairs, Food & Public Distribution`);
   console.log('================================================================');

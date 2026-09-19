@@ -121,10 +121,10 @@ export const GovHeader: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900">
-                Krishi<span className="text-emerald-700">Setu</span>
+                KISAN<span className="text-emerald-700">-Q</span>
               </span>
               <span className="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
-                {language === 'hi' ? 'कृषिसेतु' : language === 'or' ? 'କୃଷିସେତୁ' : 'e-Procure'}
+                {language === 'hi' ? 'किसान-क्यू' : language === 'or' ? 'କିଷାନ-କ୍ୟୁ' : 'Smart Queue'}
               </span>
             </div>
             <p className="text-[11px] text-slate-500 font-medium hidden sm:block">

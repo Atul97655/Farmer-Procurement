@@ -103,11 +103,11 @@ export const SmsSimulatorDrawer: React.FC = () => {
               <div className="bg-white border-b border-slate-200 p-3 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                    VK
+                    KQ
                   </div>
                   <div>
                     <div className="flex items-center gap-1">
-                      <h4 className="text-xs font-bold text-slate-800">VM-KRISHI</h4>
+                      <h4 className="text-xs font-bold text-slate-800">VM-KISANQ</h4>
                       <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                     </div>
                     <p className="text-[10px] text-slate-500">Govt of India • Dept of Food & PD</p>

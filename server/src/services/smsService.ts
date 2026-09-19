@@ -3,7 +3,7 @@ import { db } from '../db/database.js';
 import { eventService } from './eventService.js';
 
 class SmsService {
-  private senderId = 'VM-KRISHI';
+  private senderId = 'VM-KISANQ';
 
   /**
    * Send a simulated government SMS
@@ -49,7 +49,7 @@ class SmsService {
     return this.sendSms({
       phone,
       templateId: 'DLT_TOKEN_CALLED',
-      message: `URGENT: Token ${tokenNumber} (${farmerName}) has been CALLED to ${bayOrGate}. Please proceed immediately with your tractor/vehicle. - KrishiSetu Mandi Ops`,
+      message: `URGENT: Token ${tokenNumber} (${farmerName}) has been CALLED to ${bayOrGate}. Please proceed immediately with your tractor/vehicle. - KISAN-Q Mandi Ops`,
       meta: { tokenNumber, procurementId }
     });
   }
@@ -58,7 +58,7 @@ class SmsService {
     return this.sendSms({
       phone,
       templateId: 'DLT_QUALITY_RESULT',
-      message: `Token ${tokenNumber}: Quality inspection done. Grade: ${grade}, Moisture: ${moisture}%. Status: APPROVED for weighment. - KrishiSetu Mandi Ops`,
+      message: `Token ${tokenNumber}: Quality inspection done. Grade: ${grade}, Moisture: ${moisture}%. Status: APPROVED for weighment. - KISAN-Q Mandi Ops`,
       meta: { tokenNumber, procurementId }
     });
   }
@@ -67,7 +67,7 @@ class SmsService {
     return this.sendSms({
       phone,
       templateId: 'DLT_WEIGH_SLIP',
-      message: `Token ${tokenNumber}: Digital weighment completed. Net Weight: ${netWeightQuintals} Quintals. Weighment Slip No: ${slipNo}. Payment file generated. - KrishiSetu`,
+      message: `Token ${tokenNumber}: Digital weighment completed. Net Weight: ${netWeightQuintals} Quintals. Weighment Slip No: ${slipNo}. Payment file generated. - KISAN-Q`,
       meta: { tokenNumber, procurementId }
     });
   }

@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    portalTitle: 'KrishiSetu',
+    portalTitle: 'KISAN-Q',
     portalSubtitle: 'Smart Crop Procurement & Queue Management Platform',
     govDepartment: 'Department of Agriculture & Farmers Empowerment',
     govState: 'Government of Odisha / Government of India',
@@ -139,7 +139,7 @@ export const translations = {
     rupees: '₹'
   },
   hi: {
-    portalTitle: 'कृषिसेतु',
+    portalTitle: 'किसान-क्यू (KISAN-Q)',
     portalSubtitle: 'स्मार्ट फसल खरीद एवं कतार प्रबंधन प्रणाली',
     govDepartment: 'कृषि एवं किसान सशक्तिकरण विभाग',
     govState: 'ओडिशा सरकार / भारत सरकार',
@@ -278,7 +278,7 @@ export const translations = {
     rupees: '₹'
   },
   or: {
-    portalTitle: 'କୃଷିସେତୁ',
+    portalTitle: 'କିଷାନ-କ୍ୟୁ (KISAN-Q)',
     portalSubtitle: 'ସ୍ମାର୍ଟ ଫସଲ ସଂଗ୍ରହ ଓ ଧାଡ଼ି ପରିଚାଳନା ପୋର୍ଟାଲ',
     govDepartment: 'କୃଷି ଓ କୃଷକ ସଶକ୍ତିକରଣ ବିଭାଗ',
     govState: 'ଓଡ଼ିଶା ସରକାର / ଭାରତ ସରକାର',

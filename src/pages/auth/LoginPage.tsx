@@ -43,12 +43,12 @@ export const LoginPage: React.FC = () => {
   const [regAccount, setRegAccount] = useState('');
 
   // Operator Login
-  const [operatorId, setOperatorId] = useState('op.digha@krishisetu.gov.in');
+  const [operatorId, setOperatorId] = useState('op.digha@kisanq.gov.in');
   const [operatorCentreId, setOperatorCentreId] = useState('c-1');
   const [operatorPin, setOperatorPin] = useState('1234');
 
   // Admin Login
-  const [adminEmail, setAdminEmail] = useState('admin@krishisetu.gov.in');
+  const [adminEmail, setAdminEmail] = useState('admin@kisanq.gov.in');
   const [adminPin, setAdminPin] = useState('admin2026');
 
   const [statusMsg, setStatusMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-          Krishi<span className="text-emerald-700">Setu</span> National Procurement Portal
+          KISAN<span className="text-emerald-700">-Q</span> National Procurement Portal
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
           Unified digital platform connecting Farmers, Mandi Operators, and State Authorities for scheduled crop procurement and instant DBT.

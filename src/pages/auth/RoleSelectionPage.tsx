@@ -51,7 +51,7 @@ export const RoleSelectionPage: React.FC = () => {
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-          Krishi<span className="text-emerald-700">Setu</span> — Smart Crop Procurement Platform
+          KISAN<span className="text-emerald-700">-Q</span> — Smart Crop Procurement Platform
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
