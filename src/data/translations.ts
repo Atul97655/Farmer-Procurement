@@ -278,6 +278,17 @@ export const translations = {
     rupees: '₹'
   },
   or: {
+    // AI Grain Quality Advice & Recommendation Templates
+    'Grain conforms to Fair Average Quality (FAQ) standards. Cleared for immediate weighbridge entry.': 'ଶସ୍ୟ FAQ ମାନଦଣ୍ଡ ଅନୁଯାୟୀ ଅଟେ। ତୁରନ୍ତ ୱେବ୍ରିଜ୍ (ଓଜନ କଣ୍ଟା) ପ୍ରବେଶ ପାଇଁ ଅନୁମୋଦିତ।',
+    'Grain luster and size uniformity are superior. Meets all Grade A specifications. Eligible for Grade A MSP rate.': 'ଶସ୍ୟର ଚମକ ଓ ଆକାର ସମାନତା ଉତ୍କୃଷ୍ଟ। ସମସ୍ତ ଗ୍ରେଡ୍ ଏ ମାନଦଣ୍ଡ ପୂରଣ କରେ। ଗ୍ରେଡ୍ ଏ MSP ଦର ପାଇବା ପାଇଁ ଯୋଗ୍ୟ।',
+    'Grains meet Fair Average Quality / Grade A specifications. Recommended for full MSP clearance.': 'ଶସ୍ୟ FAQ / ଗ୍ରେଡ୍ ଏ ମାନଦଣ୍ଡ ପୂରଣ କରେ। ସମ୍ପୂର୍ଣ୍ଣ MSP ପ୍ରଦାନ ପାଇଁ ସୁପାରିଶ।',
+    'Moisture exceeds 17% FCI standard. Suggest 2 hours sun-drying.': 'ଆର୍ଦ୍ରତା 17% FCI ମାନଦଣ୍ଡରୁ ଅଧିକ। 2 ଘଣ୍ଟା ଖରାରେ ଶୁଖାଇବା ପାଇଁ ପରାମର୍ଶ।',
+    'Suggest 2 hours sun-drying.': '2 ଘଣ୍ଟା ଖରାରେ ଶୁଖାଇବା ପାଇଁ ପରାମର୍ଶ।',
+    'Recommend 2 hours sun-drying on mandi drying yard before re-test.': 'ପୁନଃ ପରୀକ୍ଷଣ ପୂର୍ବରୁ ମଣ୍ଡି ଖଳାରେ 2 ଘଣ୍ଟା ଖରାରେ ଶୁଖାଇବା ପାଇଁ ପରାମର୍ଶ।',
+    'Moisture is': 'ଆର୍ଦ୍ରତା ଅଟେ',
+    'above FCI 17% limit.': 'FCI 17% ସୀମାଠାରୁ ଅଧିକ।',
+    'Re-test after drying': 'ଶୁଖାଇବା ପରେ ପୁନଃ ପରୀକ୍ଷା',
+    'confidence': 'ନିର୍ଭୁଲତା',
     'Mandi Gate Inward & QR Check-In': 'ମଣ୍ଡି ଗେଟ୍ ପ୍ରବେଶ ଓ QR ଚେକ୍-ଇନ୍',
     'Scan farmer entry pass / QR code to log physical vehicle arrival': 'ଗାଡ଼ି ଆଗମନ ରେକର୍ଡ କରିବାକୁ ଚାଷୀଙ୍କ ପ୍ରବେଶ ପାସ୍ / QR କୋଡ୍ ସ୍କାନ୍ କରନ୍ତୁ',
     'Farmer Name': 'କୃଷକଙ୍କ ନାମ',
@@ -464,6 +475,17 @@ export const translations = {
  */
 export const PHRASE_DICTIONARY: Record<'hi' | 'or', Record<string, string>> = {
   hi: {
+    // AI Grain Quality Advice & Recommendation Templates
+    'Grain conforms to Fair Average Quality (FAQ) standards. Cleared for immediate weighbridge entry.': 'अनाज एफएक्यू (FAQ) मानकों के अनुरूप है। धर्मकांटा / वेब्रिज प्रवेश हेतु स्वीकृत।',
+    'Grain luster and size uniformity are superior. Meets all Grade A specifications. Eligible for Grade A MSP rate.': 'अनाज की चमक एवं आकार एकरूपता उत्कृष्ट है। सभी ग्रेड ए विनिर्देशों को पूरा करता है। ग्रेड ए एमएसपी दर हेतु पात्र।',
+    'Grains meet Fair Average Quality / Grade A specifications. Recommended for full MSP clearance.': 'अनाज एफएक्यू / ग्रेड ए विनिर्देशों को पूरा करता है। पूर्ण एमएसपी भुगतान हेतु अनुशंसित।',
+    'Moisture exceeds 17% FCI standard. Suggest 2 hours sun-drying.': 'नमी 17% एफसीआई मानक से अधिक है। 2 घंटे धूप में सुखाने का सुझाव दिया जाता है।',
+    'Suggest 2 hours sun-drying.': '2 घंटे धूप में सुखाने का सुझाव है।',
+    'Recommend 2 hours sun-drying on mandi drying yard before re-test.': 'पुनः परीक्षण से पहले मंडी सुखाने के यार्ड में 2 घंटे धूप में सुखाने की सिफारिश की जाती है।',
+    'Moisture is': 'नमी है',
+    'above FCI 17% limit.': 'एफसीआई 17% सीमा से अधिक।',
+    'Re-test after drying': 'सुखाने के बाद पुनः परीक्षण करें',
+    'confidence': 'सटीकता',
 'Mandi Gate Inward & QR Check-In': 'मंडी गेट प्रवेश एवं क्यूआर चेक-इन',
     'Scan farmer entry pass / QR code to log physical vehicle arrival': 'भौतिक वाहन आगमन दर्ज करने के लिए किसान प्रवेश पास / क्यूआर कोड स्कैन करें',
     'Farmer Name': 'किसान का नाम',
@@ -2062,6 +2084,54 @@ export const PHRASE_DICTIONARY: Record<'hi' | 'or', Record<string, string>> = {
   }
 };
 
+// Reverse phrase dictionaries for bidirectional canonical English recovery
+export const REVERSE_PHRASE_DICTIONARY: Record<'hi' | 'or', Record<string, string>> = {
+  hi: {},
+  or: {}
+};
+
+for (const [en, hi] of Object.entries(PHRASE_DICTIONARY.hi)) {
+  REVERSE_PHRASE_DICTIONARY.hi[hi] = en;
+}
+for (const [en, or] of Object.entries(PHRASE_DICTIONARY.or)) {
+  REVERSE_PHRASE_DICTIONARY.or[or] = en;
+}
+
+/**
+ * Recovers the canonical English string from a translated Hindi or Odia string
+ */
+export function getCanonicalEnglish(text: string): string {
+  if (!text || typeof text !== 'string') return text;
+  const matchSpaces = text.match(/^(\s*)([\s\S]*?)(\s*)$/);
+  if (!matchSpaces) return text;
+  const lead = matchSpaces[1];
+  const core = matchSpaces[2];
+  const trail = matchSpaces[3];
+  if (!core) return text;
+
+  if (REVERSE_PHRASE_DICTIONARY.hi[core]) {
+    return lead + REVERSE_PHRASE_DICTIONARY.hi[core] + trail;
+  }
+  if (REVERSE_PHRASE_DICTIONARY.or[core]) {
+    return lead + REVERSE_PHRASE_DICTIONARY.or[core] + trail;
+  }
+
+  // Check with trailing punctuation
+  const puncMatch = core.match(/^([\s\S]*?)([:!?,.\-–—\)]+)$/);
+  if (puncMatch) {
+    const innerCore = puncMatch[1];
+    const punc = puncMatch[2];
+    if (REVERSE_PHRASE_DICTIONARY.hi[innerCore]) {
+      return lead + REVERSE_PHRASE_DICTIONARY.hi[innerCore] + punc + trail;
+    }
+    if (REVERSE_PHRASE_DICTIONARY.or[innerCore]) {
+      return lead + REVERSE_PHRASE_DICTIONARY.or[innerCore] + punc + trail;
+    }
+  }
+
+  return text;
+}
+
 // Pre-sort dictionary keys descending by string length for optimal substring matching
 const SORTED_KEYS: Record<'hi' | 'or', Array<[string, string]>> = {
   hi: Object.entries(PHRASE_DICTIONARY.hi).sort((a, b) => b[0].length - a[0].length),
@@ -2076,11 +2146,25 @@ const translationCache = new Map<string, string>();
  * Translates any English string or phrase into target language (Hindi or Odia)
  */
 export function translateText(text: string, lang: 'en' | 'hi' | 'or'): string {
-  if (!text || lang === 'en' || typeof text !== 'string') {
+  if (!text || typeof text !== 'string') {
     return text;
   }
 
-  const cacheKey = `${lang}:${text}`;
+  // Bidirectional handling: target is English
+  if (lang === 'en') {
+    return getCanonicalEnglish(text);
+  }
+
+  // If input string is in Hindi/Odia and target is different, recover canonical English first
+  let canonical = text;
+  const trimmed = text.trim();
+  if (lang === 'hi' && REVERSE_PHRASE_DICTIONARY.or[trimmed]) {
+    canonical = text.replace(trimmed, REVERSE_PHRASE_DICTIONARY.or[trimmed]);
+  } else if (lang === 'or' && REVERSE_PHRASE_DICTIONARY.hi[trimmed]) {
+    canonical = text.replace(trimmed, REVERSE_PHRASE_DICTIONARY.hi[trimmed]);
+  }
+
+  const cacheKey = `${lang}:${canonical}`;
   const cached = translationCache.get(cacheKey);
   if (cached !== undefined) {
     return cached;
@@ -2090,7 +2174,7 @@ export function translateText(text: string, lang: 'en' | 'hi' | 'or'): string {
   if (!dict) return text;
 
   // Preserve leading and trailing whitespaces
-  const matchSpaces = text.match(/^(\s*)([\s\S]*?)(\s*)$/);
+  const matchSpaces = canonical.match(/^(\s*)([\s\S]*?)(\s*)$/);
   if (!matchSpaces) return text;
 
   const lead = matchSpaces[1];
@@ -2147,6 +2231,7 @@ export function translateText(text: string, lang: 'en' | 'hi' | 'or'): string {
       .replace(/Gate No\.\s*(\d+)/gi, 'गेट नं. $1')
       .replace(/Step\s*(\d+)\s*of\s*(\d+)/gi, 'चरण $1 / $2')
       .replace(/Step\s*(\d+):/gi, 'चरण $1:')
+            .replace(/Moisture is (\d+(?:\.\d+)?)% above FCI 17% limit\. Recommend 2 hours sun-drying on mandi drying yard before re-test\./gi, 'नमी FCI की 17% सीमा से $1% अधिक है। पुनः परीक्षण से पहले मंडी यार्ड में 2 घंटे धूप में सुखाने की सिफारिश की जाती है।')
       .replace(/(\d+)\s*slots left/gi, '$1 स्लॉट उपलब्ध')
       .replace(/Bay\s*(\d+)/gi, 'बे $1');
   } else if (lang === 'or') {
@@ -2163,6 +2248,7 @@ export function translateText(text: string, lang: 'en' | 'hi' | 'or'): string {
       .replace(/Gate No\.\s*(\d+)/gi, 'ଗେଟ୍ ନଂ. $1')
       .replace(/Step\s*(\d+)\s*of\s*(\d+)/gi, 'ପର୍ଯ୍ୟାୟ $1 / $2')
       .replace(/Step\s*(\d+):/gi, 'ପର୍ଯ୍ୟାୟ $1:')
+            .replace(/Moisture is (\d+(?:\.\d+)?)% above FCI 17% limit\. Recommend 2 hours sun-drying on mandi drying yard before re-test\./gi, 'ଆର୍ଦ୍ରତା FCI ର 17% ସୀମା ଠାରୁ $1% ଅଧିକ। ପୁନଃ ପରୀକ୍ଷଣ ପୂର୍ବରୁ ମଣ୍ଡି ଖଳାରେ 2 ଘଣ୍ଟା ଖରାରେ ଶୁଖାଇବା ପାଇଁ ପରାମର୍ଶ ଦିଆଯାଉଛି।')
       .replace(/(\d+)\s*slots left/gi, '$1 ସ୍ଲଟ୍ ବାକି')
       .replace(/Bay\s*(\d+)/gi, 'ବେ $1');
   }

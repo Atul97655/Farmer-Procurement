@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useMemo } from 'react';
 import { Language } from '../types';
-import { translations, translateText } from '../data/translations';
+import { translations, translateText, getCanonicalEnglish } from '../data/translations';
 
 interface LanguageContextType {
   language: Language;
@@ -44,7 +44,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
         let orig = originalTextMap.get(node);
         if (orig === undefined) {
-          orig = val;
+          orig = getCanonicalEnglish(val);
+          originalTextMap.set(node, orig);
+        } else {
+          orig = getCanonicalEnglish(orig);
           originalTextMap.set(node, orig);
         }
 
@@ -70,7 +73,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (el.placeholder) {
             let saved = originalAttrMap.get(el);
             if (!saved || saved.placeholder === undefined) {
-              saved = { ...saved, placeholder: el.placeholder };
+              saved = { ...saved, placeholder: getCanonicalEnglish(el.placeholder) };
+              originalAttrMap.set(el, saved);
+            } else {
+              saved = { ...saved, placeholder: getCanonicalEnglish(saved.placeholder || '') };
               originalAttrMap.set(el, saved);
             }
             const origPl = saved.placeholder || '';
@@ -87,7 +93,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (el.title) {
           let saved = originalAttrMap.get(el);
           if (!saved || saved.title === undefined) {
-            saved = { ...saved, title: el.title };
+            saved = { ...saved, title: getCanonicalEnglish(el.title) };
+            originalAttrMap.set(el, saved);
+          } else {
+            saved = { ...saved, title: getCanonicalEnglish(saved.title || '') };
             originalAttrMap.set(el, saved);
           }
           const origTitle = saved.title || '';
@@ -137,10 +146,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               continue;
             }
 
-            // Otherwise, content was changed by React with new English text
-            originalTextMap.set(targetNode, currentVal);
+            // Otherwise, content was changed by React with new text
+            const canonical = getCanonicalEnglish(currentVal);
+            originalTextMap.set(targetNode, canonical);
             if (languageRef.current !== 'en') {
-              const target = translateText(currentVal, languageRef.current);
+              const target = translateText(canonical, languageRef.current);
               translatedTextMap.set(targetNode, target);
               targetNode.nodeValue = target;
             }
