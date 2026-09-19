@@ -22,11 +22,19 @@ import { QRModal } from '../../components/common/QRModal';
 import { GracePeriodCountdown } from '../../components/farmer/GracePeriodCountdown';
 import { EditBookingModal } from '../../components/farmer/EditBookingModal';
 import { CropType } from '../../types';
+import {
+  STANDARD_MANDI_SLOTS,
+  getLocalDateString,
+  isSlotPassed,
+  areAllSlotsPassed,
+  getFirstAvailableSlot
+} from '../../utils/timeSlotUtils';
 
 interface TimeSlotOption {
   time: string;
   availableCount: number;
   isFull: boolean;
+  isPassed?: boolean;
 }
 
 export const SlotBooking: React.FC = () => {
@@ -47,33 +55,55 @@ export const SlotBooking: React.FC = () => {
 
   const selectedCentre = centres.find(c => c.id === registrationData.selectedCentreId) || centres[0];
 
+  // Real-time time synchronization clock
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 15000); // 15s live sync
+    return () => clearInterval(timer);
+  }, []);
+
   // Dates: Next 5 days
-  const today = new Date();
   const availableDates = [0, 1, 2, 3, 4].map(offset => {
-    const d = new Date(today);
-    d.setDate(today.getDate() + offset);
+    const d = new Date(currentTime);
+    d.setDate(currentTime.getDate() + offset);
     return {
-      dateStr: d.toISOString().split('T')[0],
+      dateStr: getLocalDateString(d),
       dayName: d.toLocaleDateString('en-IN', { weekday: 'short' }),
-      formattedDate: d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+      formattedDate: d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+      isToday: offset === 0
     };
   });
 
-  const [selectedDate, setSelectedDate] = useState(availableDates[0].dateStr);
+  // Time slots per day covering complete mandi operating hours
+  const timeSlots: TimeSlotOption[] = STANDARD_MANDI_SLOTS.map(slot => ({
+    time: slot.time,
+    availableCount: slot.defaultCapacity,
+    isFull: slot.defaultCapacity === 0
+  }));
 
-  // Time slots per day
-  const timeSlots: TimeSlotOption[] = [
-    { time: '08:30 - 09:30 AM', availableCount: 5, isFull: false },
-    { time: '09:30 - 10:30 AM', availableCount: 3, isFull: false },
-    { time: '10:30 - 11:30 AM', availableCount: 0, isFull: true },
-    { time: '11:30 - 12:30 PM', availableCount: 8, isFull: false },
-    { time: '01:30 - 02:30 PM', availableCount: 6, isFull: false },
-    { time: '02:30 - 03:30 PM', availableCount: 2, isFull: false },
-    { time: '03:30 - 04:30 PM', availableCount: 0, isFull: true },
-    { time: '04:30 - 05:30 PM', availableCount: 4, isFull: false }
-  ];
+  const todayDateStr = availableDates[0].dateStr;
+  const todayHasSlots = !areAllSlotsPassed(timeSlots, todayDateStr, currentTime);
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('08:30 - 09:30 AM');
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    return todayHasSlots ? availableDates[0].dateStr : availableDates[1].dateStr;
+  });
+
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>(() => {
+    const initialDate = todayHasSlots ? availableDates[0].dateStr : availableDates[1].dateStr;
+    return getFirstAvailableSlot(timeSlots, initialDate, currentTime) || timeSlots[0].time;
+  });
+
+  // Auto-sync selected slot if it becomes passed or full
+  useEffect(() => {
+    const isCurrentlyPassed = isSlotPassed(selectedTimeSlot, selectedDate, currentTime);
+    const isCurrentlyFull = timeSlots.find(s => s.time === selectedTimeSlot)?.isFull;
+    if (isCurrentlyPassed || isCurrentlyFull) {
+      const nextAvailable = getFirstAvailableSlot(timeSlots, selectedDate, currentTime);
+      if (nextAvailable) {
+        setSelectedTimeSlot(nextAvailable);
+      }
+    }
+  }, [selectedDate, currentTime, selectedTimeSlot]);
   const [createdRecord, setCreatedRecord] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -216,6 +246,9 @@ export const SlotBooking: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               {availableDates.map((item) => {
                 const isSelected = item.dateStr === selectedDate;
+                const isItemToday = item.isToday;
+                const isTodayClosed = isItemToday && !todayHasSlots;
+
                 return (
                   <button
                     key={item.dateStr}
@@ -227,48 +260,88 @@ export const SlotBooking: React.FC = () => {
                         : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
                     }`}
                   >
-                    <span className="text-[11px] uppercase font-semibold block opacity-80">{item.dayName}</span>
+                    <div className="flex items-center justify-center gap-1">
+                      <span className="text-[11px] uppercase font-semibold opacity-80">{item.dayName}</span>
+                      {isItemToday && (
+                        <span className={`text-[9px] px-1 rounded font-bold uppercase ${isSelected ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-800'}`}>
+                          Today
+                        </span>
+                      )}
+                    </div>
                     <strong className="text-base font-black block mt-0.5">{item.formattedDate}</strong>
+                    {isTodayClosed && (
+                      <span className={`text-[9px] font-bold block mt-1 uppercase ${isSelected ? 'text-amber-200' : 'text-amber-700'}`}>
+                        Hours Ended
+                      </span>
+                    )}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* 2. Time Window Selector */}
+          {/* 2. Time Window Selector with Real-time Clock Sync */}
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
               <label className="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <Clock className="w-4 h-4 text-emerald-700" />
                 <span>2. Select Time Window:</span>
               </label>
-              <span className="text-xs text-slate-500">
-                Capacity-enforced slots prevent yard overcrowding
-              </span>
+
+              {/* Live Time Sync Clock Indicator */}
+              <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-3 py-1 rounded-full font-medium">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                </span>
+                <span>
+                  Mandi Live Clock: <strong>{currentTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</strong>
+                </span>
+              </div>
             </div>
+
+            {areAllSlotsPassed(timeSlots, selectedDate, currentTime) && (
+              <div className="mb-4 p-3.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs flex items-center gap-2.5">
+                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                <div>
+                  <strong>All procurement slots for this day have concluded.</strong>
+                  <span className="block mt-0.5 text-amber-800">Please choose tomorrow or an upcoming date above to reserve an open slot.</span>
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {timeSlots.map((slot) => {
-                const isSelected = selectedTimeSlot === slot.time;
+                const isPassed = isSlotPassed(slot.time, selectedDate, currentTime);
+                const isSelected = selectedTimeSlot === slot.time && !isPassed;
                 const isFull = slot.isFull;
+                const isDisabled = isFull || isPassed;
 
                 return (
                   <button
                     key={slot.time}
                     type="button"
-                    disabled={isFull}
-                    onClick={() => !isFull && setSelectedTimeSlot(slot.time)}
+                    disabled={isDisabled}
+                    onClick={() => !isDisabled && setSelectedTimeSlot(slot.time)}
                     className={`p-3.5 rounded-xl border text-left transition-all ${
-                      isFull
+                      isPassed
+                        ? 'bg-slate-100/80 border-slate-200 text-slate-400 cursor-not-allowed opacity-60'
+                        : isFull
                         ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-70'
                         : isSelected
                         ? 'bg-emerald-50 border-emerald-600 text-emerald-950 ring-2 ring-emerald-500/20 shadow-xs font-bold cursor-pointer'
                         : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 cursor-pointer'
                     }`}
                   >
-                    <div className="text-sm font-bold">{slot.time}</div>
+                    <div className={`text-sm font-bold ${isPassed ? 'line-through opacity-70' : ''}`}>
+                      {slot.time}
+                    </div>
                     <div className="mt-1 flex items-center justify-between">
-                      {isFull ? (
+                      {isPassed ? (
+                        <span className="text-[10px] font-bold text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded">
+                          TIME PASSED
+                        </span>
+                      ) : isFull ? (
                         <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded">
                           FULL
                         </span>
@@ -301,8 +374,8 @@ export const SlotBooking: React.FC = () => {
 
             <button
               onClick={handleConfirmBooking}
-              disabled={isSubmitting}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer text-sm"
+              disabled={isSubmitting || isSlotPassed(selectedTimeSlot, selectedDate, currentTime) || areAllSlotsPassed(timeSlots, selectedDate, currentTime)}
+              className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold px-8 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer text-sm"
             >
               {isSubmitting ? (
                 <span>Generating Token...</span>

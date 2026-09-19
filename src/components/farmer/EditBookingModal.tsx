@@ -15,6 +15,12 @@ import { ProcurementRecord, CropType } from '../../types';
 import { useAppState } from '../../context/AppStateContext';
 import { CROPS_CATALOGUE } from '../../data/mockData';
 import { formatDate } from '../../utils/formatters';
+import {
+  STANDARD_MANDI_SLOTS,
+  getLocalDateString,
+  isSlotPassed,
+  getFirstAvailableSlot
+} from '../../utils/timeSlotUtils';
 
 interface EditBookingModalProps {
   procurement: ProcurementRecord;
@@ -61,23 +67,14 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
     const d = new Date(today);
     d.setDate(today.getDate() + offset);
     return {
-      dateStr: d.toISOString().split('T')[0],
+      dateStr: getLocalDateString(d),
       dayName: d.toLocaleDateString('en-IN', { weekday: 'short' }),
       formattedDate: d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
     };
   });
 
   // Time slots per day
-  const timeSlots = [
-    '08:30 - 09:30 AM',
-    '09:30 - 10:30 AM',
-    '10:30 - 11:30 AM',
-    '11:30 - 12:30 PM',
-    '01:30 - 02:30 PM',
-    '02:30 - 03:30 PM',
-    '03:30 - 04:30 PM',
-    '04:30 - 05:30 PM'
-  ];
+  const timeSlots = STANDARD_MANDI_SLOTS.map(s => s.time);
 
   const selectedCropInfo = CROPS_CATALOGUE.find(c => c.name === cropType) || CROPS_CATALOGUE[0];
   const selectedCentre = centres.find(c => c.id === centreId) || centres[0];
@@ -99,6 +96,11 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
 
     if (!variety.trim()) {
       setValidationError('Crop variety name is required.');
+      return;
+    }
+
+    if (isSlotPassed(slotTime, slotDate, new Date())) {
+      setValidationError('The selected time window has already concluded for this date. Please choose an upcoming time slot.');
       return;
     }
 
@@ -294,7 +296,17 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
                       key={item.dateStr}
                       type="button"
                       disabled={isExpired || isSubmitting}
-                      onClick={() => setSlotDate(item.dateStr)}
+                      onClick={() => {
+                        setSlotDate(item.dateStr);
+                        if (isSlotPassed(slotTime, item.dateStr, new Date())) {
+                          const nextSlot = getFirstAvailableSlot(
+                            timeSlots.map(t => ({ time: t, isFull: false })),
+                            item.dateStr,
+                            new Date()
+                          );
+                          if (nextSlot) setSlotTime(nextSlot);
+                        }
+                      }}
                       className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
                         isSelected
                           ? 'bg-emerald-700 text-white border-emerald-700 font-bold shadow-xs'
@@ -313,20 +325,30 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
               <label className="text-xs text-slate-600 block mb-1.5 font-semibold">Select Time Window:</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {timeSlots.map((slot) => {
-                  const isSelected = slotTime === slot;
+                  const isPassed = isSlotPassed(slot, slotDate, new Date());
+                  const isSelected = slotTime === slot && !isPassed;
+                  const isDisabled = isExpired || isSubmitting || isPassed;
+
                   return (
                     <button
                       key={slot}
                       type="button"
-                      disabled={isExpired || isSubmitting}
-                      onClick={() => setSlotTime(slot)}
-                      className={`p-2 rounded-xl border text-center text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-emerald-50 border-emerald-600 text-emerald-950 font-bold ring-2 ring-emerald-500/20'
-                          : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                      disabled={isDisabled}
+                      onClick={() => !isDisabled && setSlotTime(slot)}
+                      className={`p-2 rounded-xl border text-center text-xs transition-all ${
+                        isPassed
+                          ? 'bg-slate-100/80 border-slate-200 text-slate-400 cursor-not-allowed line-through opacity-60'
+                          : isSelected
+                          ? 'bg-emerald-50 border-emerald-600 text-emerald-950 font-bold ring-2 ring-emerald-500/20 cursor-pointer'
+                          : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 cursor-pointer'
                       }`}
                     >
-                      {slot}
+                      <div>{slot}</div>
+                      {isPassed && (
+                        <span className="text-[9px] font-bold text-slate-500 bg-slate-200 px-1 rounded block mt-0.5 no-underline">
+                          PASSED
+                        </span>
+                      )}
                     </button>
                   );
                 })}
