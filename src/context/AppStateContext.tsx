@@ -77,6 +77,8 @@ interface AppStateContextType {
       result: QualityResult;
       remarks: string;
       inspectorName: string;
+      aiVerified?: boolean;
+      aiConfidence?: number;
     }
   ) => void;
 
@@ -93,6 +95,7 @@ interface AppStateContextType {
 
   completeProcurement: (procurementId: string, remarks?: string) => void;
   updateCentreCapacity: (centreId: string, newDailyCapacity: number, newStatus?: CentreStatus) => void;
+  updateCentre: (centreId: string, data: Partial<ProcurementCentre>) => void;
   addCentre: (newCentre: Omit<ProcurementCentre, 'id' | 'queueLength' | 'currentLoad'>) => void;
   markNotificationAsRead: (id: string) => void;
   markAllNotificationsAsRead: () => void;
@@ -508,6 +511,8 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       result: QualityResult;
       remarks: string;
       inspectorName: string;
+      aiVerified?: boolean;
+      aiConfidence?: number;
     }
   ) => {
     const nowISO = new Date().toISOString();
@@ -532,7 +537,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               immatureGrainPercentage: data.immatureGrainPercentage,
               grade: data.grade,
               result: data.result,
-              remarks: data.remarks
+              remarks: data.remarks,
+              aiVerified: data.aiVerified,
+              aiConfidence: data.aiConfidence
             },
             timeline: [
               ...p.timeline,
@@ -745,6 +752,18 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (c.id === centreId) {
           const status = newStatus || (c.currentLoad >= newDailyCapacity ? 'FULL' : c.currentLoad >= newDailyCapacity * 0.85 ? 'NEAR CAPACITY' : 'NORMAL');
           return { ...c, dailyCapacity: newDailyCapacity, status };
+        }
+        return c;
+      })
+    );
+    setLastSyncTime(new Date());
+  };
+
+  const updateCentre = (centreId: string, data: Partial<ProcurementCentre>) => {
+    setCentres(prev =>
+      prev.map(c => {
+        if (c.id === centreId) {
+          return { ...c, ...data };
         }
         return c;
       })
@@ -1041,6 +1060,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         submitWeighing,
         completeProcurement,
         updateCentreCapacity,
+        updateCentre,
         addCentre,
         markNotificationAsRead,
         markAllNotificationsAsRead,

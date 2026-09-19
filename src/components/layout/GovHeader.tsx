@@ -2,7 +2,7 @@ import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAppState } from '../../context/AppStateContext';
 import { Language } from '../../types';
-import { Sprout, Globe, Wifi, WifiOff, RefreshCw, Bell, LogOut, LogIn, User } from 'lucide-react';
+import { Sprout, Globe, Wifi, WifiOff, RefreshCw, Bell, LogOut, LogIn, User, BookOpen } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const GovHeader: React.FC = () => {
@@ -95,6 +95,16 @@ export const GovHeader: React.FC = () => {
             <option value="weak">🟡 2G Network</option>
             <option value="offline">🔴 Offline</option>
           </select>
+
+          {/* User Manual Link */}
+          <Link
+            to="/user-manual"
+            className="flex items-center gap-1.5 text-amber-300 hover:text-amber-200 bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-[11px] font-bold border border-slate-700 hover:border-amber-400/50 transition-all"
+            title="Farmer User Manual & Registration Guide"
+          >
+            <BookOpen className="w-3 h-3 text-amber-400" />
+            <span>{language === 'or' ? 'ମାନୁଆଲ' : language === 'hi' ? 'गाइड' : 'User Manual'}</span>
+          </Link>
 
           {/* Language Selector */}
           <div className="flex items-center gap-1 bg-slate-800 rounded px-2 py-0.5">

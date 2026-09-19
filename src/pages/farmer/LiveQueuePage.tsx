@@ -13,6 +13,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
+import { KishanSahayakVoice } from '../../components/farmer/KishanSahayakVoice';
 
 export const LiveQueuePage: React.FC = () => {
   const { activeFarmer, activeCentreId, centres, procurements, syncNow, lastSyncTime } = useAppState();
@@ -135,6 +136,14 @@ export const LiveQueuePage: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Kishan Sahayak AI Voice Assistant */}
+      <KishanSahayakVoice
+        procurement={currentFarmerProc}
+        centreName={currentCentre.name}
+        queuePosition={currentFarmerProc ? currentFarmerProc.queuePosition : 4}
+        estimatedWaitMinutes={currentFarmerProc ? currentFarmerProc.estimatedWaitMinutes : 35}
+      />
 
       {/* Search & Filter Bar */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">

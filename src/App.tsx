@@ -24,6 +24,7 @@ import { ProcurementStatus } from './pages/farmer/ProcurementStatus';
 import { NotificationsPage } from './pages/farmer/NotificationsPage';
 import { PaymentsPage } from './pages/farmer/PaymentsPage';
 import { FarmerProfile } from './pages/farmer/FarmerProfile';
+import { UserManualPage } from './pages/farmer/UserManualPage';
 
 // Centre Operator
 import { CentreDashboard } from './pages/centre/CentreDashboard';
@@ -68,10 +69,12 @@ const AppLayout: React.FC = () => {
             <Route path="/" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/auth" element={<LoginPage />} />
+            <Route path="/user-manual" element={<UserManualPage />} />
             <Route path="/portals" element={<RoleSelectionPage />} />
 
             {/* Farmer Routes */}
             <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+            <Route path="/farmer/user-manual" element={<UserManualPage />} />
             <Route path="/farmer/register-crop" element={<CropRegistration />} />
             <Route path="/farmer/book-slot" element={<SlotBooking />} />
             <Route path="/farmer/my-slot" element={<MySlotPage />} />

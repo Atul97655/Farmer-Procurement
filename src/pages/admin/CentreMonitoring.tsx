@@ -18,12 +18,15 @@ import { StatusBadge } from '../../components/common/StatusBadge';
 import { CentreStatus, ProcurementCentre } from '../../types';
 
 export const CentreMonitoring: React.FC = () => {
-  const { centres, updateCentreCapacity, addCentre } = useAppState();
+  const { centres, updateCentreCapacity, updateCentre, addCentre } = useAppState();
   const { t } = useLanguage();
 
   const [editingCentreId, setEditingCentreId] = useState<string | null>(null);
   const [editCapacityValue, setEditCapacityValue] = useState<number>(600);
   const [editStatusValue, setEditStatusValue] = useState<CentreStatus>('NORMAL');
+
+  // Full Centre Edit Modal State
+  const [editingCentreFull, setEditingCentreFull] = useState<ProcurementCentre | null>(null);
 
   // Add Centre Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -52,6 +55,29 @@ export const CentreMonitoring: React.FC = () => {
   const handleSaveEdit = (centreId: string) => {
     updateCentreCapacity(centreId, editCapacityValue, editStatusValue);
     setEditingCentreId(null);
+  };
+
+  const handleOpenFullEdit = (centre: ProcurementCentre) => {
+    setEditingCentreFull({ ...centre });
+  };
+
+  const handleSaveFullEdit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCentreFull) return;
+    updateCentre(editingCentreFull.id, {
+      name: editingCentreFull.name,
+      code: editingCentreFull.code,
+      district: editingCentreFull.district,
+      block: editingCentreFull.block,
+      address: editingCentreFull.address,
+      dailyCapacity: Number(editingCentreFull.dailyCapacity),
+      avgProcessingTimeMinutes: Number(editingCentreFull.avgProcessingTimeMinutes),
+      operatingHours: editingCentreFull.operatingHours,
+      status: editingCentreFull.status,
+      officerInCharge: editingCentreFull.officerInCharge,
+      contactNumber: editingCentreFull.contactNumber
+    });
+    setEditingCentreFull(null);
   };
 
   const handleAddCentreSubmit = (e: React.FormEvent) => {
@@ -199,13 +225,22 @@ export const CentreMonitoring: React.FC = () => {
               </div>
 
               {!isEditing && (
-                <button
-                  onClick={() => handleStartEdit(c)}
-                  className="w-full mt-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <Edit className="w-3.5 h-3.5" />
-                  <span>Adjust Capacity & Status</span>
-                </button>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => handleStartEdit(c)}
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2 px-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Gauge className="w-3.5 h-3.5 text-slate-600" />
+                    <span>Quick Status</span>
+                  </button>
+                  <button
+                    onClick={() => handleOpenFullEdit(c)}
+                    className="flex-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold py-2 px-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Edit className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Edit Centre</span>
+                  </button>
+                </div>
               )}
             </div>
           );
@@ -330,6 +365,174 @@ export const CentreMonitoring: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
+                  className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-sm cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Centre Details Modal */}
+      {editingCentreFull && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-xs p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 border border-slate-200 space-y-4 animate-in zoom-in-95">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-emerald-700" />
+                <h3 className="font-bold text-lg text-slate-900">Edit Procurement Centre</h3>
+              </div>
+              <button
+                onClick={() => setEditingCentreFull(null)}
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveFullEdit} className="space-y-3 text-xs">
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Mandi Code</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.code}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, code: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono font-bold uppercase"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="font-bold text-slate-700 block mb-1">Centre Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.name}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, name: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-semibold"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">District</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.district}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, district: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Block / Taluk</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.block}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, block: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Address / Landmark</label>
+                <input
+                  type="text"
+                  required
+                  value={editingCentreFull.address}
+                  onChange={(e) => setEditingCentreFull({ ...editingCentreFull, address: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Daily Cap (Qtl)</label>
+                  <input
+                    type="number"
+                    required
+                    min={50}
+                    value={editingCentreFull.dailyCapacity}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, dailyCapacity: Number(e.target.value) })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Proc. Time (Min)</label>
+                  <input
+                    type="number"
+                    required
+                    min={1}
+                    value={editingCentreFull.avgProcessingTimeMinutes}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, avgProcessingTimeMinutes: Number(e.target.value) })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Operating Status</label>
+                  <select
+                    value={editingCentreFull.status}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, status: e.target.value as CentreStatus })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold"
+                  >
+                    <option value="NORMAL">NORMAL</option>
+                    <option value="BUSY">BUSY</option>
+                    <option value="NEAR CAPACITY">NEAR CAPACITY</option>
+                    <option value="FULL">FULL</option>
+                    <option value="CLOSED">CLOSED</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Operating Hours</label>
+                <input
+                  type="text"
+                  required
+                  value={editingCentreFull.operatingHours}
+                  onChange={(e) => setEditingCentreFull({ ...editingCentreFull, operatingHours: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Officer In Charge</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.officerInCharge}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, officerInCharge: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Contact Phone</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCentreFull.contactNumber}
+                    onChange={(e) => setEditingCentreFull({ ...editingCentreFull, contactNumber: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono font-medium"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-3 flex gap-3">
+                <button
+                  type="submit"
+                  className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-4 rounded-xl text-sm shadow-md cursor-pointer"
+                >
+                  Save Centre Updates
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingCentreFull(null)}
                   className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-sm cursor-pointer"
                 >
                   Cancel

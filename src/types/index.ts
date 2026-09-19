@@ -95,6 +95,9 @@ export interface QualityInspection {
   grade: QualityGrade;
   result: QualityResult;
   remarks: string;
+  aiVerified?: boolean;
+  aiConfidence?: number;
+  sampleImageUrl?: string;
 }
 
 export interface WeighingRecord {
@@ -189,6 +192,9 @@ export interface CentreRecommendation {
   };
   recommendationReason: string;
   isBestMatch: boolean;
+  aiPredictedWaitMinutes?: number;
+  aiEfficiencyScore?: number;
+  mlConfidenceScore?: number;
 }
 
 export interface UserSession {

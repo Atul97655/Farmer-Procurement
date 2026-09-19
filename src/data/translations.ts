@@ -34,6 +34,7 @@ export const translations = {
     navProcurement: 'Procurement Records',
     navAnalytics: 'Analytics & Reports',
     navFarmers: 'Farmer Registry',
+    navUserManual: 'User Manual',
 
     upcomingProcurement: 'Upcoming Procurement',
     quickActions: 'Quick Actions',
@@ -173,6 +174,7 @@ export const translations = {
     navProcurement: 'खरीद अभिलेख',
     navAnalytics: 'एनालिटिक्स एवं रिपोर्ट',
     navFarmers: 'किसान सूची',
+    navUserManual: 'उपयोगकर्ता पुस्तिका',
 
     upcomingProcurement: 'आगामी खरीद अनुसूची',
     quickActions: 'त्वरित सेवाएं',
@@ -278,6 +280,9 @@ export const translations = {
     rupees: '₹'
   },
   or: {
+    navUserManual: 'ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
+    'User Manual': 'ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
+    'Farmer User Manual': 'କୃଷକ ବ୍ୟବହାରକାରୀ ନିର୍ଦ୍ଦେଶିକା',
     // AI Grain Quality Advice & Recommendation Templates
     'Grain conforms to Fair Average Quality (FAQ) standards. Cleared for immediate weighbridge entry.': 'ଶସ୍ୟ FAQ ମାନଦଣ୍ଡ ଅନୁଯାୟୀ ଅଟେ। ତୁରନ୍ତ ୱେବ୍ରିଜ୍ (ଓଜନ କଣ୍ଟା) ପ୍ରବେଶ ପାଇଁ ଅନୁମୋଦିତ।',
     'Grain luster and size uniformity are superior. Meets all Grade A specifications. Eligible for Grade A MSP rate.': 'ଶସ୍ୟର ଚମକ ଓ ଆକାର ସମାନତା ଉତ୍କୃଷ୍ଟ। ସମସ୍ତ ଗ୍ରେଡ୍ ଏ ମାନଦଣ୍ଡ ପୂରଣ କରେ। ଗ୍ରେଡ୍ ଏ MSP ଦର ପାଇବା ପାଇଁ ଯୋଗ୍ୟ।',
