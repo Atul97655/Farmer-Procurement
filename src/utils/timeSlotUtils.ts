@@ -1,26 +1,28 @@
 /**
- * Kisan-Q Real-Time Slot Synchronization Utility
- * Ensures that booking slots reflect live operational hours and past slots
- * are automatically marked as passed and prevented from booking.
+ * Kisan-Q Real-Time Slot & Capacity Synchronization Utility
+ * Dynamically computes slot availability, prevents booking passed slots,
+ * and dynamically calculates FULL slots per centre, date, and live bookings.
  */
 
-export interface TimeSlotConfig {
+export interface DynamicTimeSlot {
   time: string;
-  defaultCapacity: number;
+  totalCapacity: number;
+  availableCount: number;
+  isFull: boolean;
 }
 
-export const STANDARD_MANDI_SLOTS: TimeSlotConfig[] = [
-  { time: '07:30 - 08:30 AM', defaultCapacity: 4 },
-  { time: '08:30 - 09:30 AM', defaultCapacity: 5 },
-  { time: '09:30 - 10:30 AM', defaultCapacity: 3 },
-  { time: '10:30 - 11:30 AM', defaultCapacity: 0 }, // full demo
-  { time: '11:30 - 12:30 PM', defaultCapacity: 8 },
-  { time: '12:30 - 01:30 PM', defaultCapacity: 5 },
-  { time: '01:30 - 02:30 PM', defaultCapacity: 6 },
-  { time: '02:30 - 03:30 PM', defaultCapacity: 2 },
-  { time: '03:30 - 04:30 PM', defaultCapacity: 0 }, // full demo
-  { time: '04:30 - 05:30 PM', defaultCapacity: 4 },
-  { time: '05:30 - 06:30 PM', defaultCapacity: 5 }
+export const STANDARD_MANDI_SLOTS: string[] = [
+  '07:30 - 08:30 AM',
+  '08:30 - 09:30 AM',
+  '09:30 - 10:30 AM',
+  '10:30 - 11:30 AM',
+  '11:30 - 12:30 PM',
+  '12:30 - 01:30 PM',
+  '01:30 - 02:30 PM',
+  '02:30 - 03:30 PM',
+  '03:30 - 04:30 PM',
+  '04:30 - 05:30 PM',
+  '05:30 - 06:30 PM'
 ];
 
 /**
@@ -66,9 +68,8 @@ export function parseSlotTimeRange(slotStr: string): { startMinutes: number; end
       if (startHour === 12) startHour = 0;
     } else if (isEndPM) {
       if (startHour < 12) {
-        // e.g. 11:30 AM transitioning to 12:30 PM
         if (startHour >= 7 && startHour <= 11) {
-          // Morning start
+          // Morning start e.g. 11:30 AM - 12:30 PM
         } else {
           // Afternoon start e.g. 01:30 - 02:30 PM
           startHour += 12;
@@ -97,7 +98,6 @@ export function isSlotPassed(slotStr: string, dateStr: string, now: Date = new D
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
   const { startMinutes } = parseSlotTimeRange(slotStr);
 
-  // Slot has passed if current time is past start time + 10 minute grace
   return currentMinutes > (startMinutes + 10);
 }
 
@@ -106,6 +106,77 @@ export function isSlotPassed(slotStr: string, dateStr: string, now: Date = new D
  */
 export function areAllSlotsPassed(slots: { time: string }[], dateStr: string, now: Date = new Date()): boolean {
   return slots.every(s => isSlotPassed(s.time, dateStr, now));
+}
+
+/**
+ * Dynamically computes slot capacity, reservations, and FULL status for a given centre, date,
+ * taking into account live active bookings in app state.
+ */
+export function calculateDynamicSlots(
+  dateStr: string,
+  centre: { id: string; dailyCapacity?: number; currentLoad?: number; status?: string } | undefined,
+  procurements: { centreId: string; slotDate: string; slotTime: string; queueStatus?: string }[] = []
+): DynamicTimeSlot[] {
+  const centreId = centre?.id || 'c-1';
+  const dailyCapacity = centre?.dailyCapacity || 600;
+  const currentLoad = centre?.currentLoad || 300;
+  const status = centre?.status || 'NORMAL';
+
+  // Base hourly vehicle capacity per 1-hour window (typically 6-10 vehicles/farmers)
+  const baseHourlyQuota = Math.max(6, Math.min(10, Math.round(dailyCapacity / 75)));
+
+  return STANDARD_MANDI_SLOTS.map(slotTime => {
+    // Deterministic pseudo-random variation based on (centreId, dateStr, slotTime)
+    let hash = 0;
+    const seed = `${centreId}_${dateStr}_${slotTime}`;
+    for (let i = 0; i < seed.length; i++) {
+      hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+      hash |= 0;
+    }
+    const norm = Math.abs(hash);
+
+    // Realistic mandi rush curve:
+    // Peak hours: 10:30-11:30 AM, 11:30-12:30 PM, 02:30-03:30 PM
+    let occupancyRate = 0.5; // base 50%
+    if (slotTime.includes('10:30') || slotTime.includes('11:30') || slotTime.includes('02:30')) {
+      occupancyRate = 0.82; // peak demand
+    } else if (slotTime.includes('07:30') || slotTime.includes('05:30')) {
+      occupancyRate = 0.35; // early or late
+    } else {
+      occupancyRate = 0.6;
+    }
+
+    // Adjust for centre load
+    if (status === 'NEAR CAPACITY' || currentLoad / dailyCapacity > 0.8) {
+      occupancyRate += 0.18;
+    } else if (status === 'LOW' || currentLoad / dailyCapacity < 0.4) {
+      occupancyRate -= 0.15;
+    }
+
+    // Calculate baseline booked slots
+    const variance = (norm % 3) - 1; // -1, 0, or 1
+    let baselineBooked = Math.round(baseHourlyQuota * occupancyRate) + variance;
+    baselineBooked = Math.max(0, Math.min(baseHourlyQuota, baselineBooked));
+
+    // Add actual live farmer bookings from app state for this exact centre, date, and slot
+    const liveBookings = procurements.filter(p =>
+      p.centreId === centreId &&
+      p.slotDate === dateStr &&
+      p.slotTime === slotTime &&
+      p.queueStatus !== 'Cancelled'
+    ).length;
+
+    const totalBooked = Math.min(baseHourlyQuota, baselineBooked + liveBookings);
+    const availableCount = Math.max(0, baseHourlyQuota - totalBooked);
+    const isFull = availableCount === 0;
+
+    return {
+      time: slotTime,
+      totalCapacity: baseHourlyQuota,
+      availableCount,
+      isFull
+    };
+  });
 }
 
 /**

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppState } from '../../context/AppStateContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -27,6 +27,7 @@ import {
   getLocalDateString,
   isSlotPassed,
   areAllSlotsPassed,
+  calculateDynamicSlots,
   getFirstAvailableSlot
 } from '../../utils/timeSlotUtils';
 
@@ -40,7 +41,7 @@ interface TimeSlotOption {
 export const SlotBooking: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { activeFarmer, centres, registerAndBookSlot, updateSlotBooking, cancelSlot } = useAppState();
+  const { activeFarmer, centres, procurements, registerAndBookSlot, updateSlotBooking, cancelSlot } = useAppState();
   const { t } = useLanguage();
 
   // Registration data passed from step 4 or default
@@ -74,23 +75,23 @@ export const SlotBooking: React.FC = () => {
     };
   });
 
-  // Time slots per day covering complete mandi operating hours
-  const timeSlots: TimeSlotOption[] = STANDARD_MANDI_SLOTS.map(slot => ({
-    time: slot.time,
-    availableCount: slot.defaultCapacity,
-    isFull: slot.defaultCapacity === 0
-  }));
-
   const todayDateStr = availableDates[0].dateStr;
-  const todayHasSlots = !areAllSlotsPassed(timeSlots, todayDateStr, currentTime);
+  const initialTodaySlots = calculateDynamicSlots(todayDateStr, selectedCentre, procurements);
+  const todayHasSlots = !areAllSlotsPassed(initialTodaySlots, todayDateStr, currentTime);
 
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     return todayHasSlots ? availableDates[0].dateStr : availableDates[1].dateStr;
   });
 
+  // Dynamically calculate slot capacities and FULL status based on centre, date, and live bookings
+  const timeSlots = useMemo(() => {
+    return calculateDynamicSlots(selectedDate, selectedCentre, procurements);
+  }, [selectedDate, selectedCentre, procurements]);
+
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>(() => {
     const initialDate = todayHasSlots ? availableDates[0].dateStr : availableDates[1].dateStr;
-    return getFirstAvailableSlot(timeSlots, initialDate, currentTime) || timeSlots[0].time;
+    const initialSlots = calculateDynamicSlots(initialDate, selectedCentre, procurements);
+    return getFirstAvailableSlot(initialSlots, initialDate, currentTime) || initialSlots[0].time;
   });
 
   // Auto-sync selected slot if it becomes passed or full
@@ -103,7 +104,7 @@ export const SlotBooking: React.FC = () => {
         setSelectedTimeSlot(nextAvailable);
       }
     }
-  }, [selectedDate, currentTime, selectedTimeSlot]);
+  }, [selectedDate, currentTime, selectedTimeSlot, timeSlots]);
   const [createdRecord, setCreatedRecord] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

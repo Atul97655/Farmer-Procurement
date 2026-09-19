@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   X,
   Wheat,
@@ -19,6 +19,7 @@ import {
   STANDARD_MANDI_SLOTS,
   getLocalDateString,
   isSlotPassed,
+  calculateDynamicSlots,
   getFirstAvailableSlot
 } from '../../utils/timeSlotUtils';
 
@@ -45,7 +46,7 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
   onSave,
   secondsLeft
 }) => {
-  const { centres } = useAppState();
+  const { centres, procurements } = useAppState();
 
   // Form State initialized with current booking data
   const [cropType, setCropType] = useState<CropType>(procurement.cropType);
@@ -73,12 +74,14 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
     };
   });
 
-  // Time slots per day
-  const timeSlots = STANDARD_MANDI_SLOTS.map(s => s.time);
-
   const selectedCropInfo = CROPS_CATALOGUE.find(c => c.name === cropType) || CROPS_CATALOGUE[0];
   const selectedCentre = centres.find(c => c.id === centreId) || centres[0];
   const isExpired = secondsLeft <= 0;
+
+  // Dynamically calculate slot availability and FULL status based on date, centre, and live bookings
+  const dynamicSlots = useMemo(() => {
+    return calculateDynamicSlots(slotDate, selectedCentre, procurements);
+  }, [slotDate, selectedCentre, procurements]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,6 +104,12 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
 
     if (isSlotPassed(slotTime, slotDate, new Date())) {
       setValidationError('The selected time window has already concluded for this date. Please choose an upcoming time slot.');
+      return;
+    }
+
+    const chosenSlot = dynamicSlots.find(s => s.time === slotTime);
+    if (chosenSlot?.isFull && slotTime !== procurement.slotTime) {
+      setValidationError('The selected time window is currently full. Please choose another available open slot.');
       return;
     }
 
@@ -298,12 +307,11 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
                       disabled={isExpired || isSubmitting}
                       onClick={() => {
                         setSlotDate(item.dateStr);
-                        if (isSlotPassed(slotTime, item.dateStr, new Date())) {
-                          const nextSlot = getFirstAvailableSlot(
-                            timeSlots.map(t => ({ time: t, isFull: false })),
-                            item.dateStr,
-                            new Date()
-                          );
+                        const nextSlots = calculateDynamicSlots(item.dateStr, selectedCentre, procurements);
+                        const isCurrentPassed = isSlotPassed(slotTime, item.dateStr, new Date());
+                        const isCurrentFull = nextSlots.find(s => s.time === slotTime)?.isFull;
+                        if (isCurrentPassed || isCurrentFull) {
+                          const nextSlot = getFirstAvailableSlot(nextSlots, item.dateStr, new Date());
                           if (nextSlot) setSlotTime(nextSlot);
                         }
                       }}
@@ -324,29 +332,40 @@ export const EditBookingModal: React.FC<EditBookingModalProps> = ({
             <div>
               <label className="text-xs text-slate-600 block mb-1.5 font-semibold">Select Time Window:</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {timeSlots.map((slot) => {
-                  const isPassed = isSlotPassed(slot, slotDate, new Date());
-                  const isSelected = slotTime === slot && !isPassed;
-                  const isDisabled = isExpired || isSubmitting || isPassed;
+                {dynamicSlots.map((slot) => {
+                  const isPassed = isSlotPassed(slot.time, slotDate, new Date());
+                  const isFull = slot.isFull && slot.time !== procurement.slotTime;
+                  const isSelected = slotTime === slot.time && !isPassed;
+                  const isDisabled = isExpired || isSubmitting || isPassed || isFull;
 
                   return (
                     <button
-                      key={slot}
+                      key={slot.time}
                       type="button"
                       disabled={isDisabled}
-                      onClick={() => !isDisabled && setSlotTime(slot)}
+                      onClick={() => !isDisabled && setSlotTime(slot.time)}
                       className={`p-2 rounded-xl border text-center text-xs transition-all ${
                         isPassed
                           ? 'bg-slate-100/80 border-slate-200 text-slate-400 cursor-not-allowed line-through opacity-60'
+                          : isFull
+                          ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-70'
                           : isSelected
                           ? 'bg-emerald-50 border-emerald-600 text-emerald-950 font-bold ring-2 ring-emerald-500/20 cursor-pointer'
                           : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 cursor-pointer'
                       }`}
                     >
-                      <div>{slot}</div>
-                      {isPassed && (
+                      <div className="font-semibold">{slot.time}</div>
+                      {isPassed ? (
                         <span className="text-[9px] font-bold text-slate-500 bg-slate-200 px-1 rounded block mt-0.5 no-underline">
                           PASSED
+                        </span>
+                      ) : isFull ? (
+                        <span className="text-[9px] font-bold text-rose-700 bg-rose-100 px-1 rounded block mt-0.5">
+                          FULL
+                        </span>
+                      ) : (
+                        <span className="text-[9px] text-emerald-700 font-medium block mt-0.5">
+                          {slot.availableCount} left
                         </span>
                       )}
                     </button>
