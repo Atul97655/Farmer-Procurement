@@ -16,17 +16,19 @@ import {
 import { formatDateTime } from '../../utils/formatters';
 
 export const NotificationsPage: React.FC = () => {
-  const { activeFarmer, notifications, markNotificationAsRead, markAllNotificationsAsRead } = useAppState();
+  const { role, activeFarmer, notifications, markNotificationAsRead, markAllNotificationsAsRead } = useAppState();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  const [activeFilter, setActiveFilter] = useState<'all' | 'slot' | 'queue' | 'payment'>('all');
+  const [activeFilter, setActiveFilter] = useState<string>('all');
 
-  const farmerNotifs = notifications.filter(
-    n => n.userId === activeFarmer.id || n.role === 'ALL'
-  );
+  const roleNotifs = notifications.filter(n => {
+    if (role === 'ADMIN') return n.role === 'ADMIN' || n.role === 'ALL' || n.type === 'system';
+    if (role === 'OPERATOR') return n.role === 'OPERATOR' || n.role === 'ALL';
+    return n.userId === activeFarmer.id || n.role === 'ALL';
+  });
 
-  const filteredNotifs = farmerNotifs.filter(n => {
+  const filteredNotifs = roleNotifs.filter(n => {
     if (activeFilter === 'all') return true;
     return n.type === activeFilter;
   });
@@ -42,6 +44,18 @@ export const NotificationsPage: React.FC = () => {
     }
   };
 
+  const tabs = role === 'ADMIN'
+    ? [
+        { id: 'all', label: 'All Statewide Alerts' },
+        { id: 'system', label: 'Mandi Operations & DBT' }
+      ]
+    : [
+        { id: 'all', label: 'All Alerts' },
+        { id: 'slot', label: 'Slot Confirmations' },
+        { id: 'queue', label: 'Queue Updates' },
+        { id: 'payment', label: 'Payment Receipts' }
+      ];
+
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20 md:pb-8">
       
@@ -50,14 +64,20 @@ export const NotificationsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
             <Bell className="w-6 h-6 text-emerald-700" />
-            <span>SMS & App Notifications</span>
+            <span>
+              {role === 'ADMIN'
+                ? 'Statewide Notifications & System Procurement Alerts'
+                : 'SMS & App Notifications'}
+            </span>
           </h1>
           <p className="text-sm text-slate-500">
-            Real-time procurement alerts, queue updates, and DBT payment confirmations.
+            {role === 'ADMIN'
+              ? 'Real-time mandi intake alerts, capacity notifications, and DBT disbursal records.'
+              : 'Real-time procurement alerts, queue updates, and DBT payment confirmations.'}
           </p>
         </div>
 
-        {farmerNotifs.some(n => !n.isRead) && (
+        {roleNotifs.some(n => !n.isRead) && (
           <button
             onClick={markAllNotificationsAsRead}
             className="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
@@ -70,15 +90,10 @@ export const NotificationsPage: React.FC = () => {
 
       {/* Filter Tabs */}
       <div className="flex flex-wrap gap-2">
-        {[
-          { id: 'all', label: 'All Alerts' },
-          { id: 'slot', label: 'Slot Confirmations' },
-          { id: 'queue', label: 'Queue Updates' },
-          { id: 'payment', label: 'Payment Receipts' }
-        ].map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveFilter(tab.id as any)}
+            onClick={() => setActiveFilter(tab.id)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeFilter === tab.id
                 ? 'bg-emerald-700 text-white shadow-xs'

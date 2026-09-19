@@ -1,4 +1,4 @@
-﻿import { Farmer, ProcurementCentre, CropInfo, ProcurementRecord, NotificationItem } from '../types';
+import { Farmer, ProcurementCentre, CropInfo, ProcurementRecord, NotificationItem } from '../types';
 
 export const CROPS_CATALOGUE: CropInfo[] = [
   {
@@ -917,5 +917,27 @@ export const INITIAL_NOTIFICATIONS: NotificationItem[] = [
     type: 'system',
     isRead: false,
     actionUrl: '/admin/dashboard'
+  },
+  {
+    id: 'notif-6',
+    userId: 'admin',
+    role: 'ADMIN',
+    title: 'Mandi Capacity Threshold Alert: Begunia Agro',
+    message: 'Intake is approaching 88% capacity. Real-time slot throttling activated to prevent yard spillover.',
+    timestamp: '2026-09-06T10:15:00.000Z',
+    type: 'system',
+    isRead: false,
+    actionUrl: '/admin/centres'
+  },
+  {
+    id: 'notif-7',
+    userId: 'admin',
+    role: 'ADMIN',
+    title: 'DBT Batch Clearance: ₹3.54 Lakhs Disbursed',
+    message: 'PFMS automated payment batch processed successfully for 12 verified farmer procurements.',
+    timestamp: '2026-09-06T10:30:00.000Z',
+    type: 'system',
+    isRead: false,
+    actionUrl: '/admin/procurement'
   }
 ];

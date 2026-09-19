@@ -120,7 +120,7 @@ export const RoleSelectionPage: React.FC = () => {
             Select Your Portal
           </span>
           <h2 className="text-2xl font-black text-slate-900 mt-0.5">
-            Choose Role to Experience KrishiSetu
+            Choose Role to Experience KISAN-Q
           </h2>
         </div>
 

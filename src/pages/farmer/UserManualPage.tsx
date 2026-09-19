@@ -74,11 +74,19 @@ export const UserManualPage: React.FC = () => {
   };
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    document.title = 'KISAN-Q_Farmer_User_Manual';
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-20 md:pb-12 px-2 sm:px-4">
+    <div
+      data-no-auto-translate="true"
+      className="max-w-5xl mx-auto space-y-6 pb-20 md:pb-12 px-2 sm:px-4 no-auto-translate"
+    >
       
       {/* Back Navigation Bar */}
       <div className="no-print flex items-center justify-between">

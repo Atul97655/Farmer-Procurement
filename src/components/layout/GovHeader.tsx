@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAppState } from '../../context/AppStateContext';
 import { Language } from '../../types';
-import { Sprout, Globe, Wifi, WifiOff, RefreshCw, Bell, LogOut, LogIn, User, BookOpen } from 'lucide-react';
+import { Sprout, Globe, Wifi, WifiOff, RefreshCw, Bell, LogOut, LogIn, User, BookOpen, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const GovHeader: React.FC = () => {
@@ -14,6 +14,8 @@ export const GovHeader: React.FC = () => {
     isAuthenticated,
     logout,
     notifications,
+    markNotificationAsRead,
+    markAllNotificationsAsRead,
     connectionStatus,
     setConnectionStatus,
     lastSyncTime,
@@ -21,11 +23,28 @@ export const GovHeader: React.FC = () => {
   } = useAppState();
   const navigate = useNavigate();
 
-  const unreadCount = notifications.filter(n => {
-    if (role === 'FARMER') return n.userId === activeFarmer.id && !n.isRead;
-    if (role === 'OPERATOR') return n.role === 'OPERATOR' && !n.isRead;
-    return !n.isRead;
-  }).length;
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setShowNotificationsDropdown(false);
+      }
+    };
+    if (showNotificationsDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showNotificationsDropdown]);
+
+  const roleNotifications = notifications.filter(n => {
+    if (role === 'FARMER') return n.userId === activeFarmer.id || n.role === 'ALL';
+    if (role === 'OPERATOR') return n.role === 'OPERATOR' || n.role === 'ALL';
+    return n.role === 'ADMIN' || n.role === 'ALL' || n.type === 'system';
+  });
+
+  const unreadCount = roleNotifications.filter(n => !n.isRead).length;
 
   const secondsAgo = Math.max(0, Math.floor((new Date().getTime() - lastSyncTime.getTime()) / 1000));
 
@@ -145,22 +164,105 @@ export const GovHeader: React.FC = () => {
 
         {/* Right side user session & controls */}
         <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            onClick={() => {
-              if (role === 'FARMER') navigate('/farmer/notifications');
-              else if (role === 'OPERATOR') navigate('/centre/dashboard');
-              else navigate('/admin/dashboard');
-            }}
-            className="relative p-2 text-slate-600 hover:text-emerald-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
-            title="Notifications"
-          >
-            <Bell className="w-5 h-5" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center animate-bounce">
-                {unreadCount}
-              </span>
+          <div className="relative" ref={notifRef}>
+            <button
+              onClick={() => setShowNotificationsDropdown(prev => !prev)}
+              className="relative p-2 text-slate-600 hover:text-emerald-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+              title="Notifications"
+              aria-expanded={showNotificationsDropdown}
+            >
+              <Bell className="w-5 h-5" />
+              {unreadCount > 0 && (
+                <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center animate-bounce">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {/* Interactive Notifications Popover */}
+            {showNotificationsDropdown && (
+              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150 text-left">
+                <div className="p-3.5 bg-slate-900 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Bell className="w-4 h-4 text-amber-400" />
+                    <span className="text-xs font-bold">
+                      {role === 'ADMIN' ? 'Statewide Procurement Alerts' : 'Notifications & Alerts'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {unreadCount > 0 && (
+                      <button
+                        onClick={() => markAllNotificationsAsRead()}
+                        className="text-[10px] bg-emerald-700/80 hover:bg-emerald-600 px-2 py-0.5 rounded text-emerald-100 font-semibold cursor-pointer transition-colors"
+                      >
+                        Mark all read
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setShowNotificationsDropdown(false)}
+                      className="text-slate-400 hover:text-white p-0.5 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
+                  {roleNotifications.length === 0 ? (
+                    <div className="p-6 text-center text-xs text-slate-400">
+                      No notifications yet.
+                    </div>
+                  ) : (
+                    roleNotifications.slice(0, 10).map((n) => (
+                      <div
+                        key={n.id}
+                        onClick={() => {
+                          markNotificationAsRead(n.id);
+                          if (n.actionUrl) {
+                            navigate(n.actionUrl);
+                            setShowNotificationsDropdown(false);
+                          }
+                        }}
+                        className={`p-3 text-xs transition-colors cursor-pointer hover:bg-slate-50 flex items-start gap-3 ${
+                          !n.isRead ? 'bg-emerald-50/60' : ''
+                        }`}
+                      >
+                        <div
+                          className="w-2 h-2 rounded-full mt-1.5 shrink-0 bg-emerald-600 transition-opacity"
+                          style={{ opacity: n.isRead ? 0 : 1 }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold text-slate-900 flex items-center justify-between gap-1">
+                            <span className="truncate">{n.title}</span>
+                            <span className="text-[10px] text-slate-400 font-normal shrink-0">
+                              {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <p className="text-slate-600 text-[11px] mt-0.5 line-clamp-2 leading-relaxed">
+                            {n.message}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="p-2.5 bg-slate-50 border-t border-slate-100 text-center">
+                  <button
+                    onClick={() => {
+                      setShowNotificationsDropdown(false);
+                      if (role === 'FARMER') navigate('/farmer/notifications');
+                      else if (role === 'ADMIN') navigate('/admin/notifications');
+                      else navigate('/centre/dashboard');
+                    }}
+                    className="text-xs font-bold text-emerald-700 hover:text-emerald-800 cursor-pointer"
+                  >
+                    View All Notifications & Ledger →
+                  </button>
+                </div>
+              </div>
             )}
-          </button>
+          </div>
 
           {/* User Account Info Chip */}
           <div className="flex items-center gap-2 border-l border-slate-200 pl-3">

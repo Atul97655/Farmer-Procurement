@@ -46,7 +46,7 @@ export const ProcurementMaster: React.FC = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.setAttribute('href', url);
-    a.setAttribute('download', `KrishiSetu_Procurements_${new Date().toISOString().split('T')[0]}.csv`);
+    a.setAttribute('download', `KISAN-Q_Procurements_${new Date().toISOString().split('T')[0]}.csv`);
     a.click();
   };
 

@@ -39,6 +39,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
       // Text Node
       if (node.nodeType === Node.TEXT_NODE) {
+        if (node.parentElement?.closest('[data-no-auto-translate="true"], [translate="no"], .no-auto-translate')) {
+          return;
+        }
+
         const val = node.nodeValue;
         if (!val || !val.trim()) return;
 
@@ -63,8 +67,16 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (node.nodeType === Node.ELEMENT_NODE) {
         const el = node as HTMLElement;
         const tagName = el.tagName ? el.tagName.toLowerCase() : '';
-        // Skip code blocks, scripts, styles
-        if (tagName === 'script' || tagName === 'style' || tagName === 'code' || tagName === 'pre') {
+        // Skip code blocks, scripts, styles, and elements marked as no-auto-translate
+        if (
+          tagName === 'script' ||
+          tagName === 'style' ||
+          tagName === 'code' ||
+          tagName === 'pre' ||
+          el.getAttribute('data-no-auto-translate') === 'true' ||
+          el.getAttribute('translate') === 'no' ||
+          el.classList?.contains('no-auto-translate')
+        ) {
           return;
         }
 
@@ -138,6 +150,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         } else if (mutation.type === 'characterData') {
           const targetNode = mutation.target;
           if (targetNode.nodeType === Node.TEXT_NODE) {
+            if (targetNode.parentElement?.closest('[data-no-auto-translate="true"], [translate="no"], .no-auto-translate')) {
+              continue;
+            }
             const currentVal = targetNode.nodeValue || '';
             if (!currentVal.trim()) continue;
 

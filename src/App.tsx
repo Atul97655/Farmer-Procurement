@@ -97,6 +97,7 @@ const AppLayout: React.FC = () => {
             <Route path="/admin/farmers" element={<FarmerRegistry />} />
             <Route path="/admin/procurement" element={<ProcurementMaster />} />
             <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
+            <Route path="/admin/notifications" element={<NotificationsPage />} />
 
             {/* Mandi Display Route */}
             <Route path="/display" element={<MandiKioskDisplay />} />

@@ -71,11 +71,11 @@ export const AnalyticsDashboard: React.FC = () => {
 
   // 5. Turnaround & Waiting Time Reduction Benchmark
   const turnaroundData = [
-    { mandi: 'DPC-01', beforeKrishiSetu: 340, withKrishiSetu: 42 },
-    { mandi: 'SMC-02', beforeKrishiSetu: 280, withKrishiSetu: 35 },
-    { mandi: 'BMC-03', beforeKrishiSetu: 420, withKrishiSetu: 58 },
-    { mandi: 'CKH-04', beforeKrishiSetu: 210, withKrishiSetu: 25 },
-    { mandi: 'BGD-05', beforeKrishiSetu: 310, withKrishiSetu: 38 }
+    { mandi: 'DPC-01', beforeKisanQ: 340, withKisanQ: 42 },
+    { mandi: 'SMC-02', beforeKisanQ: 280, withKisanQ: 35 },
+    { mandi: 'BMC-03', beforeKisanQ: 420, withKisanQ: 58 },
+    { mandi: 'CKH-04', beforeKisanQ: 210, withKisanQ: 25 },
+    { mandi: 'BGD-05', beforeKisanQ: 310, withKisanQ: 38 }
   ];
 
   return (
@@ -153,7 +153,7 @@ export const AnalyticsDashboard: React.FC = () => {
           <div className="flex justify-between items-center mb-4">
             <div>
               <h3 className="font-bold text-base text-slate-900">Queue Time Reduction (Minutes)</h3>
-              <p className="text-xs text-slate-500">Benchmark: Traditional Unscheduled Mandi vs KrishiSetu Smart Slots</p>
+              <p className="text-xs text-slate-500">Benchmark: Traditional Unscheduled Mandi vs KISAN-Q Smart Slots</p>
             </div>
           </div>
 
@@ -165,8 +165,8 @@ export const AnalyticsDashboard: React.FC = () => {
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="beforeKrishiSetu" fill="#cbd5e1" name="Traditional (Mins)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="withKrishiSetu" fill="#15803d" name="With KrishiSetu (Mins)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="beforeKisanQ" fill="#cbd5e1" name="Traditional (Mins)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="withKisanQ" fill="#15803d" name="With KISAN-Q (Mins)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

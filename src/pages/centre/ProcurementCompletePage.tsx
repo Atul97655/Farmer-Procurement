@@ -57,7 +57,12 @@ export const ProcurementCompletePage: React.FC = () => {
   };
 
   const handlePrintJForm = () => {
+    const originalTitle = document.title;
+    document.title = `KISAN-Q_Form_J_${targetProcurement?.tokenNumber || 'Certificate'}`;
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
   };
 
   return (

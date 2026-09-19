@@ -16,7 +16,12 @@ export const QRModal: React.FC<QRModalProps> = ({ procurement, isOpen, onClose }
   const qrMatrix = generateQRCodeMatrix(procurement.qrData, 25);
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    document.title = `KISAN-Q_ePass_${procurement.tokenNumber}`;
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
   };
 
   return (
@@ -36,7 +41,7 @@ export const QRModal: React.FC<QRModalProps> = ({ procurement, isOpen, onClose }
             <ShieldCheck className="w-4 h-4 text-amber-400" />
             <span>Government of Odisha · Dept. of Agriculture</span>
           </div>
-          <h2 className="text-xl font-black tracking-tight">KrishiSetu e-Gate Pass</h2>
+          <h2 className="text-xl font-black tracking-tight">KISAN-Q e-Gate Pass</h2>
           <p className="text-xs text-emerald-100">Official Slot Confirmation & Digital Mandi Entry Voucher</p>
         </div>
 

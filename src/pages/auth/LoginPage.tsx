@@ -593,7 +593,7 @@ export const LoginPage: React.FC = () => {
                     type="text"
                     value={operatorId}
                     onChange={(e) => setOperatorId(e.target.value)}
-                    placeholder="op.digha@krishisetu.gov.in"
+                    placeholder="op.digha@kisanq.gov.in"
                     className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-300 text-sm font-semibold focus:outline-none focus:border-blue-600"
                   />
                 </div>
@@ -642,7 +642,7 @@ export const LoginPage: React.FC = () => {
                     type="email"
                     value={adminEmail}
                     onChange={(e) => setAdminEmail(e.target.value)}
-                    placeholder="admin@krishisetu.gov.in"
+                    placeholder="admin@kisanq.gov.in"
                     className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-300 text-sm font-semibold focus:outline-none focus:border-purple-600"
                   />
                 </div>

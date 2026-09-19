@@ -23,7 +23,12 @@ export const PaymentsPage: React.FC = () => {
   const completedOrProcessing = farmerProcurements.find(p => p.payment) || farmerProcurements[0];
 
   const handlePrintVoucher = () => {
+    const originalTitle = document.title;
+    document.title = `KISAN-Q_DBT_Payment_Voucher_${completedOrProcessing?.tokenNumber || 'Settlement'}`;
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
   };
 
   return (

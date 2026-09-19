@@ -58,7 +58,12 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({
   };
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    document.title = 'KISAN-Q_Farmer_User_Manual';
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
   };
 
   const handleGoToRegistration = () => {
@@ -68,7 +73,10 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden">
+      <div
+        data-no-auto-translate="true"
+        className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden no-auto-translate"
+      >
         
         {/* Modal Top Bar */}
         <div className="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white p-4 sm:p-5 flex items-start justify-between">
